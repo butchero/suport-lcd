@@ -1,0 +1,3 @@
+<?php /* Smarty version 2.6.12, created on 2013-01-30 18:26:28
+         compiled from admin/bottom.tpl */ ?>
+<?php echo '<tr><td align="center" colspan="3" style="padding-top:20px"><table width="100%"><tr><td style="padding:5px" align="center" class="bg_spatiu">&copy 2010 ';  echo $this->_tpl_vars['NUME_FIRMA'];  echo '</td></tr></table></td></tr></table></td></tr></table><br />Timp generare pagina: ';  echo $this->_tpl_vars['timp_exec'];  echo ' sec</center></body></html>'; ?>

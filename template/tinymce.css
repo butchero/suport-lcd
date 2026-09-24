@@ -1,0 +1,72 @@
+body, p, td, span {
+	font-family: Verdana;
+	font-size: 11px;
+}
+
+input, textarea {
+	font-family: Verdana;
+	font-size: 11px;
+}
+
+.text_speciale {
+	color: #FFAE00;
+}
+
+a.link {
+	font-family: Verdana, Arial;
+	font-size: 11px;
+	color: #348CC6;	
+	text-decoration: none;
+}
+
+.menu {
+	font-family: Verdana;
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFFFFF;
+	text-decoration: none;
+}
+
+a.text_mic {
+	font-family: Arial;
+	font-size: 9px;
+	color: #018DE9;
+}
+
+.text_mic {	
+	font-family: Verdana;
+	font-size: 10px;
+	color: #018DE9;
+}
+
+.box {
+	border:1px solid #F2F2F2;
+}
+
+.pret_vechi {
+	color:#5A5A5A;
+	text-decoration: line-through;
+}
+
+.titlu {
+	color: #20A0DB;
+}
+
+a.text_estompat {
+	font-size: 10px;
+	color: #8A8A8A;
+}
+
+.text_estompat {
+	color: #8A8A8A;
+}
+
+.text_mic_estompat {
+	font-family: Verdana;
+	font-size: 8px;
+	color: #8A8A8A;
+}
+
+.eroare_text {
+	color: #E33C15;
+}

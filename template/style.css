@@ -1,0 +1,85 @@
+body					{ margin:0px;font-family:arial, sans-serif;font-size:12px;color:#000;background:url(img/bg_sky.jpg) repeat-x; }
+img						{ border:0px; }
+#container				{ width:980px;margin:0 auto; }
+
+/* header */
+#header					{ width:980px;height:85px; }
+#logo					{ width:195px;height:85px;background:url(img/bg.png) no-repeat 0 -0 transparent;float:left;text-indent:-9999px; }
+#logo:hover 			{ cursor:pointer; }
+#meniu					{ width:480px;height:85px;background:url(img/bg.png) no-repeat -195px 0 transparent;float:right;position:relative; }
+.home, .despre, .contact, .sitemap	{ position:absolute; }
+.home					{ width:62px;height:27px;top:23px;right:367px;text-indent:-9999px; }
+.despre					{ width:90px;height:27px;top:23px;right:250px; }
+.contact				{ width:72px;height:27px;top:23px;right:144px; }
+.sitemap				{ width:70px;height:27px;top:23px;right:50px; }
+#suport					{ width:980px;height:263px;margin-top:7px; }
+#titlu_pagina			{ height:12px;border:1px solid red; }
+h1						{ font-size:12px; }
+
+/* content */
+#content				{ width:980px; }
+.content-sus			{ width:980px;height:15px;background:url(img/bg.png) no-repeat -1px -207px transparent;margin-top:7px; }
+.content-mid			{ width:976px;border-right:1px solid #dadada;border-left:1px solid #dadada;float:left; }
+.content-jos			{ width:980px;height:15px;background:url(img/bg.png) no-repeat -1px -223px transparent;float:left; }
+.menu_left				{ font-size:13px;color:#000;font-weight:bold;text-decoration:none;line-height:22px; }
+.submenu_left			{ font-size:12px;color:#000;text-decoration:none;line-height:22px;padding-left:10px; }
+a.menu_left:hover, a.submenu_left:hover { color:#fe2d01; } 
+.item_selectat 			{ color:#fe2d01; } 
+#left					{ width:240px;padding:10px;float:left; }
+#left ul				{ list-style-type:none;padding:0 0 5px 12px;margin:0px; }
+#left ul li ul			{ list-style-type:none;padding:0 0 5px 20px;margin:0px; }
+#right					{ width:680px;float:left;padding-left:20px;border-left:1px solid #dadada; }
+.citeste				{ color:#ff2d01;text-decoration:underline;font-weight:bold; }
+#categorii, #despre-noi, #contact, #ultimele-produse	{ height:52px; }
+#categorii				{ background:url(img/bg.png) no-repeat -842px 0 transparent; }
+#despre-noi				{ background:url(img/bg.png) no-repeat -853px -52px transparent; }
+#contact				{ background:url(img/bg.png) no-repeat -851px -104px transparent; }
+#ultimele-produse		{ background:url(img/bg.png) no-repeat -754px -156px transparent; }
+#container-despre-noi	{ width:439px;height:240px;float:left; }
+#container-contact		{ width:196px;height:240px;float:left;margin-left:20px;padding-left:20px;border-left:1px solid #dadada; }
+#container-ult-prod		{ width:680px;float:left;padding-bottom:20px;margin-bottom:20px;border-bottom:1px solid #dadada;text-align:center; }
+.container-produse		{ width:660px;margin-left:20px; }
+.produs					{ width:195px;height:240px;float:left;padding:0 5px;text-align:center;position:relative; }
+.produs h3				{ font-size:12px;height:30px;overflow:hidden; }
+.produs img				{ margin:10px 0; }
+.produs-border			{ border-right: 1px dashed #dadada; }
+.detalii				{ background:url(img/bg.png) no-repeat -675px 0 transparent;width:142px;height:33px;position:absolute; }
+.produs .detalii		{ top:195px;left:30px;text-indent:-9999px; }
+
+/* catalog */
+h2, h2 a                { color:#000;text-decoration:none;font-size:12px; }				
+.nume-cat				{ font-size:12px;font-weight:bold;width:670px;margin-bottom:10px; }
+.produs-catalog, .produs-catalog-border		{ width:315px;height:175px;margin:5px;padding:0px 5px 5px 5px;float:left;position:relative; }
+h3 a					{ color:#FE2400;font-weight:bold;font-size:12px; }	
+.produs-catalog ul, .produs-catalog-border ul	{ position:absolute;left:169px;top:51px;padding:0px;margin:0px; }	
+.produs-catalog-border	{ border-right:1px dashed #dadada;margin-right:0px !important; }
+.catalog-border			{ border-bottom:1px dashed #dadada;float:left;margin-bottom:5px;height:5px;width:680px; }
+.produs-catalog .detalii, .produs-catalog-border .detalii	{ top:130px;left:155px; }
+.paginare 				{ float:left;width:700px;padding-top:20px; }
+.pagina					{ color:#000; }
+.nota 					{ float:left;width:690px;margin-top:20px; }
+.pret					{ font-size:16px;color:#aaa;font-weight:bold; }
+
+/* detalii */
+.container-detalii		{ width:670px;border-bottom:1px dashed #dadada;border-top:1px dashed #dadada;padding:20px 0;float:left;margin-bottom:20px; }
+.container-galerie		{ width:300px;float:left;display:block; }
+.poza-detalii			{ width:300px;height:300px;float:left;margin:0 20px 0 0; }
+.galerie				{ width:300px;display:inline;float:left;margin-top:20px; }
+.galerie-poza-mica		{ background:url(img/bg.png) no-repeat 0 -130px transparent;width:67px;height:67px;float:left;margin:0 5px 5px 0; }
+.poza-mica, .poza-mica-sel	{ margin:5px; }
+.text-detalii			{ width:350px;float:right; }
+.text-detalii h3		{ color:#FE2400;font-weight:bold;font-size:18px; }
+.diagonala				{ width:300px;height:45px;background:url(img/bg.png) no-repeat 0 -85px transparent;margin-top:30px;padding-left:50px;line-height:45px;font-weight:bold;font-size:15px; }
+
+/* footer */
+#footer					{ width:100%;height:80px;float:left;background:url(img/bg_footer.jpg) repeat-x transparent;margin:5px 0 0 0;text-align:center;padding-top:5px; }
+#footer a				{ color:#ff2d01;text-decoration:underline; }
+#footer p               { line-height:17px;margin:0;padding:0; }
+
+/* erori */
+.eroare_bg				{ background-color:#ffccc3; }
+.eroare_text			{ color:#fe2400; } 
+.eroare_form			{ color:#fe2400; }
+
+.buton { background-color:#89939c;color:#fff;height:25px;border:1px solid #dbdce0;font-weight:bold; }
+.link  { color:#aaa; }

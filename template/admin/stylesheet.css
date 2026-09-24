@@ -1,0 +1,764 @@
+body, html {
+	margin-left:0px;
+	margin-top:0px;
+	margin-right:0px;
+	margin-bottom:0px;
+	min-height:100%;
+	height:100%;
+}
+
+body, p, td, div, a {
+	font-family:Verdana, Arial;
+	font-size:11px;
+	color:#444444;
+}
+
+input, textarea {
+	font-family:Verdana;
+	font-size:10px;
+}
+
+img {
+	border:0px;
+}
+
+.icon {
+	border:1px solid #CCCCCC;
+	padding:1px;
+}
+
+h1 {
+	font-family:Arial;
+	font-size:10px;
+	color:#4F9115;	
+	margin:0px;
+	padding:0px;
+}
+
+h2 {	
+	font-family:Verdana;
+	font-size:11px;
+	margin:0px;
+	padding:0px;
+}
+
+h3 {
+	font-family:Arial;
+	color:#4F9115;
+	font-size:12px;
+	margin:0px;
+	padding:0px;
+}
+
+hr {
+	border:none;
+	border-bottom:1px solid #F2F2F2;
+}
+
+input {
+	font-family:Verdana, Arial;
+	font-size:10px;
+}
+
+form {
+	margin:0px;
+	padding:0px;
+}
+
+ul {
+	font-size:10px;
+}
+
+.select {
+	font-family:Verdana, Arial;
+	font-size:10px;
+}
+
+.meniu_user {
+	font-family:Arial;
+	font-size:13px;
+	font-weight:bold;
+	color:#4F9115;	
+	text-align:left;		
+}
+
+a.menu_left {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#3AA6EC;
+	text-decoration:none;
+}
+
+a.menu_left:hover {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#3AA6EC;
+	text-decoration:underline;
+}
+
+a.menu_left2 {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#7B7B7B;
+	text-decoration:none;
+}
+
+a.menu_left2:hover {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#FFCD06;
+	text-decoration:underline;
+}
+
+a.menu_left2_inactiv {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#CCCCCC;
+	text-decoration:none;
+}
+
+a.menu_left2_inactiv:hover {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#F2F2F2;
+	text-decoration:underline;
+}
+
+a.submenu_left {
+	font-family:Verdana;
+	font-size:11px;
+	color:#5A5A5A;
+	text-decoration:none;
+}
+
+a.submenu_left:hover {
+	font-family:Verdana;
+	font-size:11px;
+	color:#FFCD06;
+	text-decoration:underline;
+}
+
+.menu_selectat {
+	font-weight:bold;
+	color:#FFCD06;
+	text-decoration:underline;
+}
+
+a.menu_right {
+	font-family:Verdana;
+	font-size:10px;
+	color:#5A5A5A;
+	text-decoration:none;
+}
+
+a.menu_right:hover {
+	font-family:Verdana;
+	font-size:10px;
+	color:#FFCD06;
+	text-decoration:underline;
+}
+
+a.radacina {
+	font-family:Verdana;
+	font-size:11px;	
+	color:#FFFFFF;	
+	text-decoration:none;
+	font-weight:bold;
+}
+
+a.radacina:hover {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#009900;	
+	text-decoration:underline;
+	font-weight:bold;
+}
+
+a.radacina_selectata {
+	color:#009900;	
+	text-decoration:underline;
+}
+
+a.produse_prima_pag {
+	font-family:Verdana, Arial;
+	font-size:10px;
+	color:#079F07;	
+	text-decoration:none;
+}
+
+a.produse {
+	font-family:Verdana, Arial;
+	font-size:11px;
+	color:#3AA6EC;	
+	text-decoration:none;
+}
+
+a.produse_speciale {
+	font-family:Verdana, Arial;
+	font-size:11px;
+	color:#FFAE00;	
+	text-decoration:none;
+}
+
+a.produse_speciale:hover {
+	font-family:Verdana, Arial;
+	font-size:11px;
+	color:#5A5A5A;	
+	text-decoration:none;
+}
+
+a.produse_indisponibile {
+	font-family:Verdana, Arial;
+	font-size:11px;
+	color:#079F07;	
+	text-decoration:line-through;
+}
+
+.text_speciale {
+	color:#FFAE00;
+}
+
+a.link {
+	font-family:Verdana, Arial;
+	font-size:11px;
+	color:#0B860B;	
+	text-decoration:none;
+}
+
+.produse {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#079F07;	
+	text-decoration:none;
+}
+
+a.produse:hover {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#5A5A5A;	
+	text-decoration:underline;
+}
+
+.link_default {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#348CC6;	
+	text-decoration:none;
+}
+
+a.link_default:hover {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#5A5A5A;	
+	text-decoration:underline;
+}
+
+.link_cool {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#E4411B;	
+	text-decoration:none;
+}
+
+a.link_cool:hover {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#5A5A5A;	
+	text-decoration:underline;
+}
+
+.link_default_mic {
+	font-family:Arial;
+	font-size:10px;	
+	color:#0F5989;	
+	text-decoration:none;
+}
+
+a.link_default_mic:hover {
+	font-family:Arial;
+	font-size:10px;	
+	color:#5A5A5A;	
+	text-decoration:underline;
+}
+
+.produs {
+	font-family:Verdana, Arial;
+	font-size:13px;
+	color:#0B860B;	
+	text-decoration:none;
+}
+
+.produs_special {
+	font-family:Verdana, Arial;
+	font-size:13px;
+	color:#FFAE00;	
+	text-decoration:none;
+}
+
+.tabel_produse {
+	border-left:1px solid #F2F2F2;
+	border-right:1px solid #F2F2F2;
+	background-color:#FBFBFB;
+}
+
+.img {
+	border:1px solid #E3E3E3;
+	background-color:#FFFFFF;
+}
+
+a.pagina {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#009900;	
+	text-decoration:none;
+}
+
+a.pagina:hover {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#508C50;	
+	text-decoration:underline;
+	background-color:#F2F2F2
+}
+
+
+a.producatori {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#5A5A5A;	
+	text-decoration:none;
+}
+
+a.producatori:hover {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#009900;	
+	text-decoration:underline;
+}
+
+a.box_title {
+	color:#859C0C;
+	font-weight:bold;
+}
+
+a.inchide_fereastra {
+	font-family:Verdana;
+	font-size:11px;
+	color:#F2F2F2;
+}
+
+.caracteristici {
+	font-family:Verdana;
+	font-size:10px;
+	color:#000000;
+}
+
+.caracteristici_mari {
+	font-family:Verdana;
+	font-size:11px;
+	color:#000000;
+}
+
+a.menu {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#FFFFFF;
+	text-decoration:none;
+}
+
+a.menu:hover {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#FFFFFF;
+	text-decoration:underline;
+}
+
+.buton {
+	font-family:Verdana;
+	font-size:10px;
+	font-weight:bold;
+	color:#FFFFFF;
+	background-color:#87A802;
+	border-right:1px solid #5C5C5C;
+	border-bottom:1px solid #5C5C5C;
+	border-top:1px solid #CCCCCC;
+	border-left:1px solid #CCCCCC;
+}
+
+.buton_cool {
+	font-family:Verdana;
+	font-size:10px;
+	font-weight:bold;
+	color:#FFFFFF;
+	background-color:#6CACBE;
+	border-right:1px solid #5C5C5C;
+	border-bottom:1px solid #5C5C5C;
+	border-top:1px solid #CCCCCC;
+	border-left:1px solid #CCCCCC;
+}
+
+.buton_simplu {
+	font-family:Verdana;
+	font-size:10px;
+	font-weight:bold;
+	color:#FFFFFF;
+	background-color:#9E9E9E;
+	border-right:1px solid #5C5C5C;
+	border-bottom:1px solid #5C5C5C;
+	border-top:1px solid #CCCCCC;
+	border-left:1px solid #CCCCCC;
+}
+
+
+.buton_anuleaza {	
+	font-family:Verdana;
+	font-size:10px;
+	font-weight:bold;
+	color:#FFFFFF;
+	background-color:#E4411B;
+	border-right:1px solid #5C5C5C;
+	border-bottom:1px solid #5C5C5C;
+	border-top:1px solid #CCCCCC;
+	border-left:1px solid #CCCCCC;
+}
+
+.header_tabel {
+	font-weight:bold;
+	color:#5A5A5A;
+}
+
+.paginare_tabel {
+	background-color:#F4F4F4;
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#5A5A5A;
+}
+
+.menu {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#FFFFFF;
+	text-decoration:none;
+}
+
+.nr_produse {
+	font-family:Verdana;
+	font-size:11px;
+	color:#6E8203;
+}
+
+a.text_mic {
+	font-family:Arial;
+	font-size:9px;
+	color:#6E8203;
+}
+
+.text_mic {	
+	font-family:Verdana;
+	font-size:10px;
+	color:#6E8203;
+}
+
+.text_mic_default {
+	font-family:Verdana;
+	font-size:10px;
+}
+
+.box {
+	border:1px solid #F2F2F2;
+}
+
+.box_poze_mici {
+	border:1px solid #CCCCCC;
+	background-color:#FFFFFF;
+}
+
+.box_poze_mici_hover {
+	border:1px solid #9BB225;
+}
+
+.box_title {
+	color:#859C0C;
+	font-weight:bold;
+}
+
+a.mareste_poza {
+	font-family:Verdana;
+	font-size:10px;	
+	color:#028902;
+	text-decoration:none;
+}
+
+.pret {
+	color:#2F982B;
+}
+
+.pret_mare {
+	font-family:Verdana;
+	font-size:15px;
+	color:#026802;
+}
+
+.pret_vechi {
+	color:#5A5A5A;
+	text-decoration:line-through;
+}
+
+.bucati {
+	font-family:Verdana, Arial;
+	font-size:10px;	
+	color:#686868;
+}
+
+.pagina_selectata {
+	font-weight:bold;
+	color:#5A5A5A;
+}
+
+.filtru {
+	font-family:Verdana, Arial;
+	font-size:11px;	
+	color:#508C50;
+}
+
+.bg_container {
+	background-color:#FFFFFF;
+}
+
+.bg_spatiu {
+	background-color:#F2F2F2;
+}
+
+.bg_filtre_header {
+	background-color:#B9DDB9;
+}
+
+.menu_container {
+	background:#ec4125;
+	color:#fff;
+}
+
+.menu_title {
+	font-family:Verdana;
+	font-size:11px;
+	font-weight:bold;
+	color:#fff;
+	background-color:#f34a2d;
+}
+
+.center {
+	margin-left:6px;
+	margin-right:6px;
+}
+
+.box_header_produs {
+	background-color:#009900;
+}
+
+.margine_poza {
+	background-color:#FFCC00;
+}
+
+.titlu {
+	color:#3AA6EC;
+}
+
+a.text_estompat {
+	font-size:10px;
+	color:#8A8A8A;
+}
+
+.text_estompat {
+	color:#8A8A8A;
+}
+
+.text_mic_estompat {
+	font-family:Verdana;
+	font-size:8px;
+	color:#8A8A8A;
+}
+
+a.atentie {
+	color:#E33C15;
+}
+
+.eroare_text {
+	color:#E33C15;
+}
+
+.eroare_text_mic {
+	color:#E33C15;
+	font-size:10px;
+}
+
+.eroare_form {
+	font-family:Verdana;
+	font-size:10px;
+	color:#E33C15;
+}
+
+.eroare_bg {
+	background-color:#FF8569;
+	color:#FFFFFF;
+}
+
+.titlu_sec {
+	color:#969696;
+	font-weight:bold;
+}
+
+#cover_all { 
+	display:none;
+	position:absolute;
+	background:#000;
+	opacity:0.4; 
+   -moz-opacity:0.4; 
+   -khtml-opacity:0.4; 
+	filter:alpha(opacity=40); 
+	width:100%; 
+	height:100%; 
+}
+
+	
+#casuta_confirmare { 
+	display:none; 
+	position:absolute; 
+	background:#F2F2F2; 
+	color:#000000; 
+	text-align:center; 
+	border:1px solid #636D61; 
+	top:300px; 
+	z-index:100; 
+}
+	
+
+.casuta_ajutor {  
+	font-size:11px; 
+	color:#FFFFFF;
+	padding:2px 0; 
+	border-top:1px solid #636D61; 
+	background:#87A802; 
+}
+
+.sortable-list {
+    list-style-type:none;
+    margin:0;
+    padding:5px;
+}
+
+.sortable-list li {	
+    border:1px solid #CCCCCC;
+    cursor:move;
+    margin:2px 0 2px 0;
+    padding :3px;
+    background :#FFFFFF;
+    width :400px;
+}
+
+.titlu_cat {
+	color:#000;
+}
+
+.mesaj_ajax {
+	font-family:Verdana;
+	font-size:11px;
+	background-color:red;
+	color:#FFFFFF;
+	font-weight:bold;
+}
+
+.categorie_dezactivata {
+	text-decoration:line-through;
+}
+
+.nr_avertizare {
+	color:#F1310B;
+	font-weight:bold;
+	font-size:10px;
+}
+
+.nr_ok {
+	color:#68AD05;
+	font-weight:bold;
+	font-size:10px;
+}
+
+.nr {
+	color:#00A6E5;
+	font-weight:bold;
+	font-size:10px;
+}
+
+.eip_editable { 
+	background-color:#ff9;
+	padding:3px; 
+}
+
+.eip_savebutton { 
+	font-family:Verdana;
+	font-size:10px;
+	font-weight:bold;
+	color:#FFFFFF;
+	background-color:#87A802;
+	border-right:1px solid #5C5C5C;
+	border-bottom:1px solid #5C5C5C;
+	border-top:1px solid #CCCCCC;
+	border-left:1px solid #CCCCCC; 
+}
+
+.eip_cancelbutton { 
+	font-family:Verdana;
+	font-size:10px;
+	font-weight:bold;
+	color:#FFFFFF;
+	background-color:#E4411B;
+	border-right:1px solid #5C5C5C;
+	border-bottom:1px solid #5C5C5C;
+	border-top:1px solid #CCCCCC;
+	border-left:1px solid #CCCCCC;
+}
+
+.eip_saving { 
+	
+}
+
+.highlight {
+	background-color:#C8FAFD;
+}
+
+.highlight1 {
+	background-color:#FDFBC8;
+}
+
+.highlight2 {
+	background-color:#FDD7C8;
+}
+
+.highlight3 {
+	background-color:#DFFDC8;
+}
+
+.highlight4 {
+	background-color:#DFC8FD;
+}
+
+.highlight5 {
+	background-color:#FDDBFF;
+}
+
+.camp {
+	border:1px solid #E2E2E2;
+}
+
+@media print {
+      .no_print { display: none; }
+}

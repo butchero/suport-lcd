@@ -1,0 +1,324 @@
+Options -Indexes
+RewriteEngine On
+
+# Old codebase uses <? short tags. Needed for Laragon/PHP 7.2+ (short_open_tag is Off by default).
+<IfModule php7_module>
+    php_flag short_open_tag On
+</IfModule>
+<IfModule php_module>
+    php_flag short_open_tag On
+</IfModule>
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#eroare 404 customizata
+ErrorDocument 404 /404.php
+
+# ensure www.
+#RewriteCond %{HTTP_HOST} !^www.suport-lcd.ro$ [NC]
+#RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+#RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+#RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+#RewriteRule ^(.*)$ https://www.suport-lcd.ro/$1 [L,R=301]
+
+# ensure https
+#RewriteCond %{HTTP:X-Forwarded-Proto} !https
+#RewriteCond %{HTTPS} off
+#RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+#RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+#RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+#RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#minify js & css
+#RewriteRule ^(.*\.(css))$ minify.php?files=$1 [L,NC]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#link-uri specializate
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^producatori$ producatori.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cont-nou$ cont_utilizator/cont_nou.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cont$ cont_utilizator/cont.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^contul-meu$ cont_utilizator/contul_meu.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^contul-meu/date-cont$ cont_utilizator/date_cont.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^contul-meu/cosuri-salvate$ cont_utilizator/cosuri_salvate.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^contul-meu/istoric-tranzactii$ cont_utilizator/istoric_tranzactii.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^contul-meu/formular-de-retur$ cont_utilizator/formular_de_retur.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cosul-meu$ cont_utilizator/cosul_meu.php [nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cosul-meu/sterge-produs/([0-9]+)$ cont_utilizator/cosul_meu.php?sterge_produs=$1 [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^finalizeaza-comanda$ cont_utilizator/finalizeaza_comanda.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^recupereaza-parola$ cont_utilizator/recupereaza_parola.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^logout$ logout.php [nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^despre-noi$ texte_site.php?sectiune=despre_noi [nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^termeni-si-conditii$ texte_site.php?sectiune=termeni_si_conditii [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^intrebari-frecvente$ texte_site.php?sectiune=intrebari_frecvente [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^oferta-excel$ oferta_excel.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^sitemap$ sitemap.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^contact$ contact.php [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^toate-produsele$ cautare.php?show=toate_produsele [L,nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^toate-produsele/p([0-9]+)$ cautare.php?show=toate_produsele&pag=$1 [L,nc]
+RewriteRule ^confidentialitate$ texte_site.php?sectiune=confidentialitate [L,nc]
+RewriteRule ^cookies texte_site.php?sectiune=cookies [L,nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#search
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cautare/(.*)/p([0-9]+)$ cautare.php?string=$1&pag=$2 [nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cautare/(.*)$ cautare.php?string=$1 [nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cautari-magazin-online/p([0-9]+)$ toate_cautarile.php?pag=$1 [nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cautari-magazin-online$ toate_cautarile.php [nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cautari-([a-z]{1})/p([0-9]+)$ toate_cautarile.php?litera=$1&pag=$2 [nc]
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^cautari-([a-z]{1})$ toate_cautarile.php?litera=$1 [nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#produs
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/(.*)-prod([0-9]+)$ detalii_produs.php?cat=$1&id_produs=$3 [L,nc]
+#produs + comentarii
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/(.*)--([0-9]+)/comentarii$ detalii_produs.php?cat=$1&id_produs=$3&mod=comentarii [L,nc]
+#produs + comentarii + paginare
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/(.*)--([0-9]+)/comentarii/p([0-9]+)$ detalii_produs.php?cat=$1&id_produs=$3&mod=comentarii&pag=$4 [L,nc]
+#produs + alerta
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/(.*)--([0-9]+)/alerta-pret$ detalii_produs.php?cat=$1&id_produs=$3&mod=alerta_pret [L,nc]
+#produs + stoc
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/(.*)--([0-9]+)/alerta-stoc$ detalii_produs.php?cat=$1&id_produs=$3&mod=alerta_stoc [L,nc]
+#produs + cum cumpar
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/(.*)--([0-9]+)/cum-cumpar$ detalii_produs.php?cat=$1&id_produs=$3&mod=cum_cumpar [L,nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#categorie + paginare + filtru
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/p([0-9]+)/filtru/(.*)$ catalog.php?cat=$1&pag=$2&filtru=$3&set_filtru=1 [nc]
+
+#categorie + paginare
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/p([0-9]+)$ catalog.php?cat=$1&pag=$2 [nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#categorie + producator + sortare + paginare + filtru
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/([^\./]+)/sorteaza-([a-zA-Z]+)-(asc|desc)/p([0-9]+)/filtru/(.*)$ catalog.php?cat=$1&prod=$2&col=$3&sort=$4&pag=$5&filtru=$6&set_filtru=1 [nc]
+
+#categorie + producator + sortare + paginare
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/([^\./]+)/sorteaza-([a-zA-Z]+)-(asc|desc)/p([0-9]+)$ catalog.php?cat=$1&prod=$2&col=$3&sort=$4&pag=$5 [nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#categorie + producator + sortare + filtru
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/([^\./]+)/sorteaza-([a-zA-Z]+)-(asc|desc)/filtru/(.*)$ catalog.php?cat=$1&prod=$2&col=$3&sort=$4&filtru=$5&set_filtru=1 [nc]
+
+#categorie + producator + sortare
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/([^\./]+)/sorteaza-([a-zA-Z]+)-(asc|desc)$ catalog.php?cat=$1&prod=$2&col=$3&sort=$4 [nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#categorie + sortare + paginare + filtru
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/sorteaza-([a-zA-Z]+)-(asc|desc)/p([0-9]+)/filtru/(.*)$ catalog.php?cat=$1&col=$2&sort=$3&pag=$4&filtru=$5&set_filtru=1 [nc]
+
+#categorie + sortare + paginare
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/sorteaza-([a-zA-Z]+)-(asc|desc)/p([0-9]+)$ catalog.php?cat=$1&col=$2&sort=$3&pag=$4 [nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#categorie + noutati + pag
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/noutati/p([0-9]+)$ catalog.php?cat=$1&pag=$2&mod=noutati [nc]
+
+#categorie + noutati
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/noutati$ catalog.php?cat=$1&mod=noutati [nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#categorie + sortare + filtru
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/sorteaza-([a-zA-Z]+)-(asc|desc)/filtru/(.*)$ catalog.php?cat=$1&col=$2&sort=$3&filtru=$4&set_filtru=1 [nc]
+
+#categorie + sortare
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/sorteaza-([a-zA-Z]+)-(asc|desc)$ catalog.php?cat=$1&col=$2&sort=$3 [nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#categorie + producator + paginare + filtru
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/([^\./]+)/p([0-9]+)/filtru/(.*)$ catalog.php?cat=$1&prod=$2&pag=$3&filtru=$4&set_filtru=1 [nc]
+
+#categorie + producator + paginare
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/([^\./]+)/p([0-9]+)$ catalog.php?cat=$1&prod=$2&pag=$3 [nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#categorie + producator + filtru
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/([^\./]+)/filtru/(.*)$ catalog.php?cat=$1&prod=$2&filtru=$3&set_filtru=1 [nc]
+
+#categorie + producator
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/([^\./]+)$ catalog.php?cat=$1&prod=$2 [nc]
+
+#-----------------------------------------------------------------------------------------------------------------------------
+#categorie + filtru
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)/filtru/(.*)$ catalog.php?cat=$1&filtru=$2&set_filtru=1 [nc]
+
+#categorie-secundara
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)--s-p([0-9]+)$ module_secundare/catalog_categorii_secundare.php?cat_sec=$1&pag=$2 [nc]
+
+#categorie-secundara
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)--s$ module_secundare/catalog_categorii_secundare.php?cat_sec=$1 [nc]
+
+#categorie
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^([^\./]+)$ catalog.php?cat=$1 [nc]
+
+RewriteCond %{REQUEST_URI} !^/[0-9]+\..+\.cpaneldcv$
+RewriteCond %{REQUEST_URI} !^/[A-F0-9]{32}\.txt(?:\ Comodo\ DCV)?$
+RewriteCond %{REQUEST_URI} !^/\.well-known/acme-challenge/[0-9a-zA-Z_-]+$
+RewriteRule ^poze_produse/([0-9]+)/(mici|medii|mari|supermari)/(.*)_([0-9]+).jpg$ poze_produse/$1/$2/$4.jpg [L,nc]
+
+# php -- BEGIN cPanel-generated handler (disabled locally)
+# EasyApache handler from production. Laragon/Apache does not know
+# application/x-httpd-ea-php56, so it served index.php as a download.
+# Re-enable this block only on the cPanel server.
+# <IfModule mime_module>
+#   AddHandler application/x-httpd-ea-php56 .php .php5 .phtml
+# </IfModule>
+# php -- END cPanel-generated handler
