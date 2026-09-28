@@ -92,11 +92,11 @@
 	$paginare_string=$paginare->doPaginare(); 				    
 
 	//---------------------------------------------------------------------------------------------------------------------------------
-	$result=mysql_query($sql." LIMIT ".$paginare->getLimitStart().", ".AFISARI_PE_PAG);
+	$result=$mysqli->query($sql." LIMIT ".$paginare->getLimitStart().", ".AFISARI_PE_PAG);
 	
 	//@patch ca sa nu scriu totul din nou, o sa incetineasca un pic - luat din arrayFromDB, nu am folosit arrayFromDB pt ca nu fost gandita pt UNION
 	$i=0;			
-	while($row=mysql_fetch_array($result))
+	while($row=$result->fetch_array())
 	{		
 		//@loop prin campurile selectate si atribuire valori din bd
 		foreach($row as $key=>$value)

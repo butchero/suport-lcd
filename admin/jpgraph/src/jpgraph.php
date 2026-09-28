@@ -295,8 +295,8 @@ else {
 
 function CheckPHPVersion($aMinVersion)
 {
-    list($majorC, $minorC, $editC) = split('[/.-]', PHP_VERSION);
-    list($majorR, $minorR, $editR) = split('[/.-]', $aMinVersion);
+    list($majorC, $minorC, $editC) = preg_split('/[\/.-]/', PHP_VERSION);
+    list($majorR, $minorR, $editR) = preg_split('/[\/.-]/', $aMinVersion);
   
     if ($majorC > $majorR) return true;
     if ($majorC < $majorR) return false;
@@ -3500,7 +3500,7 @@ class GraphTabTitle extends Text{
 	$this->align = $aAlign;
     }
 
-    function SetPos($aAlign) {
+    function SetPos($aAlign=0, $aYAbsPos=0, $aHAlign="left", $aVAlign="top") {
 	$this->align = $aAlign;
     }
     
@@ -3517,7 +3517,7 @@ class GraphTabTitle extends Text{
 	$this->corner = $aD ;
     }
 
-    function Stroke(&$aImg) {
+    function Stroke(&$aImg, $x=null, $y=null) {
 	if( $this->hide ) 
 	    return;
 	$this->boxed = false;

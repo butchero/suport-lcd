@@ -22,7 +22,7 @@
 	/* read info received */
 	ob_start();
 	
-	while(list($key, $val) = each($_POST))
+	foreach($_POST as $key => $val)
 	{
 		$$key=$val;
 	
@@ -91,7 +91,7 @@
 		echo "<EPAYMENT>".$date_return."|".$result_hash."</EPAYMENT>";
 	
 	    /* Begin automated procedures (START YOUR CODE)*/
-	    mysql_query("UPDATE t_comenzi SET comanda_achitata='1' WHERE id_comanda='".$_POST['REFNOEXT']."'");
+	    $mysqli->query("UPDATE t_comenzi SET comanda_achitata='1' WHERE id_comanda='".$_POST['REFNOEXT']."'");
 	}
 	else
 	{

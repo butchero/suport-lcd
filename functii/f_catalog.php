@@ -18,6 +18,7 @@
 				FROM t_produse LEFT JOIN t_categorii ON t_produse.id_cat=t_categorii.id_cat
 			  WHERE t_produse.id_prod='".$id_prod."' ".(($nu_afis_inactive)?" AND activ='1'":"")." ORDER BY nr_ordine ASC";
 		$result=$mysqli->query($sql);
+		$arr=array();
 			
 		while($row=$result->fetch_assoc())
 		{
@@ -46,6 +47,8 @@
 				WHERE id_parinte='".$id_parinte."' ".$where.(($nu_afis_inactive)?" AND activ='1'":"").
 			 "    ORDER BY ".$ordoneaza_dupa." ASC";
 		$result=$mysqli->query($sql);
+		$arr=array();
+		$adresa_poza="";
 		
 		while($row=$result->fetch_assoc())
 		{
@@ -110,6 +113,13 @@
 			@unlink(URL_BASE_ABS."poze_produse/".$id."/supermari/error_log");
 		}
 		
+		$poze=array();
+		$poze_sec_mici=array();
+		$poze_sec_medii=array();
+		$poze_sec_mari=array();
+		$poze_sec_supermari=array();
+		$nr_poze=array();
+
 		if($handle=@opendir($url))
 		{			   
 		   while(false!==($file=readdir($handle))) 
@@ -175,7 +185,7 @@
 		return $adresa_poza_producator;	
 	}
 	
-	function getPozaMareProducator($id_producator)
+	function getPozaMareProducator($id_producator, $nume_produs="")
 	{
 		if(file_exists(URL_BASE_ABS."poze_categorii/".$id_producator.".jpg"))
 			$adresa_poza_producator=URL_BASE."poze_categorii/".prepareLink($nume_produs)."_0.jpg";
@@ -194,7 +204,7 @@
 		//$popup_js.=(formateazaNr($pret * TVA / $arr_curs["usd"]))." USD <br />";
 		//$popup_js.=(formateazaNr($pret * TVA / $arr_curs["euro"]))." EURO";
 		
-		return $popup_js;
+		return "";
 	}
 
 	//-------------------------------------------------------------------------------------------------------------

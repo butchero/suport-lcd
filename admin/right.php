@@ -12,6 +12,7 @@
 	//@texte prima pagina
 	$arr_texte=arrayFromDB("*", "t_texte_site", "ORDER BY sectiune ASC");
 	$nr_texte=count($arr_texte);
+	$texte=array();
 	
 	for($i=0;$i<$nr_texte;$i++)
 	{

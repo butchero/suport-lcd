@@ -20,7 +20,7 @@
 		var $parola="";
 		var $sesiune_setata=false;
 		
-		function autentificareAdmin($username, $parola, $sesiune_setata=false)		
+		function __construct($username, $parola, $sesiune_setata=false)		
 		{
 			$this->sesiune_setata=$sesiune_setata;						
 			$this->username=$username;

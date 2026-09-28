@@ -12,6 +12,8 @@
 	//@get un copil oarecare(nod) al categoriei
 	$ultimul_nivel=false;
 	$este_producator=false;
+	$descriere_cat="";
+	$arr_radacina=array();
 	
 	//----------------------------------------------------------------------------------------------------------------------------
 	//@toate categoriile
@@ -34,9 +36,8 @@
 		($arr_cat[0]["producator"]==1)?$este_producator=true:$este_producator=false;
 
 		$arr_copii=arrayFromDB("*", "t_categorii", "WHERE id_parinte='".$id_cat."' LIMIT 0, 1");		
-		$nod=$arr_copii[0]["id_cat"];	
 		
-		if(empty($nod))
+		if(empty($arr_copii[0]["id_cat"]))
 		{
 			$nod=$id_cat;
 			$ultimul_nivel=true;

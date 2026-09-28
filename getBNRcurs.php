@@ -37,9 +37,11 @@
 	//---------------functie care verifica existenta unei valori in BD--------------------
 	function ifExists($tabel, $camp, $valoare)
 	{
+		global $mysqli;
+
 		$sql="SELECT * FROM $tabel WHERE $camp='".$valoare."'";
-		$resursa=mysql_query($sql);
-		if(mysql_num_rows($resursa)==0)
+		$resursa=$mysqli->query($sql);
+		if($resursa->num_rows==0)
 		{
 			 return false;
 		}
@@ -50,10 +52,12 @@
 	}
 	
 	//-----------------------------------------------------------------------------------
+	require_once(__DIR__."/conectare.php");
+
 	$sql="SELECT * FROM $tabel WHERE data='".date("Ymd")."'";
-	$result=mysql_query($sql);
+	$result=$mysqli->query($sql);
 	
-	if(mysql_num_rows($result)==0)
+	if($result->num_rows==0)
 	{
 		$data_curenta=date("Y").date("m").date("d");
 		
@@ -79,7 +83,7 @@
 							 '".$data_curenta."',
 						 	 '".$dolar."',
 						 	 '".$euro."')";
-				mysql_query($sql_insert);			  
+				$mysqli->query($sql_insert);			  
 		 	}
 		}
 		else
@@ -94,7 +98,7 @@
 							 usd='".$dolar."',
 							 euro='".$euro."'
 						 	 WHERE data='".$data_curenta."'";
-				mysql_query($sql_update);	
+				$mysqli->query($sql_update);	
 			}	
 		}
 	}

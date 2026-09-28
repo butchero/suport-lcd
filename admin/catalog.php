@@ -34,6 +34,14 @@
 	$arr_sql_order=array(0=>"pret ASC", 1=>"pret DESC", 2=>"id_produs ASC", 3=>"id_produs DESC");
 	
 	$sql_where=array();
+	$url_paginare="";
+	$arr_catalog=array();
+	$arr_produse_detalii=array();
+	$mesaj="";
+	$id_prod=isset($id_prod) ? $id_prod : "";
+	$cod_produs=isset($cod_produs) ? $cod_produs : "";
+	$nume_cat=isset($nume_cat) ? $nume_cat : "";
+	$edit=isset($_GET["edit"]) ? $_GET["edit"] : "";
 	$caracteristici_filtrari=array();
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
@@ -47,11 +55,11 @@
 	}
 	else 
 	{
-		if($_GET["edit"]=="categorii_principale")
+		if($edit=="categorii_principale")
 		{
 			$arr_catalog=getSubcategorii($id_cat, true, "nr_ordine", "AND producator='0'", false);	
 		}
-		elseif($_GET["edit"]=="producatori")			
+		elseif($edit=="producatori")			
 		{
 			$arr_catalog=getTotiProducatorii();			
 		}
@@ -66,6 +74,8 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@filtre producatori
+	if(!isset($link_pagina))
+		$link_pagina=URL_ADMIN."catalog.php?cat=".$id_cat;
 	require_once("../filtre_producatori.php");
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
@@ -147,8 +157,7 @@
 			
 			//-------------------------------------------------------------------------------------------------------------------------
 			//@caracteristici
-			unset($caracteristici, $val_carac);
-			
+			$caracteristici=array();
 			$val_carac=explode(";", $arr_produse[$i]["caracteristici"]);
 			
 			for($j=0;$j<$nr_filtre;$j++)
@@ -175,7 +184,9 @@
 			
 			//-------------------------------------------------------------------------------------------------------------------------
 			//@categorii secundare asociate produsului
-			(CAT_SECUNDARE)?$arr_cat_sec=getCategoriiSecundare($arr_produse[$i]["id_produs"]):"";
+			$arr_cat_sec=(CAT_SECUNDARE)?getCategoriiSecundare($arr_produse[$i]["id_produs"]):array();
+			if(!is_array($arr_cat_sec))
+				$arr_cat_sec=array();
 			
 			//-------------------------------------------------------------------------------------------------------------------------
 			//@array asociativ cu toate detaliile produsului
@@ -195,7 +206,7 @@
 										   "pret_vechi"=>(!empty($arr_produse[$i]["pret_vechi"]) && $arr_produse[$i]["pret_vechi"]!=0)?formateazaNr($arr_produse[$i]["pret_vechi"]*TVA):"",
 										   "link_produs"=>getLinkProdus($link_cat, $arr_produse[$i]["nume_produs"], $arr_produse[$i]["id_produs"]),
 										   "caracteristici"=>$caracteristici,
-										   "producator"=>$toti_producatorii[$arr_produse[$i]["id_prod"]],
+										   "producator"=>(isset($toti_producatorii[$arr_produse[$i]["id_prod"]]) ? $toti_producatorii[$arr_produse[$i]["id_prod"]] : ""),
 										   "rating"=>array("1"=>round($rating->getRating()), "2"=>RATING_MAX-round($rating->getRating())),
 										   "nr_comentarii"=>$rating->getNrComentarii(),
 										   "username"=>$arr_produse[$i]["username"],
@@ -244,22 +255,22 @@
 	$smarty->assign("timestamp", time());
 	
 	//@edit=categorii sau producatori
-	$smarty->assign("edit", $_GET["edit"]);
+	$smarty->assign("edit", $edit);
 	
 	//@mesaje de stergere a unei categorii, producator sau produs
-	if($_GET["cat_stearsa"]=="true")
+	if(isset($_GET["cat_stearsa"]) && $_GET["cat_stearsa"]=="true")
 	{
-		if($_GET["edit"]=="producatori")
+		if($edit=="producatori")
 			$mesaj="Producatorul a fost sters cu succes!";
 		else
 			$mesaj="Categoria, subcategoriile si produsele continute au fost sterse cu succes!";
 	}
-	elseif($_GET["cat_stearsa"]=="false") 
+	elseif(isset($_GET["cat_stearsa"]) && $_GET["cat_stearsa"]=="false") 
 		$mesaj="Categoria nu a putut fi stearsa!";
 	
-	if($_GET["produs_sters"]=="true")
+	if(isset($_GET["produs_sters"]) && $_GET["produs_sters"]=="true")
 		$mesaj="Produsul a fost sters cu succes!";
-	elseif($_GET["produs_sters"]=="true")
+	elseif(isset($_GET["produs_sters"]) && $_GET["produs_sters"]=="false")
 		$mesaj="Produsul nu a putut fi sters!";	
 	
 	//@mesaj pentru confirmarea stergerii unei categorii

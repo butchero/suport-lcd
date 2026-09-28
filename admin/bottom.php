@@ -12,13 +12,15 @@
 	//ASIGNARE VARIABILE PHP->SMARTY
 	
 	//@afisare radacina categorii
+	if(!isset($arr_radacina) || !is_array($arr_radacina))
+		$arr_radacina=array();
 	$smarty->assign("radacina", $arr_radacina);
 	
 	//@titlu pagina -> smarty
-	$smarty->assign("titlu_pagina", $titlu_pagina);	
+	$smarty->assign("titlu_pagina", isset($titlu_pagina) ? $titlu_pagina : "");	
 	
 	//@link inapoi catre catalog pt paginile care deriva din el (gestioneaza produse, filtre, adaugari, editari, etc)
-	$smarty->assign("link_inapoi", $_SESSION["link_inapoi"]);
+	$smarty->assign("link_inapoi", isset($_SESSION["link_inapoi"]) ? $_SESSION["link_inapoi"] : "");
 	
 	//@nume_firma
 	$smarty->assign("NUME_FIRMA", NUME_FIRMA);
@@ -36,7 +38,7 @@
 		
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@sfarsit page compress
-	if($do_gzip_compress)
+	if(!empty($do_gzip_compress))
 	{
 		$gzip_contents = ob_get_contents();
 		ob_end_clean();

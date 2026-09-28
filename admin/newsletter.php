@@ -71,6 +71,8 @@
 	
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//@nr abonati
+	if(!isset($sql_limit_abonati))
+		$sql_limit_abonati="";
 	$arr_abonati=arrayFromDB("*", "t_newsletter", "ORDER BY id_newsletter ASC ".$sql_limit_abonati);
 	$nr_abonati=count(arrayFromDB("*", "t_newsletter"));
 	
@@ -89,8 +91,8 @@
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//@titlu & text newsletter
 	$arr_newsletter_header=arrayFromDB("*", "t_newsletter_header");
-	$titlu_newsletter=$arr_newsletter_header[0]["titlu_newsletter"];
-	$text_newsletter=$arr_newsletter_header[0]["text_newsletter"];
+	$titlu_newsletter=isset($arr_newsletter_header[0]["titlu_newsletter"]) ? $arr_newsletter_header[0]["titlu_newsletter"] : "";
+	$text_newsletter=isset($arr_newsletter_header[0]["text_newsletter"]) ? $arr_newsletter_header[0]["text_newsletter"] : "";
 	
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//@chilipirul zilei
@@ -128,6 +130,8 @@
 	
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//@produse newsletter
+	$arr_produse_newsletter=array();
+	$arr_produse_newsletter_detalii=array();
 	$arr_newsletter=arrayFromDB(array("id_produs"), "t_newsletter_config", "ORDER BY id ASC");
 	
 	foreach($arr_newsletter as $key=>$value)
@@ -151,7 +155,7 @@
 												  "t_producatori.id_cat"),
 											 "t_produse LEFT JOIN t_categorii ON t_produse.id_cat=t_categorii.id_cat 
 											   		    LEFT JOIN t_categorii AS t_producatori ON t_produse.id_prod=t_producatori.id_cat",
-									 		 "WHERE 1 ".$sql_where." ORDER BY t_produse.id_produs ASC");		
+									 		 "WHERE 1 ".(isset($sql_where) ? $sql_where : "")." ORDER BY t_produse.id_produs ASC");		
 	}
 	
 	$nr_produse=count($arr_produse_newsletter);
@@ -260,6 +264,10 @@
 	
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY	
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($butoane_send) || !is_array($butoane_send)) $butoane_send=array();
+	if(!isset($arr_produse_newsletter) || !is_array($arr_produse_newsletter)) $arr_produse_newsletter=array();
+	if(!isset($arr_produse_newsletter_detalii) || !is_array($arr_produse_newsletter_detalii)) $arr_produse_newsletter_detalii=array();
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("butoane_send", $butoane_send);
 	

@@ -20,7 +20,10 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@string cautare - clean up
-	//$cautare_string=curataSpatiiAlbe(trim(read_Link($_GET["string"])));
+	$cautare_string=(isset($_GET["string"]))?curataSpatiiAlbe(trim(read_Link($_GET["string"]))):"";
+	$arr_produse=array();
+	$arr_produse_detalii=array();
+	$arr_catalog=array();
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@verificare
@@ -41,20 +44,45 @@
 	$arr_cautare_string=explode(" ", $cautare_string);
 	$nr_pieces=count($arr_cautare_string);
 	
-	//@here it goes
-	//$sql_0="nume_cat LIKE '%".prepareStringToDB($cautare_string)."%'";
+	//@titlu: fiecare cuvant; cod produs: EAN-ul introdus (cu sau fara spatii)
+	$sql_where="activ=1";
+	$este_lista_completa=(isset($_GET["show"]) && $_GET["show"]=="toate_produsele");
+
+	if($cautare_string!="" && !$este_lista_completa)
+	{
+		$sql_titlu=array();
+		for($i=0;$i<$nr_pieces;$i++)
+		{
+			if($arr_cautare_string[$i]==="")
+				continue;
+			$sql_titlu[]="nume_produs LIKE '%".prepareStringToDB($arr_cautare_string[$i])."%'";
+		}
+
+		$sql_match=array();
+		if(count($sql_titlu)>0)
+			$sql_match[]="(".implode(" AND ", $sql_titlu).")";
+
+		$cod_cautat=preg_replace("/\s+/", "", $cautare_string);
+		if($cod_cautat!=="")
+			$sql_match[]="cod_produs LIKE '%".prepareStringToDB($cod_cautat)."%'";
+
+		if(count($sql_match)>0)
+			$sql_where.=" AND (".implode(" OR ", $sql_match).")";
+
+		$arr_radacina=array(array("nume_radacina"=>"Cautare: ".$cautare_string,
+								  "link_radacina"=>URL_BASE."cautare/".prepareLink($cautare_string)));
+	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------
-	//@LADIES AND GENTLEMEN, i give you "THE SQL"
 	$sql="SELECT id_produs, t_produse.id_cat, id_prod, nume_produs, t_categorii.nume_cat, t_categorii.link_cat, pret, pret_vechi, descriere_produs, caracteristici, data_adaugarii, stoc, tip
-		   	FROM t_produse LEFT JOIN t_categorii ON t_produse.id_cat=t_categorii.id_cat WHERE activ=1 ORDER BY id_produs DESC"; 
+		   	FROM t_produse LEFT JOIN t_categorii ON t_produse.id_cat=t_categorii.id_cat WHERE ".$sql_where." ORDER BY id_produs DESC"; 
 				
 	
 	//---------------------------------------------------------------------------------------------------------------------------------		
 	//@paginare
 	require_once("clase/paginare.php");
 	
-	$paginare=new paginare("pag", $sql, URL_BASE.(($_GET["show"]=="toate_produsele")?"toate-produsele":"cautare/".prepareLink($_GET["string"]))."/p".PATTERN, AFISARI_PE_PAG*10, true); 
+	$paginare=new paginare("pag", $sql, URL_BASE.((isset($_GET["show"]) && $_GET["show"]=="toate_produsele")?"toate-produsele":"cautare/".prepareLink(isset($_GET["string"]) ? $_GET["string"] : ""))."/p".PATTERN, AFISARI_PE_PAG*10, true); 
 	$paginare_string=$paginare->doPaginare(); 				    
 
 	//---------------------------------------------------------------------------------------------------------------------------------
@@ -87,7 +115,7 @@
 	
 	if($nr_produse>0)
 	{
-		if($arr_cautare[0]["nr"]==0)
+		if(empty($arr_cautare[0]["nr"]))
 			arrayInsertToDB("t_cautari", array("cautare"), array($cautare_string));
 		else 
 			arrayUpdateToDB("t_cautari", array("contor"), array("contor+1"), array("id"=>"id_cautare", "valoare"=>$arr_cautare[0]["id_cautare"]), true);
@@ -137,7 +165,7 @@
 		
 		//-----------------------------------------------------------------------------------------------------------------------------
 		//@caracteristici
-		unset($caracteristici);
+		$caracteristici=array();
 		$val_carac=explode(";", $arr_produse[$i]["caracteristici"]);
 		
 		for($j=0;$j<$nr_filtre;$j++)
@@ -171,7 +199,9 @@
 		
 		//-------------------------------------------------------------------------------------------------------------------------
 		//@categorii secundare asociate produsului
-		(CAT_SECUNDARE)?$arr_cat_sec=getCategoriiSecundare($arr_produse[$i]["id_produs"]):"";
+		$arr_cat_sec=(CAT_SECUNDARE)?getCategoriiSecundare($arr_produse[$i]["id_produs"]):array();
+		if(!is_array($arr_cat_sec))
+			$arr_cat_sec=array();
 		
 		//-----------------------------------------------------------------------------------------------------------------------------
 		//@array asociativ cu toate detaliile produsului
@@ -191,7 +221,7 @@
 									   "popup_js"=>$popup_js,
 									   "link_produs"=>getLinkProdus($arr_produse[$i]["link_cat"], $arr_produse[$i]["nume_produs"], $arr_produse[$i]["id_produs"]),
 									   "caracteristici"=>$caracteristici,
-									   "producator"=>$arr_producator[0]["nume_cat"],
+									   "producator"=>(isset($arr_producator[0]["nume_cat"]) ? $arr_producator[0]["nume_cat"] : ""),
 									   "rating"=>array("1"=>round($rating->getRating()), "2"=>RATING_MAX-round($rating->getRating())),
 									   "nr_comentarii"=>$rating->getNrComentarii(),
 									   "radacina_produs"=>$arr_categorii_produs,

@@ -10,6 +10,9 @@
 	*/
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@filtru producatori
+	if(!isset($filtru))
+		$filtru="";
+
 	if(is_array($arr_parinti) && count($arr_parinti)>0)
 	{
 		$producatori=arrayFromDB(array("DISTINCT(t_produse.id_prod)", "nume_cat", "link_cat"),

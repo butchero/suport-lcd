@@ -25,10 +25,13 @@
 		{	
 			global $arr_toate_cat_dupa_id;
 								
+			$parinti=array();
+			$this->parinti=$parinti;
+
+			if(empty($nod) || !isset($arr_toate_cat_dupa_id[$nod]))
+				return $parinti;
+
 			$row=$arr_toate_cat_dupa_id[$nod];
-			
-			//pastrez parintii in acest array
-			$this->parinti=array();
 			
 			if($row["id_parinte"]!=0 && is_numeric($row["id_parinte"])) 
 			{ 
@@ -36,7 +39,7 @@
 			   $parinti=array_merge((array)$this->getParinti($row["id_parinte"]), (array)$parinti); 
 			} 
 			
-			//intorc parintii 
+			$this->parinti=$parinti;
 			return $parinti; 
 		}	
 	}

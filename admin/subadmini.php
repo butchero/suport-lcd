@@ -91,7 +91,7 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@actiune stergere admin
-	if(is_numeric($_GET["id_admin"]) && !empty($_GET["id_admin"]) && $_GET["actiune"]=="sterge")
+	if(isset($_GET["id_admin"]) && is_numeric($_GET["id_admin"]) && !empty($_GET["id_admin"]) && isset($_GET["actiune"]) && $_GET["actiune"]=="sterge")
 	{
 		arrayDeleteFromDB("t_admin", array("id_admin"), array($_GET["id_admin"]));
 		$mesaj="Subadminul a fost sters cu succes!";		
@@ -103,6 +103,8 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($subadmin_username)) $subadmin_username="";
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("subadmin_username", $subadmin_username);
 	$smarty->assign("subadmini", $arr_subadmini);
 	$smarty->assign("mesaj", $mesaj);

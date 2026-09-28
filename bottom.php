@@ -10,7 +10,7 @@
 	*/
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@ultimele produse vizitate
-	if(!is_array($_SESSION["link_ultimele_vizite"]))
+	if(!isset($_SESSION["link_ultimele_vizite"]) || !is_array($_SESSION["link_ultimele_vizite"]))
 	{
 		$_SESSION["link_ultimele_vizite"]=array();
 		$_SESSION["nume_ultimele_vizite"]=array();
@@ -62,7 +62,7 @@
 		{
 			$keywords[]=strtolower($nume_cat);
 			
-			if(is_array($arr_catalog))
+			if(isset($arr_catalog) && is_array($arr_catalog))
 				foreach($arr_catalog as $k=>$v)
 					$keywords[]=strtolower($v["nume_cat"]);
 				
@@ -109,7 +109,7 @@
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@titlu toate produsele
-	if($_GET["show"]=="toate_produsele")
+	if(isset($_GET["show"]) && $_GET["show"]=="toate_produsele")
 	{
 		$titlu_pagina="Toate produsele";
 		
@@ -133,6 +133,8 @@
 	$smarty->assign("keywords", $string_keywords);
 	
 	//@afisare radacina categorii
+	if(!isset($arr_radacina) || !is_array($arr_radacina))
+		$arr_radacina=array();
 	$smarty->assign("radacina", $arr_radacina);
 	
 	//@titlu pagina -> smarty

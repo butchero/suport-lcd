@@ -36,6 +36,15 @@
 	}
 	
 	$form_submit=0;
+	$check_gol=array("valid"=>"", "camp"=>"", "eroare"=>"");
+	$nume_check=$check_gol;
+	$email_check=$check_gol;
+	$telefon_check=$check_gol;
+	$mesaj_check=$check_gol;
+	$cod_validare_check=$check_gol;
+	$mesaj="";
+	$erori="";
+	$continut="";
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@actiune formular

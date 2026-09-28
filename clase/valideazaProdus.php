@@ -88,6 +88,45 @@
 			
 		}
 		
+		//@valideaza durata garantiei si eligibilitatea GARAN
+		function valideazaGarantie($warranty_months, $garan_eligible, $id_producator, $cod_produs)
+		{
+			$warranty_months=trim($warranty_months);
+			$garan_eligible=($garan_eligible==1 || $garan_eligible==="1")?1:0;
+
+			if($warranty_months==="" || preg_match("/^[0-9]+$/", $warranty_months)==0)
+			{
+				$this->erori++;
+				return array("warranty"=>array("valid"=>0,
+											   "camp"=>$warranty_months,
+											   "eroare"=>"Durata garantiei trebuie sa fie un numar intreg de luni."),
+							 "eligible"=>$garan_eligible);
+			}
+
+			$luni=(int)$warranty_months;
+			$eroare="";
+
+			if($garan_eligible==1)
+			{
+				if($luni<=24)
+					$eroare="GARAN poate fi activat doar daca garantia este mai mare de 24 luni.";
+				elseif($luni%6!=0)
+					$eroare="Pentru eticheta GARAN durata trebuie sa fie un numar intreg de ani sau de jumatati de an.";
+				elseif(!is_numeric($id_producator) || (int)$id_producator<=0)
+					$eroare="Pentru eticheta GARAN trebuie sa existe producator.";
+				elseif(trim($cod_produs)==="")
+					$eroare="Pentru eticheta GARAN trebuie sa existe codul/modelul produsului.";
+			}
+
+			if($eroare!="")
+				$this->erori++;
+
+			return array("warranty"=>array("valid"=>($eroare==="")?1:0,
+										   "camp"=>$luni,
+										   "eroare"=>$eroare),
+						 "eligible"=>$garan_eligible);
+		}
+		
 		//@valideaza tot formularul in functie de ce validari s-au apelat
 		function getErori()
 		{

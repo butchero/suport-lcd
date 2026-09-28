@@ -42,8 +42,8 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@variabile
-	$utilizator=$_REQUEST["utilizator"];
-	$status_selectat=$_REQUEST["status_formulare"];
+	$utilizator=isset($_REQUEST["utilizator"]) ? $_REQUEST["utilizator"] : "";
+	$status_selectat=isset($_REQUEST["status_formulare"]) ? $_REQUEST["status_formulare"] : "";
 	
 	if(!empty($_REQUEST["utilizator"]))
 	{
@@ -60,6 +60,10 @@
 	//@paginare
 	require_once("../clase/paginare.php");
 	
+	if(!isset($sql_where)) $sql_where="";
+	if(!isset($link_sufix)) $link_sufix="";
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($arr_f_retur) || !is_array($arr_f_retur)) $arr_f_retur=array();
 	$paginare=new paginare("pag", 
 						   "SELECT COUNT(id_formular) AS nr FROM t_formulare_retur AS a LEFT JOIN t_useri b ON a.id_user=b.id_user WHERE 1 ".$sql_where, 
 						    URL_ADMIN."inbox_retururi.php?pag=".PATTERN.$link_sufix); 

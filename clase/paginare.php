@@ -77,7 +77,11 @@
 			//@paginarea efectiva	
 			if($nr_pagini>0)
 			{
-				if($nr_pagini>$interval && $pag<=$nr_pagini && $nr_pagini>($interval+1))
+				$link="";
+				$inapoi="";
+				$inainte="";
+
+				if($nr_pagini>$this->interval && $pag<=$nr_pagini && $nr_pagini>($this->interval+1))
 				{
 					$limita_inf=$pag-$this->interval;
 					$limita_sup=$pag+$this->interval;

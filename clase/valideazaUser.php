@@ -89,7 +89,7 @@
 		}
 		
 		//@validare e-mail
-		function valideazaEmail($email, $email_verificare)
+		function valideazaEmail($email, $email_verificare = null)
 		{
 			if(!$this->verificaEmail($email))
 			{

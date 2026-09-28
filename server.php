@@ -32,8 +32,8 @@
 			}			
 						
 			$sql="SELECT nume_produs, pret, descriere_produs FROM t_produse WHERE id_produs='".$id."'";
-			$result=mysql_query($sql);
-			$row=mysql_fetch_array($result);
+			$result=$mysqli->query($sql);
+			$row=$result->fetch_array();
 						
 			$cos=new Cos();
 			$adaugare=$cos->adaugaProdus($id, 1, $row['pret']);

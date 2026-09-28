@@ -16,6 +16,7 @@
 	$display_page="toate_cautarile.tpl";
 	
 	$titlu_pagina="TOATE CAUTARILE";
+	$sql_where="";
 		
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@litera selectata
@@ -48,6 +49,7 @@
 	//CAUTARI					   				   
 	$arr_toate_cautarile=arrayFromDB("*", "t_cautari", $sql_where." ORDER BY contor DESC LIMIT ".$paginare->getLimitStart().", 150");						   
 	$nr_cautari=count($arr_toate_cautarile);
+	$toate_cautarile=array();
 	
 	
 	for($i=0;$i<$nr_cautari;$i++)
@@ -60,7 +62,7 @@
 	//--------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
 	$smarty->assign("alfabet", $alfabet);	
-	$smarty->assign("litera_selectata", $_GET["litera"]);
+	$smarty->assign("litera_selectata", isset($_GET["litera"]) ? $_GET["litera"] : "");
 	$smarty->assign("toate_cautarile", $toate_cautarile);
 	$smarty->assign("paginare", $paginare_string);
 	

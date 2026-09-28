@@ -49,6 +49,9 @@
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
 	$smarty->assign("subadmini", $arr_subadmini);
+	if(!isset($arr_loguri) || !is_array($arr_loguri)) $arr_loguri=array();
+	if(!isset($paginare_string)) $paginare_string="";
+	if(!isset($id_admin)) $id_admin="";
 	$smarty->assign("loguri", $arr_loguri);
 	$smarty->assign("paginare", $paginare_string);
 	$smarty->assign("id_admin", $id_admin);

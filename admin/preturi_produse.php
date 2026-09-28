@@ -43,7 +43,7 @@
 		
 		if(is_numeric($usd_in_ron) && is_numeric($euro_in_ron))
 		{
-			mysql_query("TRUNCATE t_curs_bnr");
+			$mysqli->query("TRUNCATE t_curs_bnr");
 			arrayInsertToDB("t_curs_bnr", array("data", "usd", "euro"), array(date("Ymd"), $usd_in_ron, $euro_in_ron));
 			
 			$mesaj="A fost adaugat cursul!";

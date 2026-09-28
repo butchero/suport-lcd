@@ -123,6 +123,8 @@
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@taburi meniu
+	$tab_menu=0;
+
 	if($_SERVER["REQUEST_URI"]==BASE_NAME)
 		$tab_menu=1;
 	elseif($_SERVER["REQUEST_URI"]==BASE_NAME."intrebari-frecvente")	

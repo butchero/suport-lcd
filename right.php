@@ -14,7 +14,13 @@
 	
 	$cos=new Cos();		
 	$produse=$cos->getProduseCos();
+	if(!is_array($produse))
+		$produse=array();
 	$nr_produse_cos=count($produse);
+	$continut_cos=array();
+	$bestseller=array();
+	$ultimele_vanzari=array();
+	$arr_produs_special_detalii=array();
 		
 	if(count($produse)>0)
 	{			
@@ -44,7 +50,7 @@
 	//@bestseller
 
 	//@daca sunt pe o categorie/subcategorie etc. filtrez bestseller-ul doar de pe categoria respectiva
-	(is_numeric($id_cat) && !empty($id_cat))?$where_bestseller="AND t_produse.id_cat='".$id_cat."'":"";
+	$where_bestseller=(isset($id_cat) && is_numeric($id_cat) && !empty($id_cat))?"AND t_produse.id_cat='".$id_cat."'":"";
 	
 	
 	$arr_bestseller=arrayFromDB(array("id_produs", "nume_produs", "link_cat"),
@@ -94,6 +100,9 @@
 							 		"WHERE t_categorii.activ='1' AND t_produse.tip='1' ORDER BY RAND() LIMIT 0, 3");			
 	
 	$nr_produse=count($arr_produs_special);
+
+	if(!isset($arr_stoc) || !is_array($arr_stoc))
+		$arr_stoc=arrayFromDB("*", "t_stoc", "ORDER BY id_stoc ASC");
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@loop prin produse la oferta speciala
@@ -110,7 +119,7 @@
 		
 		//----------------------------------------------------------------------------------------------------------------------
 		//@convertor valutar
-		unset($popup_js);
+		$popup_js="";
 
 		if(!empty($arr_curs["usd"]) && !empty($arr_produs_special[$i]["pret"]))
 		{
@@ -123,8 +132,8 @@
 		$arr_produs_special_detalii[$i]=array("id_produs"=>$arr_produs_special[$i]["id_produs"],										   
 									   		  "nume_produs"=>prepareStringFromDB($arr_produs_special[$i]["nume_produs"]),
 											  "adresa_poza_produs"=>$adresa_poza,
-											  "stoc"=>ucfirst($arr_stoc[$arr_produs_special[$i]["stoc"]-1]["stoc"]),
-										  	  "stoc_poza"=>$arr_stoc[$arr_produs_special[$i]["stoc"]-1]["poza"],
+											  "stoc"=>ucfirst(isset($arr_stoc[$arr_produs_special[$i]["stoc"]-1]["stoc"]) ? $arr_stoc[$arr_produs_special[$i]["stoc"]-1]["stoc"] : ""),
+										  	  "stoc_poza"=>(isset($arr_stoc[$arr_produs_special[$i]["stoc"]-1]["poza"]) ? $arr_stoc[$arr_produs_special[$i]["stoc"]-1]["poza"] : ""),
 											  "pret_produs"=>formateazaNr($arr_produs_special[$i]["pret"]*TVA),
 											  "pret_vechi"=>(!empty($arr_produs_special[$i]["pret_vechi"]) && $arr_produs_special[$i]["pret_vechi"]!=0)?formateazaNr($arr_produs_special[$i]["pret_vechi"]*TVA):"",
 											  "reducere"=>calculeazaReducere($arr_produs_special[$i]["pret_vechi"], $arr_produs_special[$i]["pret"]),

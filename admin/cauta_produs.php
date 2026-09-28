@@ -25,13 +25,16 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@string cautare - clean up
-	$cautare_string=curataSpatiiAlbe(trim(read_Link($_GET["string"])));
+	$cautare_string=curataSpatiiAlbe(trim(read_Link(isset($_GET["string"]) ? $_GET["string"] : "")));
 	
-	$categorie_flag=$_GET["categorie_flag"];
-	$producator_flag=$_GET["producator_flag"];
-	$stoc_flag=$_GET["stoc_flag"];
-	$poza_flag=$_GET["poza_flag"];
-	$tip_flag=$_GET["tip_flag"];
+	$categorie_flag=isset($_GET["categorie_flag"]) ? $_GET["categorie_flag"] : "";
+	$producator_flag=isset($_GET["producator_flag"]) ? $_GET["producator_flag"] : "";
+	$stoc_flag=isset($_GET["stoc_flag"]) ? $_GET["stoc_flag"] : "";
+	$poza_flag=isset($_GET["poza_flag"]) ? $_GET["poza_flag"] : "";
+	$tip_flag=isset($_GET["tip_flag"]) ? $_GET["tip_flag"] : "";
+	$sql_cond_supl=array();
+	$arr_catalog=array();
+	$mesaj="";
 		
 	//-----------------------------------------------------------------------------------------------------------------------------
 	//@titlu pagina
@@ -71,7 +74,9 @@
 		$sql_cond_supl[]="AND tip='".$tip_flag."'";	
 
 	if(count($sql_cond_supl)>0)	
-		$sql_cond_supl=implode(" ", $sql_cond_supl);		
+		$sql_cond_supl=implode(" ", $sql_cond_supl);
+	else
+		$sql_cond_supl="";		
 
 	//-----------------------------------------------------------------------------------------------------------------------------
 	//@LADIES AND GENTLEMEN, i give you "THE SQL"
@@ -91,15 +96,17 @@
 	//@paginare
 	require_once("../clase/paginare.php");
 	
-	$paginare=new paginare("pag", $sql, URL_ADMIN."cauta_produs.php?string=".prepareLink($_GET["string"])."&stoc_flag=".$stoc_flag."&poza_flag=".$poza_flag."&producator_flag=".$producator_flag."&categorie_flag=".$categorie_flag."&pag=".PATTERN, AFISARI_PE_PAG, true); 
+	$paginare=new paginare("pag", $sql, URL_ADMIN."cauta_produs.php?string=".prepareLink($cautare_string)."&stoc_flag=".$stoc_flag."&poza_flag=".$poza_flag."&producator_flag=".$producator_flag."&categorie_flag=".$categorie_flag."&pag=".PATTERN, AFISARI_PE_PAG, true); 
 	$paginare_string=$paginare->doPaginare(); 					    
 
 	//-----------------------------------------------------------------------------------------------------------------------------
-	$result=mysql_query($sql." LIMIT ".$paginare->getLimitStart().", ".AFISARI_PE_PAG);
+	$result=$mysqli->query($sql." LIMIT ".$paginare->getLimitStart().", ".AFISARI_PE_PAG);
 	
 	//@patch ca sa nu scriu totul din nou, o sa incetineasca un pic - luat din arrayFromDB, nu am folosit arrayFromDB pt ca nu fost gandita pt UNION
-	$i=0;			
-	while($row=mysql_fetch_array($result))
+	$i=0;
+	$arr_produse=array();
+	$arr_produse_detalii=array();
+	while($row=$result->fetch_array())
 	{		
 		//@loop prin campurile selectate si atribuire valori din bd
 		foreach($row as $key=>$value)
@@ -213,21 +220,21 @@
 									   "pret_vechi"=>(!empty($arr_produse[$i]["pret_vechi"]) && $arr_produse[$i]["pret_vechi"]!=0)?formateazaNr($arr_produse[$i]["pret_vechi"]*TVA):"",
 									   "popup_js"=>$popup_js,
 									   "link_produs"=>getLinkProdus($arr_produse[$i]["link_cat"], $arr_produse[$i]["nume_produs"], $arr_produse[$i]["id_produs"]),
-									   "caracteristici"=>$caracteristici,
-									   "producator"=>$arr_producator[0]["nume_cat"],
+									   "caracteristici"=>(isset($caracteristici) ? $caracteristici : array()),
+									   "producator"=>(isset($arr_producator[0]["nume_cat"]) ? $arr_producator[0]["nume_cat"] : ""),
 									   "rating"=>array("1"=>round($rating->getRating()), "2"=>RATING_MAX-round($rating->getRating())),
 									   "nr_comentarii"=>$rating->getNrComentarii(),
 									   "radacina_produs"=>$arr_categorii_produs,
-									   "id_produs_newsletter"=>$arr_produse[$i]["id_produs_newsletter"],
-									   "cat_sec"=>$arr_cat_sec);
+									   "id_produs_newsletter"=>(isset($arr_produse[$i]["id_produs_newsletter"]) ? $arr_produse[$i]["id_produs_newsletter"] : ""),
+									   "cat_sec"=>(isset($arr_cat_sec) && is_array($arr_cat_sec) ? $arr_cat_sec : array()));
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
 
-	if($_GET["produs_sters"]=="true")
+	if(isset($_GET["produs_sters"]) && $_GET["produs_sters"]=="true")
 		$mesaj="Produsul a fost sters cu succes!";
-	elseif($_GET["produs_sters"]=="true")
+	elseif(isset($_GET["produs_sters"]) && $_GET["produs_sters"]=="false")
 		$mesaj="Produsul nu a putut fi sters!";	
 	
 	//@mesaj pentru confirmarea stergerii unei categorii

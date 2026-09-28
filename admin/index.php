@@ -15,6 +15,7 @@
 	//-----------------------------------------------------------------------------------------------------------------------------
 	//template-ul care va fi folosit de smarty - variabila e folosita in bottom.php ($smarty->display($display_page);)
 	$display_page="admin/login.tpl";
+	$mesaj="";
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
 	//@link inapoi pt restul paginilor
@@ -32,8 +33,8 @@
 			$display_page="admin/index.tpl"; //daca este autentificat fac display la index
 			
 			$smarty->assign("username", $_SESSION["admin_username"]);	
-			$smarty->assign("ultima_logare", $_SESSION["admin_ultima_logare"]);
-			$smarty->assign("super_admin", $_SESSION["admin_super_admin"]);
+			$smarty->assign("ultima_logare", isset($_SESSION["admin_ultima_logare"]) ? $_SESSION["admin_ultima_logare"] : "");
+			$smarty->assign("super_admin", isset($_SESSION["admin_super_admin"]) ? $_SESSION["admin_super_admin"] : 0);
 			
 			//---------------------------------------------------------------------------------------------------------------------
 			//@export produse csv dupa disponibilitati
@@ -80,7 +81,10 @@
 	//@daca nu este logat -> actiune login
 	if(!empty($_POST["admin_username"]) || !empty($_POST["admin_login"]))
 	{
-		$autentificare=new autentificareAdmin($_POST["admin_username"], $_POST["admin_parola"]);		
+		$autentificare=new autentificareAdmin(
+			isset($_POST["admin_username"]) ? $_POST["admin_username"] : "",
+			isset($_POST["admin_parola"]) ? $_POST["admin_parola"] : ""
+		);		
 		$acces_check=$autentificare->tryAutentificare((isset($_POST["admin_remember_me"]))?true:false);
 		
 		if($autentificare->getErori()==0)

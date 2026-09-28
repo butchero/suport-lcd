@@ -29,22 +29,25 @@
 	//@jpggraph cache
 	define("IMG_DIR", "jpgraph_cache/");
 	
+	error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
 	require_once("jpgraph/src/jpgraph.php");
 	require_once("jpgraph/src/jpgraph_pie.php");
 	require_once("jpgraph/src/jpgraph_pie3d.php");
 
 
 	$sql="SELECT nr_produse, nume_cat FROM t_categorii WHERE producator='0' AND activ='1'";
-	$result=mysql_query($sql) or die(mysql_error());
+	$result=$mysqli->query($sql) or die($mysqli->error);
 	
 	$i=0;
-	while($row=mysql_fetch_array($result))
+	$arr=array();
+	while($row=$result->fetch_array())
 	{
 		$arr[$i][0]=$row["nume_cat"];	
 		$arr[$i][1]=$row["nr_produse"];	
 		$i++;
 	}
 
+	$total=0;
 	for($i=0;$i<count($arr);$i++)
 	{
 		$total+=$arr[$i][1];

@@ -141,6 +141,30 @@
 							<td colspan="2"><textarea rows="10" cols="80" name="descriere_produs">{$descriere_produs}</textarea></td>
 						</tr>
 						<tr>
+							<td height="20" colspan="3"><b>Garantie:</b></td>
+						</tr>
+						<tr>
+							<td height="20" {if $warranty_months_check.valid eq "0"}class="eroare_text"{/if}>Durata garantiei:</td>
+							<td><input type="text" name="warranty_months" value="{$warranty_months_check.camp}" size="6" {if $warranty_months_check.valid eq "0"}class="eroare_bg"{/if}> luni</td>
+							<td class="eroare_form">
+								{$warranty_months_check.eroare}
+								{if $warranty_months_check.eroare eq "" && $form_submit eq "1"}<img src="{$DIR_TEMPLATE}img/ok.gif" alt="">{/if}
+							</td>
+						</tr>
+						<tr>
+							<td height="20">Eligibil pentru eticheta UE GARAN:</td>
+							<td><input type="checkbox" name="garan_eligible" value="1" {if $garan_eligible eq "1"}checked{/if}></td>
+							<td></td>
+						</tr>
+						<tr>
+							<td colspan="3" class="text_avertizare">Se activează numai pentru produsele care beneficiază de o garanție comercială de durabilitate eligibilă conform regulilor UE.</td>
+						</tr>
+						{if $poate_descarca_garan eq "1"}
+						<tr>
+							<td height="20" colspan="3"><a href="{$URL_ADMIN}descarca_eticheta_garan.php?id_produs={$id_produs}" class="link_default">Descarcă eticheta GARAN</a></td>
+						</tr>
+						{/if}
+						<tr>
 							<td height="20" colspan="3"><b>Altele:</b></td>							
 						</tr>
 						<tr>

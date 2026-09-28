@@ -29,6 +29,7 @@
 	//@jpggraph cache
 	define("IMG_DIR", "jpgraph_cache/");
 	
+	error_reporting(E_ALL & ~E_DEPRECATED & ~E_WARNING);
 	require_once("jpgraph/src/jpgraph.php");
 	require_once("jpgraph/src/jpgraph_pie.php");
 	require_once("jpgraph/src/jpgraph_pie3d.php");

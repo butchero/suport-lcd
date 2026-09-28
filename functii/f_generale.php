@@ -39,6 +39,39 @@
 	{
 		return number_format(round($nr), 2, ",", ".");		
 	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	//@durata garanției: multiplu de 12 -> ani, altfel luni
+	function formateazaGarantie($luni)
+	{
+		$luni=(int)$luni;
+
+		if($luni>0 && $luni%12==0)
+		{
+			$ani=(int)($luni/12);
+			return $ani." ".(($ani==1)?"an":"ani");
+		}
+
+		if($luni==1)
+			return "1 lună";
+
+		return $luni." luni";
+	}
+
+	//-------------------------------------------------------------------------------------------------------------
+	//@ani pentru eticheta GARAN: întreg sau jumătate (2,5)
+	function formateazaAniGaran($luni)
+	{
+		$luni=(int)$luni;
+
+		if($luni%12==0)
+			return (string)(int)($luni/12);
+
+		if($luni%6==0)
+			return (int)floor($luni/12).",5";
+
+		return "";
+	}
 	
 	//-------------------------------------------------------------------------------------------------------------
 	//@fct booleana care intoarce "true" daca requestul este e tip XMLHttpRequest, "false" in caz contrar

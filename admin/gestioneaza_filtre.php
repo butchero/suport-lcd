@@ -75,7 +75,7 @@
 	}
 	
 	//@modifica/sterge o valoare din filtru	
-	if(is_numeric($_GET["id_val"]) && is_numeric($_GET["id_filtru"]) && !empty($_GET["id_filtru"]) && ($_GET["actiune"]=="modifica" || $_GET["actiune"]=="sterge"))
+	if(isset($_GET["id_val"], $_GET["id_filtru"], $_GET["actiune"]) && is_numeric($_GET["id_val"]) && is_numeric($_GET["id_filtru"]) && !empty($_GET["id_filtru"]) && ($_GET["actiune"]=="modifica" || $_GET["actiune"]=="sterge"))
 	{		
 		$gestioneazaFiltre->modificaValoare($_POST["valori_posibile"][$_GET["id_val"]], $_GET["id_filtru"], $_GET["id_val"], ($_GET["actiune"]=="sterge")?true:false);		
 		$mesaj=$gestioneazaFiltre->getMesaj();
@@ -121,6 +121,14 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($nume_filtru_nou))
+		$nume_filtru_nou="";
+	if(!isset($este_filtru))
+		$este_filtru=0;
+	if(!isset($mesaj))
+		$mesaj="";
+	if(!isset($valori) || !is_array($valori))
+		$valori=array();
 	$smarty->assign("nume_filtru_nou", $nume_filtru_nou);
 	$smarty->assign("este_filtru", $este_filtru);
 	$smarty->assign("nume_cat", $nume_cat);

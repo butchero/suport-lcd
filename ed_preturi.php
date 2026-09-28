@@ -5,6 +5,14 @@
     $api_user ='star.line.novelty';
     $api_pass = 'k85*{wUlA{n[[G+[V&h%';
 
+    function applyCurlCa($ch)
+    {
+        $ca = 'D:/Laragon/etc/ssl/cacert.pem';
+        if (is_file($ca)) {
+            curl_setopt($ch, CURLOPT_CAINFO, $ca);
+        }
+    }
+
     function getApiToken()
     {
         global $api_link, $api_user, $api_pass;
@@ -20,19 +28,22 @@
             'username' => $api_user,
             'password' => $api_pass
         ]));
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: text/plain']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+        applyCurlCa($ch);
 
         $result = curl_exec($ch);
         $arr_result = json_decode($result, true);
-        $token = $arr_result['body']['token'];
 
-        return $token;
+        return (is_array($arr_result) && !empty($arr_result['body']['token'])) ? $arr_result['body']['token'] : '';
     }
+
+	$stock = [];
+	$stock_error = '';
 
 	if (isset($_POST['afiseaza_stoc'])) {
         $token = getApiToken();
 
-		if (!empty($token)) {
+		if ($token !== '') {
 			$stock_link = $api_link . '/suppliers/stocks';
 			$authorization = 'Authorization: Bearer ' . $token;
 
@@ -43,17 +54,24 @@
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
 			curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
 			curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json' , $authorization]);
+			applyCurlCa($ch);
 
 			$result = curl_exec($ch);
 
 			$arr_result = json_decode($result, true);
 
-            $stock = [];
-
-            foreach ($arr_result['body'] as $value) {
-                $stock[$value['ean']] = $value['stock'];
+            if (is_array($arr_result) && !empty($arr_result['body']) && is_array($arr_result['body'])) {
+                foreach ($arr_result['body'] as $value) {
+                    if (!empty($value['ean'])) {
+                        $stock[$value['ean']] = $value['stock'];
+                    }
+                }
+            } else {
+                $stock_error = 'Raspunsul Dedeman nu contine stocul.';
             }
-		}
+		} else {
+            $stock_error = 'Nu m-am putut autentifica la Dedeman.';
+        }
 	}
 	
 	if (isset($_REQUEST['modifica'])) {
@@ -106,6 +124,7 @@
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
             curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($post_fields));
             curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json' , $authorization]);
+            applyCurlCa($ch);
 
             $result = curl_exec($ch);
             $arr_result = json_decode($result, true);
@@ -145,10 +164,14 @@
         print "<td><b>Stoc DEDEMAN</b></td>";
     }
 
+    if ($stock_error !== '') {
+        print "<tr><td colspan='5' style='color:red'>" . $stock_error . "</td></tr>";
+    }
+
 	print " 	</tr>";
 	
 	while ($row = $result->fetch_assoc()) {
-        if (isset($_POST['afiseaza_stoc']) && !array_key_exists($row['cod_produs'], $stock)) {
+        if (isset($_POST['afiseaza_stoc']) && $stock_error === '' && !array_key_exists($row['cod_produs'], $stock)) {
             continue;
         }
 
@@ -159,7 +182,8 @@
 				   <td><input type='text' name='nr_bucati[" . $row['id_produs'] . "]' value='" . $row['nr_bucati'] . "'></td>";
 
         if (isset($_POST['afiseaza_stoc'])) {
-            print "<td><b style='color:blue'>" . $stock[$row['cod_produs']] . "</b></td>";
+            $stoc_dedeman = array_key_exists($row['cod_produs'], $stock) ? $stock[$row['cod_produs']] : '-';
+            print "<td><b style='color:blue'>" . $stoc_dedeman . "</b></td>";
         }
 
 		print "	   </tr>";

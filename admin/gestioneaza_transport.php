@@ -73,7 +73,7 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@actiune stergere transport
-	if(is_numeric($_GET["id_transport"]) && !empty($_GET["id_transport"]) && $_GET["actiune"]=="sterge")
+	if(isset($_GET["id_transport"]) && is_numeric($_GET["id_transport"]) && !empty($_GET["id_transport"]) && isset($_GET["actiune"]) && $_GET["actiune"]=="sterge")
 	{
 		//@verific daca transportul selectat pt stergere este folosit la vreo comanda data - daca da, stergerea nu va avea loc
 		$arr_check=arrayFromDB(array("COUNT(t_comenzi.id_comanda) AS nr_comenzi"),
@@ -97,6 +97,9 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($nume_transport)) $nume_transport="";
+	if(!isset($cost)) $cost="";
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("nume_transport", $nume_transport);
 	$smarty->assign("cost", $cost);
 	$smarty->assign("transport", $arr_transport);

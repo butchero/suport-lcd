@@ -97,7 +97,7 @@
 	if(isset($_GET["actiune"]) && $_GET["actiune"]=="repara" && !empty($_GET["tabel"]))
 	{
 		$sql="REPAIR TABLE ".$_GET["tabel"];
-		mysql_query($sql);
+		$mysqli->query($sql);
 		
 		$mesaj="Tabelul ".$_GET["tabel"]." a fost reparat!";
 	}
@@ -105,7 +105,7 @@
 	if(isset($_GET["actiune"]) && $_GET["actiune"]=="optimizeaza" && !empty($_GET["tabel"]))
 	{
 		$sql="OPTIMIZE TABLE ".$_GET["tabel"];
-		mysql_query($sql);
+		$mysqli->query($sql);
 		
 		$mesaj="Tabelul ".$_GET["tabel"]." a fost optimizat!";
 	}
@@ -113,15 +113,15 @@
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@toate tabele din baza de date
 	$sql="SHOW TABLES";
-	$result=mysql_query($sql);
+	$result=$mysqli->query($sql);
 	
 	$arr_tabele=array();
 	
-	while($row=mysql_fetch_array($result))
+	while($row=$result->fetch_array())
 	{		
 		$sql_check="CHECK TABLE ".$row[0];
-		$result_check=mysql_query($sql_check);
-		$row_check=mysql_fetch_array($result_check);
+		$result_check=$mysqli->query($sql_check);
+		$row_check=$result_check->fetch_array();
 		
 		$arr_tabele[]=array("nume_tabel"=>$row[0],
 							"op"=>$row_check["Op"],
@@ -131,6 +131,7 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("tabele", $arr_tabele);
 

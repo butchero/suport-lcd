@@ -22,6 +22,7 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("mesaj", $mesaj);
 
 	require_once("right.php");

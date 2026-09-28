@@ -37,7 +37,7 @@
 		<div class="catalog-border"></div>
 		{/if}
 	{sectionelse}
-		<p>Momentan nu sunt produse in aceasta categorie.</p>	
+		<p>{if $cautare_string|default:"" neq ""}Nu am gasit produse pentru "<b>{$cautare_string|escape}</b>".{else}Momentan nu sunt produse in aceasta categorie.{/if}</p>	
 	{/section}
 	
 	{if $produse neq ""}

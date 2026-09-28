@@ -34,7 +34,7 @@
 	if(isset($_GET["string"]) && empty($_POST)) 
 		$_SESSION["link_inapoi"]=$_SERVER["HTTP_REFERER"];
 	
-	if(is_numeric($_GET["id_produs"]))
+	if(isset($_GET["id_produs"]) && is_numeric($_GET["id_produs"]))
 	{
 		$arr_produs=arrayFromDB(array("id_cat"), "t_produse", "WHERE id_produs='".$_GET["id_produs"]."'");
 		$id_cat=$arr_produs[0]["id_cat"];
@@ -84,6 +84,8 @@
 		$pret_vechi=$arr_produs[0]["pret_vechi"];
 		$furnizor=$arr_produs[0]["furnizor"];
 		$cod_produs=trim($arr_produs[0]["cod_produs"]);
+		$warranty_months=(int)$arr_produs[0]["warranty_months"];
+		$garan_eligible=((int)$arr_produs[0]["garan_eligible"]==1)?1:0;
 		
 		$arr_valori_posibile=explode(";", $arr_produs[0]["caracteristici"]);
 		$nr_valori_posibile=count($arr_valori_posibile)-1;
@@ -101,7 +103,7 @@
 		$pret_check=array("valid"=>1, "camp"=>$pret, "eroare"=>"");
 						  
 		(!empty($pret_vechi))?$pret_vechi_check=array("valid"=>1, "camp"=>$pret_vechi, "eroare"=>""):"";
-		(!empty($cod_produs))?$cod_produs_check=array("valid"=>1, "camp"=>$cod_produs, "eroare"=>""):"";
+		$cod_produs_check=(!empty($cod_produs))?array("valid"=>1, "camp"=>$cod_produs, "eroare"=>""):array("valid"=>1, "camp"=>"", "eroare"=>"");
 
 		//@galerie produs
 		$poza_principala=str_replace("/mari/", "/medii/", getPozaPrincipalaMareProdus($id_produs));
@@ -114,11 +116,11 @@
 		$nr_poze_sec=count($poze_sec_medii);
 	}
 	//@adaugare sau modificare daca se face submit la form
-	else 
+	elseif(!empty($_POST))
 	{
 		if(isset($_POST["modifica_produs"]))
 		{
-			$id_produs=$_GET["id_produs"];
+			$id_produs=isset($_GET["id_produs"]) ? $_GET["id_produs"] : "";
 			
 			//@galerie produs
 			$poza_principala=str_replace("/mari/", "/medii/", getPozaPrincipalaMareProdus($id_produs));
@@ -131,17 +133,39 @@
 			$nr_poze_sec=count($poze_sec_medii);
 		}
 		
-		$nume_produs=htmlspecialchars(trim(prepareStringFromDB($_POST["nume_produs"])));
-		$producator_selectat=$_POST["producator"];
-		$furnizor=$_POST["furnizor"];
-		$cod_produs=trim($_POST["cod_produs"]);
-		$pret=str_replace(",", ".", trim($_POST["pret"]));
-		$pret_vechi=str_replace(",", ".", trim($_POST["pret_vechi"]));
-		$filtre_selectate=$_POST["filtre"];
-		$stoc_selectat=$_POST["stoc"];
-		$descriere_produs=inverse_nl2br(prepareStringFromDB($_POST["descriere_produs"]));
-		$oferta_speciala=$_POST["oferta_speciala"];
-		$watermark=($_POST["watermark"]==1)?true:false;
+		$nume_produs=htmlspecialchars(trim(prepareStringFromDB(isset($_POST["nume_produs"]) ? $_POST["nume_produs"] : "")));
+		$producator_selectat=isset($_POST["producator"]) ? $_POST["producator"] : "";
+		$furnizor=isset($_POST["furnizor"]) ? $_POST["furnizor"] : "";
+		$cod_produs=trim(isset($_POST["cod_produs"]) ? $_POST["cod_produs"] : "");
+		$warranty_months=trim(isset($_POST["warranty_months"]) ? $_POST["warranty_months"] : "24");
+		$garan_eligible=(isset($_POST["garan_eligible"]) && $_POST["garan_eligible"]=="1")?1:0;
+		$pret=str_replace(",", ".", trim(isset($_POST["pret"]) ? $_POST["pret"] : ""));
+		$pret_vechi=str_replace(",", ".", trim(isset($_POST["pret_vechi"]) ? $_POST["pret_vechi"] : ""));
+		$filtre_selectate=isset($_POST["filtre"]) ? $_POST["filtre"] : array();
+		$stoc_selectat=isset($_POST["stoc"]) ? $_POST["stoc"] : "";
+		$descriere_produs=inverse_nl2br(prepareStringFromDB(isset($_POST["descriere_produs"]) ? $_POST["descriere_produs"] : ""));
+		$oferta_speciala=isset($_POST["oferta_speciala"]) ? $_POST["oferta_speciala"] : "";
+		$watermark=(isset($_POST["watermark"]) && $_POST["watermark"]==1)?true:false;
+	}
+	else
+	{
+		$id_produs="";
+		$producator_selectat="";
+		$furnizor="";
+		$filtre_selectate=array();
+		$stoc_selectat="";
+		$descriere_produs="";
+		$oferta_speciala="";
+		$warranty_months=24;
+		$garan_eligible=0;
+		$poza_principala="";
+		$poze_sec_medii=array();
+		$poze=array();
+		$nr_poze_sec=0;
+		$check_gol=array("valid"=>1, "camp"=>"", "eroare"=>"");
+		$nume_produs_check=$check_gol;
+		$pret_check=$check_gol;
+		$pret_vechi_check=$check_gol;
 	}
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
@@ -159,6 +183,9 @@
 		$pret_check=$validare->valideazaPret($pret);
 		(!empty($pret_vechi))?$pret_vechi_check=$validare->valideazaPret($pret_vechi):"";
 		(!empty($cod_produs))?$cod_produs_check=$validare->valideazaCodProdus($cod_produs):"";
+		$garantie_check=$validare->valideazaGarantie($warranty_months, $garan_eligible, $producator_selectat, $cod_produs);
+		$warranty_months_check=$garantie_check["warranty"];
+		$garan_eligible=$garantie_check["eligible"];
 
 		if($validare->getErori()==0)
 		{
@@ -167,6 +194,8 @@
 											  "id_prod",
 											  "furnizor",
 											  "cod_produs",
+											  "warranty_months",
+											  "garan_eligible",
 											  "nume_produs",
 											  "pret",
 											  "pret_vechi",
@@ -181,6 +210,8 @@
 											  $producator_selectat,
 											  $furnizor,
 											  $cod_produs,
+											  $warranty_months_check["camp"],
+											  $garan_eligible,
 											  $nume_produs,
 											  $pret,
 											  $pret_vechi,
@@ -241,7 +272,7 @@
 			$mesaj="Produsul a fost adaugat cu succes!";
 			
 			//@sterg variabilele folosite	
-			unset($producator_selectat, $nume_produs_check, $pret_check, $pret_vechi_check, $descriere_produs, $filtre_selectate, $stoc, $oferta_speciala, $watermark, $cod_produs_check, $furnizor, $stoc_selectat);	
+			unset($producator_selectat, $nume_produs_check, $pret_check, $pret_vechi_check, $descriere_produs, $filtre_selectate, $stoc, $oferta_speciala, $watermark, $cod_produs_check, $furnizor, $stoc_selectat, $warranty_months, $garan_eligible, $warranty_months_check);	
 		}
 	}
 	
@@ -257,6 +288,9 @@
 		$pret_check=$validare->valideazaPret($pret);
 		(!empty($pret_vechi))?$pret_vechi_check=$validare->valideazaPret($pret_vechi):"";
 		(!empty($cod_produs))?$cod_produs_check=$validare->valideazaCodProdus($cod_produs, $id_produs):"";
+		$garantie_check=$validare->valideazaGarantie($warranty_months, $garan_eligible, $producator_selectat, $cod_produs);
+		$warranty_months_check=$garantie_check["warranty"];
+		$garan_eligible=$garantie_check["eligible"];
 
 		if($validare->getErori()==0)
 		{
@@ -291,6 +325,8 @@
 								  "id_prod",
 								  "furnizor",
 								  "cod_produs",
+								  "warranty_months",
+								  "garan_eligible",
 								  "nume_produs",
 								  "pret",
 								  "pret_vechi",
@@ -304,6 +340,8 @@
 								  $producator_selectat,
 								  $furnizor,
 								  $cod_produs,
+								  $warranty_months_check["camp"],
+								  $garan_eligible,
 								  $nume_produs,
 								  $pret,
 								  $pret_vechi,
@@ -375,6 +413,16 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($id_produs)) $id_produs="";
+	if(!isset($poza_principala)) $poza_principala="";
+	if(!isset($poze_sec_medii) || !is_array($poze_sec_medii)) $poze_sec_medii=array();
+	if(!isset($poze) || !is_array($poze)) $poze=array();
+	if(!isset($nr_poze_sec)) $nr_poze_sec=0;
+	if(!isset($arr_fisiere_upl) || !is_array($arr_fisiere_upl)) $arr_fisiere_upl=array();
+	$check_gol=array("valid"=>1, "camp"=>"", "eroare"=>"");
+	if(!isset($nume_produs_check) || !is_array($nume_produs_check)) $nume_produs_check=$check_gol;
+	if(!isset($pret_check) || !is_array($pret_check)) $pret_check=$check_gol;
+	if(!isset($pret_vechi_check) || !is_array($pret_vechi_check)) $pret_vechi_check=$check_gol;
 	$smarty->assign("id_produs", $id_produs);
 	$smarty->assign("id_cat", $id_cat);
 	$smarty->assign("nume_cat", $nume_cat);	
@@ -386,6 +434,8 @@
 	$smarty->assign("stoc_selectat", $stoc_selectat);
 	$smarty->assign("descriere_produs", $descriere_produs);
 	$smarty->assign("oferta_speciala", $oferta_speciala);
+	if(!isset($watermark))
+		$watermark=false;
 	$smarty->assign("watermark", $watermark);
 	$smarty->assign("poza_principala", $poza_principala);
 	$smarty->assign("poze_sec_medii", $poze_sec_medii);
@@ -399,11 +449,25 @@
 	$smarty->assign("nume_produs_check", $nume_produs_check);
 	$smarty->assign("pret_check", $pret_check);
 	$smarty->assign("pret_vechi_check", $pret_vechi_check);
+	if(!isset($cod_produs_check) || !is_array($cod_produs_check))
+		$cod_produs_check=array("valid"=>1, "camp"=>"", "eroare"=>"");
 	$smarty->assign("cod_produs_check", $cod_produs_check);
+	if(!isset($warranty_months) || $warranty_months==="")
+		$warranty_months=24;
+	if(!isset($garan_eligible))
+		$garan_eligible=0;
+	if(!isset($warranty_months_check) || !is_array($warranty_months_check))
+		$warranty_months_check=array("valid"=>1, "camp"=>$warranty_months, "eroare"=>"");
+	$poate_descarca_garan=($id_produs!="" && (int)$garan_eligible==1 && (int)$warranty_months_check["camp"]>24 && isset($producator_selectat) && is_numeric($producator_selectat) && (int)$producator_selectat>0 && trim($cod_produs_check["camp"])!="");
+	$smarty->assign("warranty_months_check", $warranty_months_check);
+	$smarty->assign("garan_eligible", $garan_eligible);
+	$smarty->assign("poate_descarca_garan", $poate_descarca_garan?1:0);
 	$smarty->assign("form_submit", $form_submit);
 	
-	$smarty->assign("string", $_GET["string"]);
+	$smarty->assign("string", isset($_GET["string"]) ? $_GET["string"] : "");
 	
+	if(!isset($mesaj))
+		$mesaj="";
 	$smarty->assign("mesaj", $mesaj);
 	
 	require_once("right.php");

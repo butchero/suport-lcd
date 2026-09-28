@@ -36,12 +36,14 @@
 	$producator=$arr_cat_de_editat[0]["producator"];
 	$discount=$arr_cat_de_editat[0]["discount"];
 	
-	$_POST["nume_cat"]=trim($_POST["nume_cat"]);
-	$_POST["link_cat"]=trim($_POST["link_cat"]);
+	if(isset($_POST["nume_cat"]))
+		$_POST["nume_cat"]=trim($_POST["nume_cat"]);
+	if(isset($_POST["link_cat"]))
+		$_POST["link_cat"]=trim($_POST["link_cat"]);
 		
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@actiune stergere poza categorie
-	if($_GET["actiune"]=="sterge_poza")
+	if(isset($_GET["actiune"]) && $_GET["actiune"]=="sterge_poza")
 	{	
 		@unlink(URL_BASE_ABS."poze_categorii/".$id_cat.".jpg");
 		@unlink(URL_BASE_ABS."poze_categorii/mici/".$id_cat.".jpg");
@@ -137,6 +139,8 @@
 	
 	if(file_exists(URL_BASE_ABS."poze_categorii/".$id_cat.".jpg"))
 		$poza_cat=URL_BASE."poze_categorii/".$id_cat.".jpg";
+	else
+		$poza_cat="";
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
@@ -154,7 +158,7 @@
 	$smarty->assign("id_parinte", $arr_cat_de_editat[0]["id_parinte"]);
 	$smarty->assign("activ", $arr_cat_de_editat[0]["activ"]);
 	$smarty->assign("poza_cat", $poza_cat);
-	$smarty->assign("mesaj", ($_GET["cat_modificata"]=="true")?"Categoria a fost modificata!":"");
+	$smarty->assign("mesaj", (isset($_GET["cat_modificata"]) && $_GET["cat_modificata"]=="true")?"Categoria a fost modificata!":"");
 	
 	//@timestamp pt poze sa nu le ia din cache
 	$smarty->assign("timestamp", time());

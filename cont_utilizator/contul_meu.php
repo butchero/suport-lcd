@@ -27,6 +27,9 @@
 	//@fisiere download
 	$arr_foldere=citesteDir(URL_BASE_ABS."fisiere");
 	
+	$foldere=array();
+
+	if(is_array($arr_foldere))
 	foreach($arr_foldere as $key=>$value)
 	{
 		$arr_fisiere=citesteDir(URL_BASE_ABS."fisiere/".$value);
@@ -41,7 +44,7 @@
 	$smarty->assign("foldere", $foldere);
 	
 	//@dupa logare link la pagina precedenta, pe care era utilizatorul
-	$smarty->assign("pagina_precedenta", $_SESSION["pagina_precedenta"]); // $_SESSION["pagina_precedenta"] e definita in bottom.php
+	$smarty->assign("pagina_precedenta", isset($_SESSION["pagina_precedenta"]) ? $_SESSION["pagina_precedenta"] : "");
 	
 	require_once("../right.php");
 	require_once("../bottom.php");

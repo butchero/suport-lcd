@@ -22,7 +22,7 @@
 	{
 		var $id_produs;
 		
-		function produsRating($id_produs)
+		function __construct($id_produs)
 		{
 			$this->id_produs=$id_produs;			
 		} 

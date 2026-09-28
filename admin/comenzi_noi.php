@@ -23,10 +23,10 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@mesaj anulare comanda
-	if($_GET["comanda_anulata"]=="true" && is_numeric($_GET["id_comanda"]))
+	if(isset($_GET["comanda_anulata"]) && $_GET["comanda_anulata"]=="true" && isset($_GET["id_comanda"]) && is_numeric($_GET["id_comanda"]))
 		$mesaj="Comanda cu ID-ul ".$_GET["id_comanda"]." a fost anulata!";
 		
-	if($_GET["comanda_asteptare"]=="true" && is_numeric($_GET["id_comanda"]))
+	if(isset($_GET["comanda_asteptare"]) && $_GET["comanda_asteptare"]=="true" && isset($_GET["id_comanda"]) && is_numeric($_GET["id_comanda"]))
 		$mesaj="Comanda cu ID-ul ".$_GET["id_comanda"]." a fost pusa in asteptare!";	
 		
 	if(isset($_SESSION["mesaj"]) && !empty($_SESSION["mesaj"]))
@@ -285,6 +285,11 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@filtrare comenzi noi
+	if(!isset($sql_where))
+		$sql_where="";
+	if(!isset($link_sufix))
+		$link_sufix="";
+
 	if(isset($_REQUEST["stare"]) && $_REQUEST["stare"]=="asteptare")
 	{
 		$sql_where.=" AND stare='4'";
@@ -428,10 +433,20 @@
 	//ASIGNARE VARIABILE PHP->SMARTY
 		
 	//@afisare erori/mesaje
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($nume)) $nume="";
+	if(!isset($prenume)) $prenume="";
+	if(!isset($societate)) $societate="";
+	if(!isset($user_client)) $user_client="";
+	if(!isset($tip_factura)) $tip_factura="";
+	if(!isset($judet)) $judet="";
+	if(!isset($comenzi) || !is_array($comenzi)) $comenzi=array();
+	if(!isset($arr_comenzi_cu_transport[0])) $arr_comenzi_cu_transport=array(array("nr_comenzi"=>0));
+	if(!isset($arr_comenzi_fara_transport[0])) $arr_comenzi_fara_transport=array(array("nr_comenzi"=>0));
 	$smarty->assign("mesaj", $mesaj);
 
 	//@status
-	$smarty->assign("status", $_REQUEST["stare"]);
+	$smarty->assign("status", isset($_REQUEST["stare"]) ? $_REQUEST["stare"] : "");
 	
 	//@nume cautare
 	$smarty->assign("nume", $nume);
@@ -480,7 +495,7 @@
 	$smarty->assign("paginare", $paginare_string);
 	
 	//@pagina
-	$smarty->assign("pag", $_GET["pag"]);
+	$smarty->assign("pag", isset($_GET["pag"]) ? $_GET["pag"] : 1);
 	
 	require_once("right.php");
 	require_once("bottom.php");

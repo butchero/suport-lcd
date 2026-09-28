@@ -19,7 +19,7 @@
 		var $mesaj=array();
 		
 		//@constructorul clasei
-		function gestioneazaFiltre($id_cat="")		
+		function __construct($id_cat="")		
 		{
 			$this->id_cat=$id_cat;
 		}
@@ -177,7 +177,9 @@
 		
 		//@sterge un filtru complet	
 		function stergeFiltru($id_filtru)
-		{					
+		{
+			global $mysqli;
+
 			$arr_filtre=arrayFromDB("*", "t_filtre", "WHERE id_cat='".$this->id_cat."' ORDER BY id_filtru ASC");	
 			$nr_filtre=count($arr_filtre);
 				
@@ -189,7 +191,7 @@
 								 array("caracteristici"), array(""),
 								 array("id"=>"id_cat", "valoare"=>$this->id_cat));
 								 
-				$nr_produse_de_modificat=mysql_affected_rows();				 
+				$nr_produse_de_modificat=$mysqli->affected_rows;				 
 			}
 			else
 			{
@@ -273,12 +275,12 @@
 		{
 			$arr_filtre=arrayFromDB("*", "t_filtre", "WHERE id_cat='".$this->id_cat."' ORDER BY id_filtru ASC");
 			$nr_filtre=count($arr_filtre);
+			$filtre=array();
 			
 			for($i=0;$i<$nr_filtre;$i++)
 			{
-				unset($arr_valori_posibile, $valori_posibile, $nr_valori_posibile);
-				
 				$arr_valori_posibile=explode(";", $arr_filtre[$i]["valori_posibile"]);
+				$valori_posibile=array();
 				$nr_valori_posibile=count($arr_valori_posibile)-1;
 				
 				for($j=1;$j<$nr_valori_posibile;$j++) //incep de la '1' pana la 'count($arr)-1' pt ca prima si ultima valoare delimitata de ';' sunt nule

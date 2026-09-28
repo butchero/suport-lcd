@@ -47,6 +47,7 @@
 							 		  "WHERE t_produse.tip='1' AND t_categorii.activ='1' ORDER BY id_produs DESC LIMIT 0, ".AFISARI_OFERTE_SPECIALE);		
 	
 	$nr_produse=count($arr_produse_speciale);
+	$arr_produse_speciale_detalii=array();
 	
 	//-----------------------------------------------------------------------------------------------------------------------------
 	//LOOP PRODUSE AFLATE LA OFERTA SPECIALA
@@ -70,11 +71,11 @@
 		//@array asociativ cu toate detaliile produsului
 		$arr_produse_speciale_detalii[$i]=array("id_produs"=>$arr_produse_speciale[$i]["id_produs"],										   
 									   			"nume_produs"=>stringLimit($arr_produse_speciale[$i]["nume_produs"], 80),
-									   			"nume_producator"=>$toti_producatorii[$arr_produse_speciale[$i]["id_prod"]],
+									   			"nume_producator"=>(isset($toti_producatorii[$arr_produse_speciale[$i]["id_prod"]]) ? $toti_producatorii[$arr_produse_speciale[$i]["id_prod"]] : ""),
 											    "adresa_poza_produs"=>$adresa_poza,
 											    "adresa_poza_producator"=>$adresa_poza_producator,
-											    "stoc"=>ucfirst($arr_stoc[$arr_produse_speciale[$i]["stoc"]-1]["stoc"]),
-										  	    "stoc_poza"=>$arr_stoc[$arr_produse_speciale[$i]["stoc"]-1]["poza"],
+											    "stoc"=>ucfirst(isset($arr_stoc[$arr_produse_speciale[$i]["stoc"]-1]["stoc"]) ? $arr_stoc[$arr_produse_speciale[$i]["stoc"]-1]["stoc"] : ""),
+										  	    "stoc_poza"=>(isset($arr_stoc[$arr_produse_speciale[$i]["stoc"]-1]["poza"]) ? $arr_stoc[$arr_produse_speciale[$i]["stoc"]-1]["poza"] : ""),
 											    "pret_produs"=>formateazaNr($arr_produse_speciale[$i]["pret"]*TVA),
 											    "pret_vechi"=>(!empty($arr_produse_speciale[$i]["pret_vechi"]) && $arr_produse_speciale[$i]["pret_vechi"]!=0)?formateazaNr($arr_produse_speciale[$i]["pret_vechi"]*TVA):"",
 											    "reducere"=>calculeazaReducere($arr_produse_speciale[$i]["pret_vechi"]*TVA, $arr_produse_speciale[$i]["pret"]*TVA),
@@ -92,6 +93,7 @@
 							 "WHERE t_produse.tip='0' AND t_categorii.activ='1' ORDER BY id_produs DESC LIMIT 0, ".AFISARI_ULTIMELE_PRODUSE_ADAUGATE);		
 	
 	$nr_produse=count($arr_produse);
+	$arr_produse_detalii=array();
 	
 	//------------------------------------------------------------------------------------------------------------------------------
 	//LOOP PRIN ULTIMELE PRODUSE ADAUGATE
@@ -115,11 +117,11 @@
 		//@array asociativ cu toate detaliile produsului
 		$arr_produse_detalii[$i]=array("id_produs"=>$arr_produse[$i]["id_produs"],										   
 									   "nume_produs"=>stringLimit($arr_produse[$i]["nume_produs"], 80),
-									   "nume_producator"=>$toti_producatorii[$arr_produse[$i]["id_prod"]],
+									   "nume_producator"=>(isset($toti_producatorii[$arr_produse[$i]["id_prod"]]) ? $toti_producatorii[$arr_produse[$i]["id_prod"]] : ""),
 									   "adresa_poza_produs"=>$adresa_poza,
 									   "adresa_poza_producator"=>$adresa_poza_producator,
-									   "stoc"=>ucfirst($arr_stoc[$arr_produse[$i]["stoc"]-1]["stoc"]),
-								  	   "stoc_poza"=>$arr_stoc[$arr_produse[$i]["stoc"]-1]["poza"],
+									   "stoc"=>ucfirst(isset($arr_stoc[$arr_produse[$i]["stoc"]-1]["stoc"]) ? $arr_stoc[$arr_produse[$i]["stoc"]-1]["stoc"] : ""),
+								  	   "stoc_poza"=>(isset($arr_stoc[$arr_produse[$i]["stoc"]-1]["poza"]) ? $arr_stoc[$arr_produse[$i]["stoc"]-1]["poza"] : ""),
 									   "pret_produs"=>formateazaNr($arr_produse[$i]["pret"]*TVA),
 									   "pret_vechi"=>(!empty($arr_produse[$i]["pret_vechi"]) && $arr_produse[$i]["pret_vechi"]!=0)?formateazaNr($arr_produse[$i]["pret_vechi"]*TVA):"",
 									   "reducere"=>calculeazaReducere($arr_produse[$i]["pret_vechi"], $arr_produse[$i]["pret"]),

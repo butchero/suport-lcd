@@ -58,8 +58,8 @@
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
 	$smarty->assign("filtre", $arr_filtre);
-	$smarty->assign("nume_cat", $nume_cat);
-	$smarty->assign("mesaj", ($_GET["ordoneaza_alfabetic"]=="true")?"Ordonare alfabetica realizata cu succes!":"");
+	$smarty->assign("nume_cat", isset($nume_cat) ? $nume_cat : "");
+	$smarty->assign("mesaj", (isset($_GET["ordoneaza_alfabetic"]) && $_GET["ordoneaza_alfabetic"]=="true")?"Ordonare alfabetica realizata cu succes!":"");
 	
 	require_once("right.php");
 	require_once("bottom.php");

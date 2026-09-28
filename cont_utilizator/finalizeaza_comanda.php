@@ -20,7 +20,6 @@
 	//--------------------------------------------------------------------------------------------------------------------------
 	//template-ul care va fi folosit de smarty - variabila e folosita in bottom.php ($smarty->display($display_page))
 	$display_page="cont_utilizator/finalizeaza_comanda.tpl";
-	print $_SESSION["transport"];
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@titlu pagina
 	$titlu_pagina="Finalizeaza comanda";
@@ -29,12 +28,12 @@
 	//@date user
 	$arr_user=arrayFromDB("*",
 						  "t_useri LEFT JOIN t_judete ON t_useri.id_jud=t_judete.id_jud",
-						  "WHERE id_user='".$_SESSION["id_user"]."'");
+						  "WHERE id_user='".(isset($_SESSION["id_user"]) ? $_SESSION["id_user"] : 0)."'");
 
-	$user_adresa_livrare["adresa"]=$arr_user[0]["adresa"];
-	$user_adresa_livrare["cod_postal"]=$arr_user[0]["cod_postal"];
-	$user_adresa_livrare["localitate"]=$arr_user[0]["localitate"];
-	$user_adresa_livrare["id_jud"]=$arr_user[0]["id_jud"];
+	$user_adresa_livrare["adresa"]=isset($arr_user[0]["adresa"]) ? $arr_user[0]["adresa"] : "";
+	$user_adresa_livrare["cod_postal"]=isset($arr_user[0]["cod_postal"]) ? $arr_user[0]["cod_postal"] : "";
+	$user_adresa_livrare["localitate"]=isset($arr_user[0]["localitate"]) ? $arr_user[0]["localitate"] : "";
+	$user_adresa_livrare["id_jud"]=isset($arr_user[0]["id_jud"]) ? $arr_user[0]["id_jud"] : "";
 						   
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@toate judetele
@@ -199,14 +198,14 @@
 					if(!empty($arr_cod_produs[0]["cod_produs"]))
 					{
 						//@verific daca produsul exista in tabela de stocuri (mai intai produsul tb introdus printr-un NIR pt a exista in tabela de stocuri)
-						($db!=DB_STOCURI)?mysql_select_db(DB_STOCURI):"";
+						($db!=DB_STOCURI)?$mysqli->select_db(DB_STOCURI):"";
 						
 						$arr_stoc_produs=arrayFromDB("*", "_t_stocuri", "WHERE cod_produs='".$arr_cod_produs[0]["cod_produs"]."'");
 						
 						if(count($arr_stoc_produs)==1)
 							arrayUpdateToDB("_t_stocuri", array("cantitate_curenta"), array("cantitate_curenta-".$value["cantitate"]), array("id"=>"id", "valoare"=>$arr_stoc_produs[0]["id"]), true);
 							
-						($db!=DB_STOCURI)?mysql_select_db($db):"";	
+						($db!=DB_STOCURI)?$mysqli->select_db($db):"";	
 					}
 				}							
 			}

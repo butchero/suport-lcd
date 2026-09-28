@@ -132,14 +132,14 @@
 	else 
 	{
 		$arr_transport=arrayFromDB("*", "t_transport", "ORDER BY nume_transport ASC LIMIT 0,1");		
-		$transport_cost=$arr_transport[0]["cost"];
-		$transport_selectat=$arr_transport[0]["id_transport"];
+		$transport_cost=(isset($arr_transport[0]["cost"]) ? $arr_transport[0]["cost"] : 0);
+		$transport_selectat=(isset($arr_transport[0]["id_transport"]) ? $arr_transport[0]["id_transport"] : "");
 	}
 	
 	if($total_cos<COMANDA_MINIMA)
 	{
 		//@conditii suplimentare (daca utilizatorul a mai comandat inainte si comanda nu a fost onorate, mai poate comanda o data fara sa fie nevoie sa indeplineasca "COMANDA MINIMA"
-		$arr_comenzi_anterioare=arrayFromDB("*", "t_comenzi", "WHERE id_user='".$_SESSION["id_user"]."' AND (stare=0 OR stare=1)");
+		$arr_comenzi_anterioare=arrayFromDB("*", "t_comenzi", "WHERE id_user='".(isset($_SESSION["id_user"]) ? $_SESSION["id_user"] : 0)."' AND (stare=0 OR stare=1)");
 		
 		if(count($arr_comenzi_anterioare)>0 && $total_cos>0)
 			$total_comanda_check=COMANDA_MINIMA;
@@ -157,6 +157,8 @@
 	//ASIGNARE VARIABILE PHP->SMARTY
 	
 	//@afisare cos cumparaturi
+	if(!isset($cosul_meu) || !is_array($cosul_meu))
+		$cosul_meu=array();
 	$smarty->assign("cosul_meu", $cosul_meu);
 	
 	//@erori cos (erori legate de stoc produselor)
@@ -185,7 +187,7 @@
 	$smarty->assign("transport_cost", formateazaNr($transport_cost));
 	
 	//@comentarii comanda
-	$smarty->assign("comentarii_comanda", prepareStringFromDB($_SESSION["comentariu_comanda"]));
+	$smarty->assign("comentarii_comanda", prepareStringFromDB(isset($_SESSION["comentariu_comanda"]) ? $_SESSION["comentariu_comanda"] : ""));
 	
 	//@nu afisez cosul din right (sa nu fie confuzie intre cosul afisat pe centru si cel din right)
 	$smarty->assign("afiseaza_cos_right", 0);

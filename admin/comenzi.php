@@ -27,9 +27,10 @@
 	$display_page="admin/comenzi.tpl";	
 	
 	//@basic check	
-	if($_GET["stare"]=="onorate")
+	$stare_get=isset($_GET["stare"]) ? $_GET["stare"] : "";
+	if($stare_get=="onorate")
 		$stare=2;
-	elseif($_GET["stare"]=="anulate")
+	elseif($stare_get=="anulate")
 		$stare=3;
 	else die("Pagina cu tipul de comenzi specificate nu exista!");		
 		
@@ -139,6 +140,10 @@
 	//@paginare
 	require_once("../clase/paginare.php");
 	
+	if(!isset($sql_where))
+		$sql_where="";
+	if(!isset($link_sufix))
+		$link_sufix="";
 	$sql_where.=" AND stare='".$stare."'";
 	
 	$paginare=new paginare("pag", 
@@ -218,6 +223,17 @@
 	//ASIGNARE VARIABILE PHP->SMARTY
 		
 	//@afisare erori/mesaje
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($nume)) $nume="";
+	if(!isset($prenume)) $prenume="";
+	if(!isset($societate)) $societate="";
+	if(!isset($user_client)) $user_client="";
+	if(!isset($tip_factura)) $tip_factura="";
+	if(!isset($judet)) $judet="";
+	if(!isset($de_la)) $de_la="";
+	if(!isset($pana_la)) $pana_la="";
+	if(!isset($arr_comenzi_cu_transport[0]["nr_comenzi"])) $arr_comenzi_cu_transport=array(array("nr_comenzi"=>0));
+	if(!isset($arr_comenzi_fara_transport[0]["nr_comenzi"])) $arr_comenzi_fara_transport=array(array("nr_comenzi"=>0));
 	$smarty->assign("mesaj", $mesaj);
 
 	//@nume cautare
@@ -258,6 +274,7 @@
 	$smarty->assign("stare_comanda", $stare_comanda);
 	
 	//@afisare tranzactii (comenzi)
+	if(!isset($comenzi) || !is_array($comenzi)) $comenzi=array();
 	$smarty->assign("comenzi", $comenzi);
 	
 	//@nr rezultate - comenzi neonorate
@@ -267,7 +284,7 @@
 	$smarty->assign("paginare", $paginare_string);
 	
 	//@pagina
-	$smarty->assign("pag", $_GET["pag"]);
+	$smarty->assign("pag", isset($_GET["pag"]) ? $_GET["pag"] : 1);
 	
 	//@total_cumparaturi
 	$smarty->assign("total_cumparaturi", formateazaNr($arr_total_cumparaturi[0]["total"]));

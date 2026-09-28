@@ -56,10 +56,11 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("paginare", $paginare_string);
+	$smarty->assign("pag", isset($_GET["pag"]) ? $_GET["pag"] : 1);
 	$smarty->assign("cautari", $arr_cautari);
-	$smarty->assign("pag", $_GET["pag"]);
 	
 	require_once("right.php");
 	require_once("bottom.php");

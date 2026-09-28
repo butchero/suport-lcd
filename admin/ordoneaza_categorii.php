@@ -30,6 +30,7 @@
 	else
 	{ 
 		$id_parinte=0;
+		$nume_parinte="";
 	}
 
 	//---------------------------------------------------------------------------------------------------------------------------------
@@ -38,7 +39,7 @@
 	{
 		require_once("../functii/f_catalog.php");
 		
-		if($_GET["ordoneaza"]=="producatori") //ordonare pt producatori
+		if(isset($_GET["ordoneaza"]) && $_GET["ordoneaza"]=="producatori") //ordonare pt producatori
 			$arr_categorii_de_ordonat=getTotiProducatorii(false, "nume_cat");
 		else  						  //pt (sub)categorii
 			$arr_categorii_de_ordonat=getSubcategorii($id_parinte, false, "nume_cat"); //al 3-lea param "nume_cat" e coloana dupa care se face ordonarea
@@ -52,12 +53,12 @@
 		}
 		
 		//@pentru a actualiza ordinea si la meniu fac redirect
-		header("Location:".URL_ADMIN."ordoneaza_categorii.php?id_parinte=".$id_parinte."&ordoneaza=".$_GET["ordoneaza"]."&ordoneaza_alfabetic=true");
+		header("Location:".URL_ADMIN."ordoneaza_categorii.php?id_parinte=".$id_parinte."&ordoneaza=".(isset($_GET["ordoneaza"]) ? $_GET["ordoneaza"] : "")."&ordoneaza_alfabetic=true");
 	}
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@categorii
-	if($_GET["ordoneaza"]=="producatori")
+	if(isset($_GET["ordoneaza"]) && $_GET["ordoneaza"]=="producatori")
 	{
 		require_once("../functii/f_catalog.php");
 		$arr_categorii=getTotiProducatorii();
@@ -82,8 +83,8 @@
 	$smarty->assign("categorii", $arr_categorii);
 	$smarty->assign("id_parinte", $id_parinte);
 	$smarty->assign("nume_parinte", $nume_parinte);
-	$smarty->assign("ordoneaza", $_GET["ordoneaza"]);
-	$smarty->assign("mesaj", ($_GET["ordoneaza_alfabetic"]=="true")?"Ordonare alfabetica realizata cu succes!":"");
+	$smarty->assign("ordoneaza", isset($_GET["ordoneaza"]) ? $_GET["ordoneaza"] : "");
+	$smarty->assign("mesaj", (isset($_GET["ordoneaza_alfabetic"]) && $_GET["ordoneaza_alfabetic"]=="true")?"Ordonare alfabetica realizata cu succes!":"");
 	
 	require_once("right.php");
 	require_once("bottom.php");

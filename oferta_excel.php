@@ -14,6 +14,7 @@
 	//----------------------------------------------------------------------------------------------------------------------------
 	//@toate categoriile
 	$arr_toate_cat=arrayFromDB("*", "t_categorii", "WHERE producator='0' ORDER BY nr_ordine ASC");
+	$sql_where="";
 	
 	//----------------------------------------------------------------------------------------------------------------------------	
 	if(isset($_GET["id_disponibilitate"]) && is_numeric($_GET["id_disponibilitate"]) && !empty($_GET["id_disponibilitate"]))
@@ -45,7 +46,7 @@
 		print "<tr><td colspan='3'>".$value["indent"]." <font color='#14A214'><b>".$value["nume_cat"]."</b></font></td></tr>";
 		
 		//@selectare produse
-		$arr_produse=arrayFromDB(array("id_produs", "nume_produs", "pret", "descriere_produs"),
+		$arr_produse=arrayFromDB(array("id_produs", "nume_produs", "pret", "descriere_produs", "cod_produs"),
 								 "t_produse",
 								 "WHERE id_cat='".$value["id_cat"]."' ".$sql_where." ORDER BY nume_produs ASC");
 		$nr_linii=count($arr_produse);

@@ -86,6 +86,9 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($arr_grupuri) || !is_array($arr_grupuri)) $arr_grupuri=array();
+	if(!isset($arr_filtre) || !is_array($arr_filtre)) $arr_filtre=array();
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("id_cat", $id_cat);
 	$smarty->assign("grupuri", $arr_grupuri);

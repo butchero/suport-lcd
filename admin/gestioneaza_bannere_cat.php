@@ -128,6 +128,7 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY	
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("cat", $id_cat);
 	$smarty->assign("nume_cat_bannere", $nume_cat_bannere);

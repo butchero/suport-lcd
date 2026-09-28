@@ -74,7 +74,7 @@
 						   		LEFT JOIN t_useri ON t_comentarii.id_user=t_useri.id_user 
 						   		LEFT JOIN t_produse ON t_comentarii.id_produs=t_produse.id_produs
 						   	WHERE activ='0'", 
-						    URL_ADMIN."comentarii_noi.php?pag=".PATTERN.$link_sufix);
+						    URL_ADMIN."comentarii_noi.php?pag=".PATTERN.(isset($link_sufix) ? $link_sufix : ""));
 						     
 	$paginare_string=$paginare->doPaginare();
 	$nr_rezultate=$paginare->getNrRezultate(); 
@@ -103,6 +103,13 @@
 	//ASIGNARE VARIABILE PHP->SMARTY
 		
 	//@afisare erori/mesaje
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($id_comentariu)) $id_comentariu="";
+	if(!isset($username_comentariu)) $username_comentariu="";
+	if(!isset($comentariu)) $comentariu="";
+	if(!isset($data_adaugarii)) $data_adaugarii="";
+	if(!isset($nume_produs)) $nume_produs="";
+	if(!isset($comentarii) || !is_array($comentarii)) $comentarii=array();
 	$smarty->assign("mesaj", $mesaj);
 	
 	//@date editare comentariu

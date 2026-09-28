@@ -11,10 +11,14 @@
 	//--------------------------------------------------------------------------------------------------------------------------
 	require_once("../clase/autentificareUser.php");
 	
-	$autentificare_sesiune=new autentificareUser($_SESSION["username"], $_SESSION["parola"], true);
+	$autentificare_sesiune=new autentificareUser(
+		isset($_SESSION["username"]) ? $_SESSION["username"] : "",
+		isset($_SESSION["parola"]) ? $_SESSION["parola"] : "",
+		true
+	);
 	$autentificare_sesiune->tryAutentificare();
 	
-	if($_SESSION["admin_acces"]!=PAROLA_ADMIN_USER)
+	if(!isset($_SESSION["admin_acces"]) || $_SESSION["admin_acces"]!=PAROLA_ADMIN_USER)
 	{
 		if($autentificare_sesiune->getErori()!=0)
 		{

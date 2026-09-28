@@ -20,8 +20,10 @@
 	class cursValutar
 	{
 		//@constructor - daca cursul nu exista pt data de astazi il preia online
-		function cursValutar()
+		function __construct()
 		{		
+			global $mysqli;
+
 			if(empty($_SESSION["curs_valutar"]["usd"]) || empty($_SESSION["curs_valutar"]["euro"]))
 			{
 				if(CURS_VALUTAR_AUTOMAT)
@@ -33,8 +35,8 @@
 						//daca nu exista data curenta in BD iau cursul de pe BNR si il adaug in baza de date
 						$valuta=$this->extrageCurs('http://www.bnro.ro/Ro/Info/', '<TD class="bold">');
 						
-						$usd=str_replace(array(" ", ""), array(",", "."), $valuta["usd"]); 
-						$euro=str_replace(array(" ", ""), array(",", "."), $valuta["euro"]);
+						$usd=str_replace(array(" ", ""), array(",", "."), isset($valuta["usd"]) ? $valuta["usd"] : ""); 
+						$euro=str_replace(array(" ", ""), array(",", "."), isset($valuta["euro"]) ? $valuta["euro"] : "");
 										
 						if(!empty($usd) && !empty($euro))
 						{
@@ -43,16 +45,25 @@
 										 '".date("Ymd")."',
 									 	 '".$usd."',
 									 	 '".$euro."')";
-							mysql_query($sql_insert);
+							$mysqli->query($sql_insert);
 						}					
 					}
 				}
 				
 				$arr_ultimul_curs=arrayFromDB("*", "t_curs_bnr", "ORDER BY id_curs DESC LIMIT 0, 1");
 				
-				$_SESSION["curs_valutar"]["usd"]=str_replace(",", ".", $arr_ultimul_curs[0]["usd"]);
-				$_SESSION["curs_valutar"]["euro"]=str_replace(",", ".", $arr_ultimul_curs[0]["euro"]);
-				$_SESSION["curs_valutar"]["data_curs"]=$arr_ultimul_curs[0]["data"];
+				if(!empty($arr_ultimul_curs[0]))
+				{
+					$_SESSION["curs_valutar"]["usd"]=str_replace(",", ".", $arr_ultimul_curs[0]["usd"]);
+					$_SESSION["curs_valutar"]["euro"]=str_replace(",", ".", $arr_ultimul_curs[0]["euro"]);
+					$_SESSION["curs_valutar"]["data_curs"]=$arr_ultimul_curs[0]["data"];
+				}
+				else
+				{
+					$_SESSION["curs_valutar"]["usd"]="";
+					$_SESSION["curs_valutar"]["euro"]="";
+					$_SESSION["curs_valutar"]["data_curs"]="";
+				}
 			}				
 		}
 		
@@ -72,7 +83,7 @@
 				}
 			}
 			
-			return array("euro"=>$arr[0], "usd"=>$arr[1]);
+			return array("euro"=>(isset($arr[0]) ? $arr[0] : ""), "usd"=>(isset($arr[1]) ? $arr[1] : ""));
 		}
 		
 		//@get curs curent

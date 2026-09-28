@@ -20,7 +20,7 @@
         global $mysqli;
 
 		//@log sql pt subadmin
-		if(is_numeric($_SESSION["admin_id_user"]) && $_SESSION["admin_super_admin"]==0) {
+		if(isset($_SESSION["admin_id_user"]) && is_numeric($_SESSION["admin_id_user"]) && isset($_SESSION["admin_super_admin"]) && $_SESSION["admin_super_admin"]==0) {
             $mysqli->query("INSERT INTO t_loguri(data_log, log, id_admin) VALUES('".time()."', '".prepareStringToDB($sql)."', '".$_SESSION["admin_id_user"]."')");
         }
 	}
@@ -88,7 +88,9 @@
 			$camp_valoare=preg_replace("/.*?\..*?/", "${2}", $camp_valoare);
 		
 		//@rezultatul interogarii
-		$result=$mysqli->query($sql) or die(($debug)?"<br />Eroare SQL: ".mysql_error():"");
+		$result=$mysqli->query($sql) or die(($debug)?"<br />Eroare SQL: ".$mysqli->error:"");
+
+		$arr_combo=array();
 
 		while($row=$result->fetch_assoc())
 		{
@@ -113,6 +115,8 @@
 			die("Eroare la inserare: Numarul de campuri nu este egal cu numarul de valori !");
 			
 		//@pregatesc datele pentru insert in bd	
+		$valori_safe=array();
+
 		foreach($valori as $value)		
 			$valori_safe[]=($value=="" && $value!=0)?"null":"'".prepareStringToDB($value)."'";		
 			

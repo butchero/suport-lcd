@@ -50,6 +50,7 @@
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
 	$smarty->assign("parametri", $parametri);
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("mesaj", $mesaj);
 	
 	require_once("right.php");

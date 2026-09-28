@@ -22,6 +22,17 @@
 	//@vars
 	$sql_where=array();
 	$caracteristici_filtrari="";
+	$filtru="";
+	$link_sort="";
+	$tab="";
+	$arr_catalog=array();
+	$filtre=array();
+	$filtre_memorate=array();
+	$filtre_stergere="";
+	$filtru_producatori=array();
+	$banner_gasit="";
+	$nr_produse=0;
+	$arr_produse_detalii=array();
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@subcategoriile categoriei selectate/sau producatorii
@@ -59,7 +70,7 @@
 	//@link complet (cu filtrari, producatori, etc)
 	$link_pagina=URL_BASE.$link_cat; // $link_cat e definit in left.php
 	
-	$link_pagina.=($_GET["show"]=="toate_produsele")?"toate-produsele":"";
+	$link_pagina.=(isset($_GET["show"]) && $_GET["show"]=="toate_produsele")?"toate-produsele":"";
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@toate filtrele generale in afara de producatori
@@ -147,12 +158,12 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@filtru(sortari)
-	if(($_GET["sort"]=="asc" || $_GET["sort"]=="desc") && in_array($_GET["col"], array_flip($sort_cols))) //$sort_cols e definita in configurare.php
+	if(isset($_GET["sort"]) && ($_GET["sort"]=="asc" || $_GET["sort"]=="desc") && isset($_GET["col"]) && in_array($_GET["col"], array_flip($sort_cols))) //$sort_cols e definita in configurare.php
 	{
 		$sql_sort="ORDER BY ".$sort_cols[$_GET["col"]]." ".$_GET["sort"];
 		$link_sort="/sorteaza-".$_GET["col"]."-".$_GET["sort"];
 	}
-	elseif($_GET["tab_selectat"]=="noutati") $sql_sort="ORDER BY data_adaugarii DESC";	
+	elseif(isset($_GET["tab_selectat"]) && $_GET["tab_selectat"]=="noutati") $sql_sort="ORDER BY data_adaugarii DESC";	
 	else $sql_sort="ORDER BY id_produs DESC";
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
@@ -165,7 +176,7 @@
 
 	$paginare=new paginare("pag",
 						   "SELECT COUNT(id_produs) AS nr FROM t_produse 
-						    	WHERE ".(($_GET["show"]!="toate_produsele")?"t_produse.id_cat='".$id_cat."'":"1").
+						    	WHERE ".((!isset($_GET["show"]) || $_GET["show"]!="toate_produsele")?"t_produse.id_cat='".$id_cat."'":"1").
 				   		   		      implode(" ", $sql_where)." ".
 								      $caracteristici_filtrari,
 						    $link_pagina.$link_sort."/p".PATTERN.$filtru.$tab);
@@ -173,7 +184,7 @@
 		
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//PRODUSE
-	if((is_numeric($id_cat) && !empty($id_cat)) || $_GET["show"]=="toate_produsele")
+	if((is_numeric($id_cat) && !empty($id_cat)) || (isset($_GET["show"]) && $_GET["show"]=="toate_produsele"))
 	{			
 		//-----------------------------------------------------------------------------------------------------------------------------
 		//@stoc
@@ -183,7 +194,7 @@
 		//@loop prin produse
 		$arr_produse=arrayFromDB("*",
 								 "t_produse",
-								 "WHERE ".(($_GET["show"]!="toate_produsele")?"t_produse.id_cat='".$id_cat."'":"1").implode(" ", $sql_where)." ".$caracteristici_filtrari." ".$sql_sort.
+								 "WHERE ".((!isset($_GET["show"]) || $_GET["show"]!="toate_produsele")?"t_produse.id_cat='".$id_cat."'":"1").implode(" ", $sql_where)." ".$caracteristici_filtrari." ".$sql_sort.
 								 " LIMIT ".$paginare->getLimitStart().", ".AFISARI_PE_PAG);
 		
 		$nr_produse=count($arr_produse);
@@ -205,7 +216,7 @@
 			
 			//-------------------------------------------------------------------------------------------------------------------------
 			//@caracteristici
-			unset($caracteristici);
+			$caracteristici=array();
 			$val_carac=explode(";", $arr_produse[$i]["caracteristici"]);
 
 			for($j=0;$j<$nr_filtre;$j++)
@@ -247,7 +258,9 @@
 			
 			//-------------------------------------------------------------------------------------------------------------------------
 			//@categorii secundare asociate produsului
-			(CAT_SECUNDARE)?$arr_cat_sec=getCategoriiSecundare($arr_produse[$i]["id_produs"]):"";
+			$arr_cat_sec=(CAT_SECUNDARE)?getCategoriiSecundare($arr_produse[$i]["id_produs"]):array();
+			if(!is_array($arr_cat_sec))
+				$arr_cat_sec=array();
 											
 			//-------------------------------------------------------------------------------------------------------------------------
 			//@array asociativ cu toate detaliile produsului
@@ -255,7 +268,7 @@
 										   "nume_produs"=>$arr_produse[$i]["nume_produs"],
 										   "adresa_poza_produs"=>$adresa_poza,
 										   "adresa_poza_producator"=>$adresa_poza_producator,
-										   "stoc"=>ucfirst($arr_stoc[$arr_produse[$i]["stoc"]]),
+										   "stoc"=>ucfirst(isset($arr_stoc[$arr_produse[$i]["stoc"]]) ? $arr_stoc[$arr_produse[$i]["stoc"]] : ""),
 								  		   "id_stoc"=>$arr_produse[$i]["stoc"],
 										   "tip"=>$arr_produse[$i]["tip"],
 										   "poze_sec_mici"=>$poze_sec_mici,
@@ -267,8 +280,8 @@
 										   "popup_js"=>$popup_js,
 										   "link_produs"=>getLinkProdus($link_cat, $arr_produse[$i]["nume_produs"], $arr_produse[$i]["id_produs"]),
 										   "caracteristici"=>$caracteristici,
-										   "producator"=>$toti_producatorii[$arr_produse[$i]["id_prod"]],
-										   "link_producator"=>$toti_producatorii_links[$arr_produse[$i]["id_prod"]],
+										   "producator"=>(isset($toti_producatorii[$arr_produse[$i]["id_prod"]]) ? $toti_producatorii[$arr_produse[$i]["id_prod"]] : ""),
+										   "link_producator"=>(isset($toti_producatorii_links[$arr_produse[$i]["id_prod"]]) ? $toti_producatorii_links[$arr_produse[$i]["id_prod"]] : ""),
 										   "rating"=>array("1"=>round($rating->getRating()), "2"=>RATING_MAX-round($rating->getRating())),
 										   "nr_comentarii"=>$rating->getNrComentarii(),
 										   "cat_sec"=>$arr_cat_sec,
@@ -292,7 +305,7 @@
 	//ASIGNARE VARIABILE PHP->SMARTY
 	
 	//@banner cat
-	$smarty->assign("banner_cat", $arr_bannere_cat[$banner_gasit]);
+	$smarty->assign("banner_cat", (isset($arr_bannere_cat[$banner_gasit]) ? $arr_bannere_cat[$banner_gasit] : ""));
 	
 	//@taburi
 	$smarty->assign("link_toate_produsele", URL_BASE.$link_cat);

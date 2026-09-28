@@ -19,7 +19,7 @@
 		var $username="";
 		var $parola="";
 		
-		function autentificareUser($username, $parola, $sesiune_setata=false)		
+		function __construct($username, $parola, $sesiune_setata=false)		
 		{
 			$this->username=$username;
 			$this->parola=($sesiune_setata)?$parola:md5(trim($parola));

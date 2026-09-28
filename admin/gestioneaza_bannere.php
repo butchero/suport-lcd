@@ -116,6 +116,7 @@
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
 	$smarty->assign("bannere", $arr_bannere);
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("timestamp", time());
 	

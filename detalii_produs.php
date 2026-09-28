@@ -11,10 +11,11 @@
 	require_once("top.php");
 	require_once("left.php");	
 	require_once("functii/f_catalog.php");
+	require_once("functii/f_garan.php");
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//template-ul care va fi folosit de smarty - variabila e folosita in bottom.php ($smarty->display($display_page))
-	$display_page=($_GET["id_produs"]==$arr_chilipir[0]["id_produs"] && CHILIPIR)?"detalii_produs_chilipir.tpl":"detalii_produs.tpl";
+	$display_page=(CHILIPIR && isset($arr_chilipir[0]["id_produs"]) && $_GET["id_produs"]==$arr_chilipir[0]["id_produs"])?"detalii_produs_chilipir.tpl":"detalii_produs.tpl";
 	
 	//@security check
 	(!is_numeric($_GET["id_produs"]))?die("Produsul nu exista!"):$id_produs=$_GET["id_produs"];
@@ -58,6 +59,8 @@
 	//--------------------------------------------------------------------------------------------------------------------------
 	//CARACTERISTICI
 	$val_carac=explode(";", $arr_produs[0]["caracteristici"]);
+	$caracteristici=array();
+	$temp=array();
 	
 	$arr_filtre=arrayFromDB("*",
 						    "t_filtre AS a LEFT JOIN t_relatii_cat_filtre AS b ON a.id_filtru=b.id_filtru
@@ -97,8 +100,9 @@
 			$diagonala=$caracteristici[$j]["val_carac"];
 			continue;
 		}
+		$nume_grup_anterior=($j>0)?$caracteristici[$j-1]["nume_grup"]:"";
 		$temp[]=array("id_filtru"=>$caracteristici[$j]["id_filtru"],
-					  "nume_grup"=>($caracteristici[$j]["nume_grup"]!=$caracteristici[$j-1]["nume_grup"])?$caracteristici[$j]["nume_grup"]:"",
+					  "nume_grup"=>($caracteristici[$j]["nume_grup"]!=$nume_grup_anterior)?$caracteristici[$j]["nume_grup"]:"",
 					  "nume_carac"=>$caracteristici[$j]["nume_carac"],
 					  "val_carac"=>$caracteristici[$j]["val_carac"]);					
 	}
@@ -115,12 +119,24 @@
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@link produs
 	$link_produs=getLinkProdus($link_cat, $nume_produs, $id_produs);
+
+	$cale_ceruta=parse_url($_SERVER["REQUEST_URI"], PHP_URL_PATH);
+	$cale_canonica=parse_url($link_produs, PHP_URL_PATH);
+	if($cale_ceruta && $cale_canonica && rtrim(rawurldecode($cale_ceruta), "/")!==rtrim($cale_canonica, "/") && preg_match("#-prod".intval($id_produs)."/?$#i", $cale_ceruta))
+	{
+		header("HTTP/1.1 301 Moved Permanently");
+		header("Location: ".$link_produs);
+		exit;
+	}
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@producator
-	$arr_producator=arrayFromDB(array("id_cat", "nume_cat", "link_cat"), "t_categorii", "WHERE id_cat='".$id_producator."'");
-	$nume_producator=$arr_producator[0]["nume_cat"];
-	$link_producator=URL_BASE.$arr_producator[0]["link_cat"];
+	$arr_producator=($id_producator>0)?arrayFromDB(array("id_cat", "nume_cat", "link_cat"), "t_categorii", "WHERE id_cat='".$id_producator."'"):array();
+	$nume_producator=(count($arr_producator)>0)?$arr_producator[0]["nume_cat"]:"";
+	$link_producator=(count($arr_producator)>0)?URL_BASE.$arr_producator[0]["link_cat"]:"";
+	$date_garan=garanPentruProdus($id_produs);
+	if($nume_producator==="" && $date_garan!==null)
+		$nume_producator=$date_garan["brand"];
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@poza producator
@@ -164,11 +180,19 @@
 							  "caracteristici"=>$caracteristici,
 							  "descriere_produs"=>nl2br(prepareStringFromDB($arr_produs[0]["descriere_produs"])),
 							  "producator"=>$nume_producator,
+							  "cod_produs"=>trim($arr_produs[0]["cod_produs"]),
+							  "warranty_months"=>(int)$arr_produs[0]["warranty_months"],
+							  "garan_eligible"=>((int)$arr_produs[0]["garan_eligible"]==1)?1:0,
+							  "garantie"=>formateazaGarantie($arr_produs[0]["warranty_months"]),
+							  "afiseaza_garan"=>(((int)$arr_produs[0]["garan_eligible"]==1 && (int)$arr_produs[0]["warranty_months"]>24 && trim($nume_producator)!="" && ($date_garan!==null || trim($arr_produs[0]["cod_produs"])!=""))?1:0),
+							  "link_garan_nested"=>URL_BASE."garan_label.php?id_produs=".$id_produs."&varianta=nested",
+							  "link_garan_complet"=>URL_BASE."garan_label.php?id_produs=".$id_produs."&varianta=complet",
+							  "link_certificat_garantie"=>URL_BASE."certificat/",
 							  "poza_producator"=>$poza_producator,
 							  "rating"=>array("1"=>round($rating->getRating()), "2"=>RATING_MAX-round($rating->getRating())),
 							  "nr_comentarii"=>$nr_comentarii,
-							  "cat_sec"=>$arr_cat_sec,
-							  "nr_cat_sec"=>count($arr_cat_sec));
+							  "cat_sec"=>(isset($arr_cat_sec) && is_array($arr_cat_sec) ? $arr_cat_sec : array()),
+							  "nr_cat_sec"=>(isset($arr_cat_sec) && is_array($arr_cat_sec) ? count($arr_cat_sec) : 0));
 	/*
 	$arr_radacina[]=array("nume_radacina"=>stringLimit($nume_produs, 35, ".."),
 						  "link_radacina"=>$link_produs);*/							    	
@@ -189,7 +213,7 @@
 		//@loop prin toate produsele categoriei
 		foreach($arr_produse_nav as $k=>$v)
 		{
-			$arr_produse_nav_temp[$v["id_produs"]]=$v["nume_produse"];
+			$arr_produse_nav_temp[$v["id_produs"]]=$v["nume_produs"];
 			
 			//@identific pozitia pe care se afla produsul
 			if($v["id_produs"]==$id_produs)
@@ -256,6 +280,23 @@
 	//@telefon comenzi
 	$smarty->assign("TELEFON_COMENZI", TELEFON_COMENZI); //definita in top	
 	
+	$arr_alte_produse_detalii = isset($arr_alte_produse_detalii) ? $arr_alte_produse_detalii : array();
+	$arr_comentarii = isset($arr_comentarii) ? $arr_comentarii : array();
+	$paginare_string_comentarii = isset($paginare_string_comentarii) ? $paginare_string_comentarii : "";
+	$arr_rating = isset($arr_rating) ? $arr_rating : array();
+	$nr_user_comentarii = isset($nr_user_comentarii) ? $nr_user_comentarii : 0;
+	$insert_ok = isset($insert_ok) ? $insert_ok : "";
+	$check_gol = array("valid"=>"", "camp"=>"", "eroare"=>"");
+	$email_check = isset($email_check) ? $email_check : $check_gol;
+	$pretul_dorit_check = isset($pretul_dorit_check) ? $pretul_dorit_check : $check_gol;
+	$cod_verificare_check = isset($cod_verificare_check) ? $cod_verificare_check : $check_gol;
+	$alerta_check = isset($alerta_check) ? $alerta_check : $check_gol;
+	$arr_navigare_inapoi = isset($arr_navigare_inapoi) ? $arr_navigare_inapoi : array();
+	$arr_navigare_inainte = isset($arr_navigare_inainte) ? $arr_navigare_inainte : array();
+	$poza_mic_produs_curent = isset($poza_mic_produs_curent) ? $poza_mic_produs_curent : "";
+	$diagonala = isset($diagonala) ? $diagonala : "";
+	$tab_selectat = isset($tab_selectat) ? $tab_selectat : "";
+
 	//@afisare produs
 	$smarty->assign("produs", $arr_produs_detalii);
 	

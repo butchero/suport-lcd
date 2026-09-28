@@ -29,7 +29,7 @@
 	class Cos 
 	{
 		//@constructor
-		function Cos()
+		function __construct()
 		{
 			if(!isset($_SESSION["cos_cumparaturi"]))
 				$_SESSION["cos_cumparaturi"]=array();			
@@ -118,6 +118,8 @@
 		//@extrag toate produsele din cos si le pun intr-un array asociativ
 		function getProduseCos()
 		{			
+			$ids=array();
+
 			foreach($_SESSION["cos_cumparaturi"] as $key=>$value)
 				$ids[]=$key;
 			

@@ -31,9 +31,9 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@mesaj confirmare stergere dupa executarea fisierului sterge_utilizator.php
-	if($_GET["user_sters"]=="true")
+	if(isset($_GET["user_sters"]) && $_GET["user_sters"]=="true")
 		$mesaj="Utilizatorul a fost sters cu succes!";
-	elseif($_GET["user_sters"]=="false")
+	elseif(isset($_GET["user_sters"]) && $_GET["user_sters"]=="false")
 		$mesaj="Utilizatorul nu a putut fi sters!";
 		
 	unset($_GET["user_sters"]);	
@@ -65,6 +65,13 @@
 	//@paginare
 	require_once("../clase/paginare.php");
 		
+	if(!isset($sql_where)) $sql_where="";
+	if(!isset($link_sufix)) $link_sufix="";
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($nume)) $nume="";
+	if(!isset($prenume)) $prenume="";
+	if(!isset($utilizator)) $utilizator="";
+	if(!isset($useri) || !is_array($useri)) $useri=array();
 	$paginare=new paginare("pag", 
 						   "SELECT COUNT(id_user) AS nr FROM t_useri WHERE 1 ".$sql_where, 
 						    URL_ADMIN."utilizatori.php?pag=".PATTERN.$link_sufix); 
@@ -98,13 +105,13 @@
 	$smarty->assign("mesaj", $mesaj);
 	
 	//@judet selectat
-	$smarty->assign("judet_selectat", $_REQUEST["judet"]);
+	$smarty->assign("judet_selectat", isset($_REQUEST["judet"]) ? $_REQUEST["judet"] : "");
 	
 	//@judete
 	$smarty->assign("judete", $arr_judete);
 	
 	//@flag
-	$smarty->assign("flag", $_REQUEST["flag"]);
+	$smarty->assign("flag", isset($_REQUEST["flag"]) ? $_REQUEST["flag"] : "");
 
 	//@nume cautare
 	$smarty->assign("nume", $nume);

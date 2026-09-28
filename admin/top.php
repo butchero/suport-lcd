@@ -145,7 +145,7 @@
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@admin/subadmin
-	$smarty->assign("super_admin", $_SESSION["admin_super_admin"]);
+	$smarty->assign("super_admin", isset($_SESSION["admin_super_admin"]) ? $_SESSION["admin_super_admin"] : 0);
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@diversi parametri :P

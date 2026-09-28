@@ -10,6 +10,8 @@
 	*/
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@restul filtrelor
+	if(!isset($link_pagina))
+		$link_pagina="";
 	$link_pagina=strtolower($link_pagina);
 	
 	//--------------------------------------------------------------------------------------------------------------------------
@@ -35,6 +37,7 @@
 		$bucati=explode(";", $arr);
 		$j=0;
 		$nr_bucati=count($bucati);
+		$arr_temp=array();
 		
 		for($i=0;$i<$nr_bucati;$i++)
 		{
@@ -43,7 +46,7 @@
 				if($doLinks)
 				{					
 					//replace la filtru curent fid cu alta valoare
-					$link_replace_filtru=preg_replace("/fid".$id_filtru.",.*?-vid[0-9]+/", "fid".$id_filtru.",".prepareLinkFiltre($bucati[$i])."-vid${2}".$j, $link_filtru);
+					$link_replace_filtru=preg_replace("/fid".$id_filtru.",.*?-vid[0-9]+/", "fid".$id_filtru.",".prepareLinkFiltre($bucati[$i])."-vid".$j, $link_filtru);
 					
 					//daca nu se face nici un replace inseamna ca fid selectat e nou si se concateneaza filtrul
 					if(strpos($link_filtru,"fid".$id_filtru)===false && $link_replace_filtru==$link_filtru)
@@ -110,7 +113,7 @@
 								  											$arr_filtre[$i]["nume_filtru"]));
 			}
 								  																				  														
-			if(!is_array($arr_id_filtre))
+			if(!isset($arr_id_filtre) || !is_array($arr_id_filtre))
 				continue;
 				
 			if(in_array($arr_filtre[$i]["id_filtru"], $arr_id_filtre))	

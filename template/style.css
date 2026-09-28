@@ -26,6 +26,10 @@ h1						{ font-size:12px; }
 a.menu_left:hover, a.submenu_left:hover { color:#fe2d01; } 
 .item_selectat 			{ color:#fe2d01; } 
 #left					{ width:240px;padding:10px;float:left; }
+#f_cautare				{ margin:0 0 14px 12px; }
+#f_cautare label		{ display:block;margin:0 0 10px 0; }
+#f_cautare .cauta-camp	{ width:138px;height:24px;border:1px solid #dadada;padding:0 6px;font-size:12px;vertical-align:middle; }
+#f_cautare .cauta-buton	{ height:26px;margin-left:10px;padding:0 12px;background:#fe2d01;color:#fff;border:0;cursor:pointer;font-weight:bold;font-size:12px;font-family:arial, sans-serif;vertical-align:middle; }
 #left ul				{ list-style-type:none;padding:0 0 5px 12px;margin:0px; }
 #left ul li ul			{ list-style-type:none;padding:0 0 5px 20px;margin:0px; }
 #right					{ width:680px;float:left;padding-left:20px;border-left:1px solid #dadada; }

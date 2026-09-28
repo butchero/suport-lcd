@@ -48,6 +48,7 @@
 	
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY	
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("paginare", $paginare_string);
 	$smarty->assign("arr_abonati", $arr_abonati);

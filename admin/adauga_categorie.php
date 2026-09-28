@@ -79,16 +79,23 @@
 				adaugaPozaCategorieNoResize("poza_cat_thumb", "poza_cat_medium", $id_inserat);
 			}
 							 
-			header("Location:".URL_ADMIN."adauga_categorie.php?".(($_GET["adauga"]=="producator")?"adauga=producator&":"")."cat_adaugata=true&cat=".$id_parinte);						 						  			
+			header("Location:".URL_ADMIN."adauga_categorie.php?".((isset($_GET["adauga"]) && $_GET["adauga"]=="producator")?"adauga=producator&":"")."cat_adaugata=true&cat=".$id_parinte);						 						  			
 		}
 	}
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
-	$smarty->assign("adauga", $_GET["adauga"]);
+	$adauga=isset($_GET["adauga"]) ? $_GET["adauga"] : "";
+	$check_gol=array("valid"=>"", "camp"=>"", "eroare"=>"");
+	if(!isset($categorie_check)) $categorie_check=$check_gol;
+	if(!isset($descriere_check)) $descriere_check=$check_gol;
+	if(!isset($discount_check)) $discount_check=$check_gol;
+	if(!isset($limite_preturi_check)) $limite_preturi_check=$check_gol;
+	if(!isset($link_check)) $link_check=$check_gol;
+	$smarty->assign("adauga", $adauga);
 	$smarty->assign("form_submit", $form_submit);
-	$smarty->assign("url_form", URL_ADMIN."adauga_categorie.php?cat=".$id_parinte."&adauga=".$_GET["adauga"]);
-	$smarty->assign("nume_parinte", $arr_parinte[0]["nume_cat"]);
+	$smarty->assign("url_form", URL_ADMIN."adauga_categorie.php?cat=".$id_parinte."&adauga=".$adauga);
+	$smarty->assign("nume_parinte", isset($arr_parinte[0]["nume_cat"]) ? $arr_parinte[0]["nume_cat"] : "");
 	$smarty->assign("categorie_check", $categorie_check);
 	$smarty->assign("descriere_check", $descriere_check);		
 	$smarty->assign("discount_check", $discount_check);
@@ -96,7 +103,7 @@
 	$smarty->assign("link_check", $link_check);
 	
 	
-	$smarty->assign("mesaj", ($_GET["cat_adaugata"]=="true")?"Categoria a fost adaugata !":"");
+	$smarty->assign("mesaj", (isset($_GET["cat_adaugata"]) && $_GET["cat_adaugata"]=="true")?"Categoria a fost adaugata !":"");
 	
 	require_once("right.php");
 	require_once("bottom.php");

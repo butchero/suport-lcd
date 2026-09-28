@@ -1098,7 +1098,7 @@ class PiePlotC extends PiePlot {
 	$this->csimareas .= " alt=\"$tmp\" />\n";
     }
 
-    function StrokeLabel($label,$img,$xc,$yc,$a,$r) {
+    function StrokeLabel($label,&$img,$xc,$yc,$a,$r) {
 
 	if( $this->ilabelposadj === 'auto' )
 	    $this->ilabelposadj = (1-$this->imidsize)/2+$this->imidsize;
@@ -1130,7 +1130,7 @@ class PieGraph extends Graph {
 
 //---------------
 // PUBLIC METHODS	
-    function Add($aObj) {
+    function Add(&$aObj) {
 
 	if( is_array($aObj) && count($aObj) > 0 )
 	    $cl = $aObj[0];

@@ -30,8 +30,8 @@
 		
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
-	$smarty->assign("an_selectat", $_POST["an"]);
-	$smarty->assign("luna_selectata", $_POST["luna"]);
+	$smarty->assign("an_selectat", isset($_POST["an"]) ? $_POST["an"] : "");
+	$smarty->assign("luna_selectata", isset($_POST["luna"]) ? $_POST["luna"] : "");
 	$smarty->assign("luni", $luni);
 	
 	require_once("right.php");

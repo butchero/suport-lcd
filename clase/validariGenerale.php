@@ -25,13 +25,13 @@
 		
 		function verificaEmail($email="")
 		{
-			if(@ereg("^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$", $email))
+			if(preg_match("/^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)+$/", $email))
 				return true;
 			else return false;	
 		}
 		
 		//@validare e-mail
-		function valideazaEmail($email)
+		function valideazaEmail($email, $email_verificare = null)
 		{
 			if(!$this->verificaEmail($email))
 			{

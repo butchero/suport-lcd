@@ -13,11 +13,11 @@
 	
 	class smarty_connect extends Smarty 
 	{
-	   function smarty_connect()
+	   function __construct()
 	   {
 			global $template;
 			
-	   		$this->Smarty();
+	   		parent::__construct();
 	
 			$this->template_dir=URL_BASE_ABS."/".$template;
 			$this->config_dir=URL_BASE_ABS."/smarty/config";
@@ -87,5 +87,5 @@
 	//@link admin
 	$smarty->assign("LINK_ADMIN", URL_ADMIN);
 	//@link gestiune stocuri
-	$smarty->assign("LINK_GESTIUNE_STOCURI", URL_GESTIUNE_STOCURI);
+	$smarty->assign("LINK_GESTIUNE_STOCURI", defined("URL_GESTIUNE_STOCURI") ? URL_GESTIUNE_STOCURI : "");
 ?>
