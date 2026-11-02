@@ -22,6 +22,10 @@ class Spline {
     var $y2;		 // 2:nd derivate of ydata	
     var $n=0;
 
+    function __construct($xdata,$ydata) {
+        $this->Spline($xdata, $ydata);
+    }
+
     function Spline($xdata,$ydata) {
 	$this->y2 = array();
 	$this->xdata = $xdata;
@@ -122,6 +126,10 @@ class Bezier {
     var $datay = array();
     var $n=0;
  
+    function __construct($datax, $datay, $attraction_factor = 1) {
+        $this->Bezier($datax, $datay, $attraction_factor);
+    }
+
     function Bezier($datax, $datay, $attraction_factor = 1) {
 	// Adding control point multiple time will raise their attraction power over the curve   
 	$this->n = count($datax);

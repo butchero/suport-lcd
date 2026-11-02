@@ -98,6 +98,8 @@
 	}
 	
 	$smarty->assign("mesaj", $mesaj);
+	if(!isset($acces_check))
+		$smarty->assign("acces_check", array("eroare"=>""));
 	
 	require_once("right.php");
 	require_once("bottom.php");

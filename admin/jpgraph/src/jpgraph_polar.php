@@ -47,6 +47,10 @@ class PolarPlot {
     var $csimalts=null;			// ALT:s for corresponding target
     var $line_style='solid',$mark;
 
+    function __construct($aData) {
+        $this->PolarPlot($aData);
+    }
+
     function PolarPlot($aData) {
 	$n = count($aData);
 	if( $n & 1 ) {
@@ -159,6 +163,10 @@ class PolarAxis extends Axis {
     var $angle_tick_len=3, $angle_tick_len2=3, $angle_tick_color='black';
     var $show_angle_tick=true;
     var $radius_tick_color='black';
+
+    function __construct(&$img,&$aScale) {
+        $this->PolarAxis($img, $aScale);
+    }
 
     function PolarAxis(&$img,&$aScale) {
 	parent::Axis($img,$aScale);
@@ -575,6 +583,10 @@ class PolarAxis extends Axis {
 
 class PolarScale extends LinearScale {
     var $graph;
+    function __construct($aMax=0,&$graph) {
+        $this->PolarScale($aMax, $graph);
+    }
+
     function PolarScale($aMax=0,&$graph) {
 	parent::LinearScale(0,$aMax,'x');
 	$this->graph = &$graph;
@@ -607,6 +619,10 @@ class PolarScale extends LinearScale {
 
 class PolarLogScale extends LogScale {
     var $graph;
+    function __construct($aMax=1,&$graph) {
+        $this->PolarLogScale($aMax, $graph);
+    }
+
     function PolarLogScale($aMax=1,&$graph) {
 	parent::LogScale(0,$aMax,'x');
 	$this->graph = &$graph;
@@ -642,6 +658,10 @@ class PolarGraph extends Graph {
     var $iType=POLAR_360;
     var $axis;
     
+    function __construct($aWidth=300,$aHeight=200,$aCachedName="",$aTimeOut=0,$aInline=true) {
+        $this->PolarGraph($aWidth, $aHeight, $aCachedName, $aTimeOut, $aInline);
+    }
+
     function PolarGraph($aWidth=300,$aHeight=200,$aCachedName="",$aTimeOut=0,$aInline=true) {
 	parent::Graph($aWidth,$aHeight,$aCachedName,$aTimeOut,$aInline) ;
 	$this->SetDensity(TICKD_DENSE);

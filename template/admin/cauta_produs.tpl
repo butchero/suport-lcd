@@ -102,7 +102,7 @@
 								{section name=tr loop=$produse[sec].poze_sec_mici step=4}
 								<tr>	
 									{section name=td start=$smarty.section.tr.index loop=$smarty.section.tr.index+4}
-									{if $produse[sec].poze_sec_mici[td] neq ""}
+									{if isset($produse[sec].poze_sec_mici[td]) && $produse[sec].poze_sec_mici[td] neq ""}
 									<td class="box_poze_mici" onmouseover="this.className='box_poze_mici_hover'" onmouseout="this.className='box_poze_mici'">
 										<a href="#" onmouseover="document.getElementById('poza{$smarty.section.sec.index}').src='{$produse[sec].poze_sec_medii[td]}'; return false;"
 													onClick="NewWindow('{$URL_BASE}galerie.php?id_produs={$produse[sec].id_produs}&amp;poza='+document.getElementById('poza{$smarty.section.sec.index}').src, '', '800', '750', 'yes'); return false;">

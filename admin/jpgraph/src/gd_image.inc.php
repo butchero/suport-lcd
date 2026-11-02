@@ -63,6 +63,10 @@ DEFINE("FF_FONT2",4);
 class RGB {
     var $rgb_table;
     var $img;
+    function __construct(&$aImg) {
+        $this->RGB($aImg);
+    }
+
     function RGB(&$aImg) {
 	$this->img = &$aImg;
 		
@@ -653,6 +657,10 @@ class Image {
 
     //---------------
     // CONSTRUCTOR
+    function __construct($aWidth,$aHeight,$aFormat=DEFAULT_GFORMAT) {
+        $this->Image($aWidth, $aHeight, $aFormat);
+    }
+
     function Image($aWidth,$aHeight,$aFormat=DEFAULT_GFORMAT) {
 	$this->CreateImgCanvas($aWidth,$aHeight);
 	$this->SetAutoMargin();		
@@ -788,7 +796,7 @@ class Image {
 	return imagesy($aImg);
     }
     
-    function CreateFromString($aStr) {
+    static function CreateFromString($aStr) {
 	$img = imagecreatefromstring($aStr);
 	if( $img === false ) {
 	    JpGraphError::RaiseL(25085);//('An image can not be created from the supplied string. It is either in a format not supported or the string is representing an corrupt image.');
@@ -2232,6 +2240,10 @@ class RotImage extends Image {
     var $a=0;
     var $dx=0,$dy=0,$transx=0,$transy=0; 
 	
+    function __construct($aWidth,$aHeight,$a=0,$aFormat=DEFAULT_GFORMAT) {
+        $this->RotImage($aWidth, $aHeight, $a, $aFormat);
+    }
+
     function RotImage($aWidth,$aHeight,$a=0,$aFormat=DEFAULT_GFORMAT) {
 	$this->Image($aWidth,$aHeight,$aFormat);
 	$this->dx=$this->left_margin+$this->plotwidth/2;

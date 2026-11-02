@@ -25,6 +25,10 @@ class IconPlot {
     var $iScalePosY=null,$iScalePosX=null;
     var $iImgString='';
 
+    function __construct($aFile="",$aX=0,$aY=0,$aScale=1.0,$aMix=100) {
+        $this->IconPlot($aFile, $aX, $aY, $aScale, $aMix);
+    }
+
     function IconPlot($aFile="",$aX=0,$aY=0,$aScale=1.0,$aMix=100) {
 	$this->iFile = $aFile;
 	$this->iX=$aX;

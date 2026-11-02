@@ -34,6 +34,8 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@filtrare dupa perioada
+	$sql_where="";
+
 	if(isset($_POST["perioada"]) && $_POST["perioada"]==1)
 	{
 		$astazi_start=strtotime(date("Ymd"));
@@ -83,8 +85,8 @@
 								   			   				   
 			$categ_stats[]=array("nume_cat"=>$value["nume_cat"], "nr_produse"=>(empty($arr_stats[0]["nr_produse"]))?0:$arr_stats[0]["nr_produse"], "total"=>formateazaNr($arr_stats[0]["total"]));
 			
-			$total_nr_produse+=$arr_stats[0]["nr_produse"];
-			$total_vanzari+=$arr_stats[0]["total"];
+			$total_nr_produse+=(float)$arr_stats[0]["nr_produse"];
+			$total_vanzari+=(float)$arr_stats[0]["total"];
 		}
 			
 		unset($ids);	
@@ -94,7 +96,7 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
-	$smarty->assign("perioada", $_POST["perioada"]);
+	$smarty->assign("perioada", isset($_POST["perioada"]) ? $_POST["perioada"] : "");
 	$smarty->assign("de_la", $_POST["de_la"]);
 	$smarty->assign("pana_la", $_POST["pana_la"]);
 	$smarty->assign("categ_stats", $categ_stats);

@@ -16,6 +16,10 @@
 class ImgTrans {
     var $gdImg=null;
 
+    function __construct($aGdImg) {
+        $this->ImgTrans($aGdImg);
+    }
+
     function ImgTrans($aGdImg) {
 	// Constructor
 	$this->gdImg = $aGdImg;

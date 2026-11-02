@@ -21,6 +21,10 @@
 class CanvasGraph extends Graph {
 //---------------
 // CONSTRUCTOR
+    function __construct($aWidth=300,$aHeight=200,$aCachedName="",$timeout=0,$inline=1) {
+        $this->CanvasGraph($aWidth, $aHeight, $aCachedName, $timeout, $inline);
+    }
+
     function CanvasGraph($aWidth=300,$aHeight=200,$aCachedName="",$timeout=0,$inline=1) {
 	$this->Graph($aWidth,$aHeight,$aCachedName,$timeout,$inline);
     }

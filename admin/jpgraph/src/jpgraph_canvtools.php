@@ -27,6 +27,10 @@ class CanvasScale {
     var $w,$h;
     var $ixmin=0,$ixmax=10,$iymin=0,$iymax=10;
 
+    function __construct(&$graph,$xmin=0,$xmax=10,$ymin=0,$ymax=10) {
+        $this->CanvasScale($graph, $xmin, $xmax, $ymin, $ymax);
+    }
+
     function CanvasScale(&$graph,$xmin=0,$xmax=10,$ymin=0,$ymax=10) {
 	$this->g = &$graph;
 	$this->w = $graph->img->width;
@@ -69,6 +73,10 @@ class CanvasScale {
 //===================================================
 class Shape {
     var $img,$scale;
+
+    function __construct(&$aGraph,&$scale) {
+        $this->Shape($aGraph, $scale);
+    }
 
     function Shape(&$aGraph,&$scale) {
 	$this->img = &$aGraph->img;
@@ -379,6 +387,10 @@ class CanvasRectangleText {
     var $iParaAlign='center';
     var $iAutoBoxMargin=5;
     var $iShadowWidth=3,$iShadowColor='';
+
+    function __construct($aTxt='',$xl=0,$yt=0,$w=0,$h=0) {
+        $this->CanvasRectangleText($aTxt, $xl, $yt, $w, $h);
+    }
 
     function CanvasRectangleText($aTxt='',$xl=0,$yt=0,$w=0,$h=0) {
 	$this->iTxt = new Text($aTxt);

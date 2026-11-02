@@ -53,7 +53,7 @@
 				if(!$this->sesiune_setata) //inseamna ca verificarea la login se face prin form
 				{
 					//@loghez data logarii
-					arrayUpdateToDB("t_admin", array("ultima_logare"), array(time()), array("id"=>id_admin, "valoare"=>$arr_admin[0]["id_admin"]));
+					arrayUpdateToDB("t_admin", array("ultima_logare"), array(time()), array("id"=>"id_admin", "valoare"=>$arr_admin[0]["id_admin"]));
 				}
 				
 				return array("valid"=>1,

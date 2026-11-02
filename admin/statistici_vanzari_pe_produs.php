@@ -49,10 +49,12 @@
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($id_produs)) $id_produs="";
+	if(!isset($nume_produs)) $nume_produs="";
 	$smarty->assign("id_produs", $id_produs);
 	$smarty->assign("nume_produs", $nume_produs);
-	$smarty->assign("an_selectat", $_POST["an"]);
-	$smarty->assign("luna_selectata", $_POST["luna"]);
+	$smarty->assign("an_selectat", isset($_POST["an"]) ? $_POST["an"] : date("Y"));
+	$smarty->assign("luna_selectata", isset($_POST["luna"]) ? $_POST["luna"] : "");
 	$smarty->assign("luni", $luni);
 	
 	require_once("right.php");

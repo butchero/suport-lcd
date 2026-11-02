@@ -8,9 +8,9 @@
 	 *****************************************************************************
 	 *****************************************************************************
 	*/
-	session_name("admin");
-	session_start();	
 	@ini_set("session.gc_maxlifetime", "18000"); //sesiunea expira in 5h
+	session_name("admin");
+	session_start();
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@inceput page compress (codul de sfarsit e in 'bottom.php')
@@ -154,4 +154,6 @@
 	$smarty->assign("CAT_SECUNDARE", (CAT_SECUNDARE)?1:0);
 	$smarty->assign("CURS_VALUTAR_AUTOMAT", (CURS_VALUTAR_AUTOMAT)?1:0);
 	$smarty->assign("MANIPULARE_PRETURI_PROC", (MANIPULARE_PRETURI_PROC)?1:0);
+	$smarty->assign("cautare_string_camp", "");
+	$smarty->assign("mesaj", "");
 ?>

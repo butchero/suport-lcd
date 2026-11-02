@@ -21,6 +21,10 @@ class FieldArrow {
     var $iColor='black';
     var $isizespec = array(
 	array(2,1),array(3,2),array(4,3),array(6,4),array(7,4),array(8,5),array(10,6),array(12,7),array(16,8),array(20,10));
+    function __construct() {
+        $this->FieldArrow();
+    }
+
     function FieldArrow() {
     }
 
@@ -64,6 +68,10 @@ class FieldArrow {
 class FieldPlot extends Plot {
     var $iAngles;
     var $iCallback='';
+    function __construct($datay,$datax,$angles) {
+        $this->FieldPlot($datay, $datax, $angles);
+    }
+
     function FieldPlot($datay,$datax,$angles) {
 	if( (count($datax) != count($datay)) )
 	    JpGraphError::RaiseL(20001);//("Fieldplots must have equal number of X and Y points.");
@@ -133,6 +141,10 @@ class ScatterPlot extends Plot {
     var $linkpoints = false, $linkpointweight=1, $linkpointcolor="black";
 //---------------
 // CONSTRUCTOR
+    function __construct($datay,$datax=false) {
+        $this->ScatterPlot($datay, $datax);
+    }
+
     function ScatterPlot($datay,$datax=false) {
 	if( (count($datax) != count($datay)) && is_array($datax))
 	    JpGraphError::RaiseL(20003);//("Scatterplot must have equal number of X and Y points.");

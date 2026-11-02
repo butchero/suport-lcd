@@ -23,6 +23,10 @@ class PiePlot3D extends PiePlot {
 	
 //---------------
 // CONSTRUCTOR
+    function __construct(&$data) {
+        $this->PiePlot3d($data);
+    }
+
     function PiePlot3d(&$data) {
 	$this->radius = 0.5;
 	$this->data = $data;
@@ -78,7 +82,7 @@ class PiePlot3D extends PiePlot {
 	    $this->angle = $a;
     }
 
-    function AddSliceToCSIM($i,$xc,$yc,$height,$width,$thick,$sa,$ea) {  //Slice number, ellipse centre (x,y), height, width, start angle, end angle
+    function AddSliceToCSIM($i,$xc,$yc,$height,$width,$thick,$sa=0,$ea=0) {  //Slice number, ellipse centre (x,y), height, width, start angle, end angle
 
 	$sa *= M_PI/180;
 	$ea *= M_PI/180;

@@ -89,6 +89,7 @@
 		
 		$arr_valori_posibile=explode(";", $arr_produs[0]["caracteristici"]);
 		$nr_valori_posibile=count($arr_valori_posibile)-1;
+		$caracteristici=array();
 		
 		for($i=1;$i<$nr_valori_posibile;$i++) //incep de la '1' pana la 'count($arr)-1' pt ca prima si ultima valoare delimitata de ';' sunt nule		
 			$caracteristici[]=$arr_valori_posibile[$i]	;	

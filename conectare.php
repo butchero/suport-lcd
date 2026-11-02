@@ -26,6 +26,8 @@
 //	mysql_connect($server, $user, $pass) or die("Eroare conectare la baza de date.");
 //	mysql_select_db($db) or die(mysql_error());
 
+	require_once(dirname(__FILE__)."/compat.php");
+
     $mysqli=new mysqli($server, $user, $pass, $db) or die("Eroare conectare la baza de date.");
 
     //@setari limba romana

@@ -77,9 +77,11 @@
 
 		$sql="SELECT * FROM t_categorii WHERE producator='1' ORDER BY ".$ordoneaza_dupa." ASC";
 		$result=$mysqli->query($sql);
+		$arr=array();
 			
 		while($row=$result->fetch_assoc())
 		{
+			$adresa_poza="";
 			if($cu_poza)
 			{
 				if(file_exists(URL_BASE_ABS."poze_categorii/".$row["id_cat"].".jpg"))
@@ -144,7 +146,7 @@
 		   }
 		}
 		
-		return array("poze"=>$poze, "mici"=>$poze_sec_mici, "medii"=>$poze_sec_medii, "mari"=>$poze_sec_mari, "supermari"=>$poze_sec_supermari, "ultima_poza"=>@max($nr_poze));
+		return array("poze"=>$poze, "mici"=>$poze_sec_mici, "medii"=>$poze_sec_medii, "mari"=>$poze_sec_mari, "supermari"=>$poze_sec_supermari, "ultima_poza"=>(count($nr_poze)?max($nr_poze):0));
 	}
 	
 	//-------------------------------------------------------------------------------------------------------------

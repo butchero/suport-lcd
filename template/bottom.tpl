@@ -3,11 +3,11 @@
 	</div>
 </div>
 <div id="footer">
-	{if $seo_index eq "1"}
+	{if isset($seo_index) && $seo_index eq "1"}
         <p>Magazinul tau de suporturi LCD, LED, Plasma si TV. Aici gasesti cea mai variata gama de suporti TV pentru LCD, LED, Plasma.</p>
 	{/if}
     <p>Citeste <a href="{$URL_BASE}confidentialitate">Politica de Confidentialitate</a> si continuarea navigarii pe acest site implica acceptarea <a href="{$URL_BASE}cookies">Politicii de Cookies</a>.</p>
-	{if $show_links eq 1}
+	{if isset($show_links) && $show_links eq 1}
     <p>
 		Recomandari:
 		<a href="https://www.curs-valutar-bnr.ro" title="Curs BNR">Curs BNR</a>	 -

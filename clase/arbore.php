@@ -18,7 +18,8 @@
 	class parintiNod
 	{		
 		var $arr_cat=array();
-		var $arr_parinti=array();		
+		var $arr_parinti=array();
+		var $parinti=array();
 
 		//@aflu parintii nodului
 		function getParinti($nod)
@@ -63,7 +64,7 @@
 		var $nivele_afisate=0;		
 		
 		//constructor: setez nodul si aflu parintii lui
-		function __construct($nod, $nivele_afisate=0, $arr_cat)
+		function __construct($nod, $nivele_afisate, $arr_cat)
 		{
 			$this->nivele_afisate=$nivele_afisate;
 			$this->arr_cat=$arr_cat;
@@ -123,12 +124,12 @@
 	class arboreComplet
 	{		
 		var $arr_cat=array();
-		var $categorii;
+		var $categorii=array();
 		var $id_parinte;
 		var $nivel;
 				
 		//constructor
-		function __construct($id_parinte=0, $nivel=0, $arr_cat)
+		function __construct($id_parinte, $nivel, $arr_cat)
 		{
 			$this->id_parinte=$id_parinte;
 			$this->nivel=$nivel;

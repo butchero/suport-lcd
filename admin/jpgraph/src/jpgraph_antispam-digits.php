@@ -12,6 +12,10 @@
 class HandDigits {
     var $digits_thumb30x30 = array();
     var $iHeight=30, $iWidth=30;
+    function __construct() {
+        $this->HandDigits();
+    }
+
     function HandDigits() {
 //==========================================================
 // d6-small.jpg
@@ -155,6 +159,10 @@ class HandDigits {
 class AntiSpam {
 
     var $iNumber='';
+
+    function __construct($aNumber='') {
+        $this->AntiSpam($aNumber);
+    }
 
     function AntiSpam($aNumber='') {
 	$this->iNumber = $aNumber;

@@ -25,7 +25,7 @@
 			<a href="{$LINK_SITEMAP}" title="Sitemap" class="sitemap"></a>
 		</div>
 	</div>
-	{if $show_promo eq 1}
+	{if isset($show_promo) && $show_promo eq 1}
 	<div id="suport">
 		<a href="{$LINK_TOATE_PRODUSELE}" title="Toate produsele"><img src="{$DIR_TEMPLATE}img/suport.jpg" alt="Toate produsele" /></a>
 	</div>

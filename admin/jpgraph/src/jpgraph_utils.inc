@@ -18,6 +18,10 @@
 class FuncGenerator {
     var $iFunc='',$iXFunc='',$iMin,$iMax,$iStepSize;
 	
+    function __construct($aFunc,$aXFunc='') {
+        $this->FuncGenerator($aFunc, $aXFunc);
+    }
+
     function FuncGenerator($aFunc,$aXFunc='') {
 	$this->iFunc = $aFunc;
 	$this->iXFunc = $aXFunc;

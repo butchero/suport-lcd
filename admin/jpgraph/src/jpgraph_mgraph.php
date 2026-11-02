@@ -30,6 +30,10 @@ class MGraph {
 
 
     // Create a new instane of the combined graph
+    function __construct($aWidth=NULL,$aHeight=NULL) {
+        $this->MGraph($aWidth, $aHeight);
+    }
+
     function MGraph($aWidth=NULL,$aHeight=NULL) {
 	$this->iWidth = $aWidth;
 	$this->iHeight = $aHeight;

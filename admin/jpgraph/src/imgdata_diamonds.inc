@@ -20,6 +20,10 @@ class ImgData_Diamonds extends ImgData {
     var $maxidx = 7 ;
     var $imgdata ;
 
+    function __construct() {
+        $this->ImgData_Diamonds();
+    }
+
     function ImgData_Diamonds() {
 //==========================================================
 // File: diam_red.png

@@ -28,11 +28,12 @@
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//@titlu & text newsletter
 	$arr_newsletter_header=arrayFromDB("*", "t_newsletter_header");
-	$titlu_newsletter=$arr_newsletter_header[0]["titlu_newsletter"];
-	$text_newsletter=$arr_newsletter_header[0]["text_newsletter"];
+	$titlu_newsletter=isset($arr_newsletter_header[0]["titlu_newsletter"]) ? $arr_newsletter_header[0]["titlu_newsletter"] : "";
+	$text_newsletter=isset($arr_newsletter_header[0]["text_newsletter"]) ? $arr_newsletter_header[0]["text_newsletter"] : "";
 	
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//@chilipirul zilei
+	$smarty->assign("nume_chilipir", "");
 	if(CHILIPIR)
 	{
 		$arr_chilipir=arrayFromDB(array("b.id_produs", "b.nume_produs",  "b.pret", "a.pret_curent", "a.pret_chilipir", "c.link_cat"),
@@ -66,6 +67,8 @@
 	foreach($arr_newsletter as $key=>$value)
 		$arr_id_produse_newsletter[]=$value["id_produs"];
 	
+	$arr_produse_newsletter=array();
+
 	if(count($arr_newsletter)>0)
 	{
 		$sql_where="AND t_produse.id_produs IN (".implode(",", $arr_id_produse_newsletter).")";
@@ -122,6 +125,8 @@
 	
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($arr_produse_newsletter_detalii)) $arr_produse_newsletter_detalii=array();
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("URL_POZA", DIR_TEMPLATE."img/");
 	$smarty->assign("URL_POZA_ADMIN", DIR_TEMPLATE."img_admin/");

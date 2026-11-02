@@ -19,6 +19,10 @@ class ErrorPlot extends Plot {
     var $errwidth=2;
 //---------------
 // CONSTRUCTOR
+    function __construct(&$datay,$datax=false) {
+        $this->ErrorPlot($datay, $datax);
+    }
+
     function ErrorPlot(&$datay,$datax=false) {
 	$this->Plot($datay,$datax);
 	$this->numpoints /= 2;
@@ -88,6 +92,10 @@ class ErrorLinePlot extends ErrorPlot {
     var $line=null;
 //---------------
 // CONSTRUCTOR
+    function __construct(&$datay,$datax=false) {
+        $this->ErrorLinePlot($datay, $datax);
+    }
+
     function ErrorLinePlot(&$datay,$datax=false) {
 	$this->ErrorPlot($datay,$datax);
 	// Calculate line coordinates as the average of the error limits
@@ -122,6 +130,10 @@ class LineErrorPlot extends ErrorPlot {
 //---------------
 // CONSTRUCTOR
     // Data is (val, errdeltamin, errdeltamax)
+    function __construct(&$datay,$datax=false) {
+        $this->LineErrorPlot($datay, $datax);
+    }
+
     function LineErrorPlot(&$datay,$datax=false) {
 	$ly=array(); $ey=array();
 	$n = count($datay);

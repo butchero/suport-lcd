@@ -12,6 +12,10 @@
 class HandDigits {
     var $chars = array();
     var $iHeight=30, $iWidth=30;
+    function __construct() {
+        $this->HandDigits();
+    }
+
     function HandDigits() {
 
 //==========================================================
@@ -547,6 +551,10 @@ class AntiSpam {
 
     var $iData='';
     var $iDD=null;
+
+    function __construct($aData='') {
+        $this->AntiSpam($aData);
+    }
 
     function AntiSpam($aData='') {
 	$this->iData = $aData;

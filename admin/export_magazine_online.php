@@ -31,6 +31,8 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($arr_fisiere)) $arr_fisiere=array();
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("fisiere_csv", $arr_fisiere);
 

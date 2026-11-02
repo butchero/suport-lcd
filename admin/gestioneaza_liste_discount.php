@@ -85,7 +85,7 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//@actiune stergere lista
-	if(is_numeric($_GET["id_lista"]) && !empty($_GET["id_lista"]) && $_GET["actiune"]=="sterge")
+	if(isset($_GET["id_lista"], $_GET["actiune"]) && is_numeric($_GET["id_lista"]) && !empty($_GET["id_lista"]) && $_GET["actiune"]=="sterge")
 	{
 		arrayDeleteFromDB("t_liste_discount", array("id_lista"), array($_GET["id_lista"]));
 		arrayDeleteFromDB("t_liste_discount_categorii", array("id_lista"), array($_GET["id_lista"]));
@@ -151,6 +151,11 @@
 
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($mesaj)) $mesaj="";
+	if(!isset($lista_selectata)) $lista_selectata="";
+	if(!isset($liste_combobox)) $liste_combobox=array();
+	if(!isset($arr_discounturi_cat)) $arr_discounturi_cat=array();
+
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("liste_discount", $arr_liste_discount);
 	$smarty->assign("lista_selectata", $lista_selectata);

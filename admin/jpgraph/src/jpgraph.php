@@ -185,6 +185,10 @@ $__jpg_err_locale = DEFAULT_ERR_LOCALE;
 
 class ErrMsgText {
     var $lt=NULL;
+    function __construct() {
+        $this->ErrMsgText();
+    }
+
     function ErrMsgText() {
 	GLOBAL $__jpg_err_locale;
 	$file = 'lang/'.$__jpg_err_locale.'.inc.php';
@@ -261,20 +265,20 @@ class ErrMsgText {
 // in all methods.
 //
 class JpGraphError {
-    function Install($aErrObject) {
+    static function Install($aErrObject) {
 	GLOBAL $__jpg_err;
 	$__jpg_err = $aErrObject;
     }
-    function SetErrLocale($aLoc) {
+    static function SetErrLocale($aLoc) {
 	GLOBAL $__jpg_err_locale ;
 	$__jpg_err_locale = $aLoc;
     }
-    function Raise($aMsg,$aHalt=true){
+    static function Raise($aMsg,$aHalt=true){
 	GLOBAL $__jpg_err;
 	$tmp = new $__jpg_err;
 	$tmp->Raise($aMsg,$aHalt);
     }
-    function RaiseL($errnbr,$a1=null,$a2=null,$a3=null,$a4=null,$a5=null) {
+    static function RaiseL($errnbr,$a1=null,$a2=null,$a3=null,$a4=null,$a5=null) {
 	GLOBAL $__jpg_err;
 	$t = new ErrMsgText();
 	$msg = $t->Get($errnbr,$a1,$a2,$a3,$a4,$a5);
@@ -375,6 +379,10 @@ class JpGraphErrObject {
 
     var $iTitle = "JpGraph Error";
     var $iDest = false;
+
+    function __construct() {
+        $this->JpGraphErrObject();
+    }
 
     function JpGraphErrObject() {
 	// Empty. Reserved for future use
@@ -670,6 +678,10 @@ class JpgTimer {
     var $idx;	
 //---------------
 // CONSTRUCTOR
+    function __construct() {
+        $this->JpgTimer();
+    }
+
     function JpgTimer() {
 	$this->idx=0;
     }
@@ -710,6 +722,10 @@ class DateLocale {
 
 //---------------
 // CONSTRUCTOR	
+    function __construct() {
+        $this->DateLocale();
+    }
+
     function DateLocale() {
 	settype($this->iDayAbb, 'array');
 	settype($this->iShortDay, 'array');
@@ -740,8 +756,8 @@ class DateLocale {
 
 	for ( $i = 0, $ofs = 0 - strftime('%w'); $i < 7; $i++, $ofs++ ){
 	    $day = strftime('%a', strtotime("$ofs day"));
-	    $day{0} = strtoupper($day{0});
-	    $this->iDayAbb[$aLocale][]= $day{0};
+	    $day[0] = strtoupper($day[0]);
+	    $this->iDayAbb[$aLocale][]= $day[0];
 	    $this->iShortDay[$aLocale][]= $day;
 	}
 
@@ -796,6 +812,10 @@ class Footer {
     var $iLeftMargin = 3;
     var $iRightMargin = 3;
     var $iBottomMargin = 3;
+
+    function __construct() {
+        $this->Footer();
+    }
 
     function Footer() {
 	$this->left = new Text();
@@ -905,6 +925,10 @@ class Graph {
     // aTimeOut		Timeout in minutes for image in cache
     // aInline		If true the image is streamed back in the call to Stroke()
     //			If false the image is just created in the cache
+    function __construct($aWidth=300,$aHeight=200,$aCachedName="",$aTimeOut=0,$aInline=true) {
+        $this->Graph($aWidth, $aHeight, $aCachedName, $aTimeOut, $aInline);
+    }
+
     function Graph($aWidth=300,$aHeight=200,$aCachedName="",$aTimeOut=0,$aInline=true) {
 	GLOBAL $gJpgBrandTiming;
 	// If timing is used create a new timing object
@@ -1663,6 +1687,7 @@ class Graph {
 	    $txts = $this->y2texts;
 	else
 	    $txts = $this->texts;
+	if( !is_array($txts) ) return null;
 	$n = count($txts);
 	$min=null;
 	$max=null;
@@ -1690,6 +1715,7 @@ class Graph {
 	    $txts = $this->y2texts;
 	else
 	    $txts = $this->texts;
+	if( !is_array($txts) ) return null;
 	$n = count($txts);
 	$min=null;
 	$max=null;
@@ -3042,6 +3068,7 @@ class Graph {
 
     // Get Y min and max values for added lines
     function GetLinesYMinMax( $aLines ) {
+	if( !is_array($aLines) ) return false;
 	$n = count($aLines);
 	if( $n == 0 ) return false;
 	$min = $aLines[0]->scaleposition ;
@@ -3060,6 +3087,7 @@ class Graph {
 
     // Get X min and max values for added lines
     function GetLinesXMinMax( $aLines ) {
+	if( !is_array($aLines) ) return false;
 	$n = count($aLines);
 	if( $n == 0 ) return false ;
 	$min = $aLines[0]->scaleposition ;
@@ -3121,6 +3149,10 @@ class TTF {
     var $font_files,$style_names;
 //---------------
 // CONSTRUCTOR
+    function __construct() {
+        $this->TTF();
+    }
+
     function TTF() {
 	$this->style_names=array(FS_NORMAL=>'normal',FS_BOLD=>'bold',FS_ITALIC=>'italic',FS_BOLDITALIC=>'bolditalic');
 	// File names for available fonts
@@ -3243,6 +3275,10 @@ class Text {
 // CONSTRUCTOR
 
     // Create new text at absolute pixel coordinates
+    function __construct($aTxt="",$aXAbsPos=0,$aYAbsPos=0) {
+        $this->Text($aTxt, $aXAbsPos, $aYAbsPos);
+    }
+
     function Text($aTxt="",$aXAbsPos=0,$aYAbsPos=0) {
 	if( ! is_string($aTxt) ) {
 	    JpGraphError::RaiseL(25050);//('First argument to Text::Text() must be s atring.');
@@ -3479,6 +3515,10 @@ class GraphTabTitle extends Text{
     var $corner = 6 , $posx = 7, $posy = 4;
     var $color='darkred',$fillcolor='lightyellow',$bordercolor='black';
     var $align = 'left', $width=TABTITLE_WIDTHFIT;
+    function __construct() {
+        $this->GraphTabTitle();
+    }
+
     function GraphTabTitle() {
 	$this->t = '';
 	$this->font_style = FS_BOLD;
@@ -3609,6 +3649,10 @@ class SuperScriptText extends Text {
     var $iSuperMargin=2,$iVertOverlap=4,$iSuperScale=0.65;
     var $iSDir=0;
     var $iSimple=false;
+
+    function __construct($aTxt="",$aSuper="",$aXAbsPos=0,$aYAbsPos=0) {
+        $this->SuperScriptText($aTxt, $aSuper, $aXAbsPos, $aYAbsPos);
+    }
 
     function SuperScriptText($aTxt="",$aSuper="",$aXAbsPos=0,$aYAbsPos=0) {
 	parent::Text($aTxt,$aXAbsPos,$aYAbsPos);
@@ -3788,6 +3832,10 @@ class Grid {
     var $fill=false,$fillcolor=array('#EFEFEF','#BBCCFF');
 //---------------
 // CONSTRUCTOR
+    function __construct(&$aAxis) {
+        $this->Grid($aAxis);
+    }
+
     function Grid(&$aAxis) {
 	$this->scale = &$aAxis->scale;
 	$this->img = &$aAxis->img;
@@ -3951,6 +3999,10 @@ class Axis {
 
 //---------------
 // CONSTRUCTOR
+    function __construct(&$img,&$aScale,$color=array(0,0,0)) {
+        $this->Axis($img, $aScale, $color);
+    }
+
     function Axis(&$img,&$aScale,$color=array(0,0,0)) {
 	$this->img = &$img;
 	$this->scale = &$aScale;
@@ -4406,6 +4458,10 @@ class Ticks {
 
 //---------------
 // CONSTRUCTOR
+    function __construct(&$aScale) {
+        $this->Ticks($aScale);
+    }
+
     function Ticks(&$aScale) {
 	$this->scale=&$aScale;
 	$this->precision = -1;
@@ -4533,6 +4589,10 @@ class LinearTicks extends Ticks {
 
 //---------------
 // CONSTRUCTOR
+    function __construct() {
+        $this->LinearTicks();
+    }
+
     function LinearTicks() {
 	$this->precision = -1;
     }
@@ -4728,7 +4788,7 @@ class LinearTicks extends Ticks {
 	    if( $t > 0 )
 		$precision = 0;
 	    else
-		$precision = -floor($t);
+		$precision = (int)(-floor($t));
 	}
 	else
 	    $precision = $this->precision;
@@ -4892,6 +4952,10 @@ class LinearScale {
     var $name = 'lin';
 //---------------
 // CONSTRUCTOR
+    function __construct($aMin=0,$aMax=0,$aType="y") {
+        $this->LinearScale($aMin, $aMax, $aType);
+    }
+
     function LinearScale($aMin=0,$aMax=0,$aType="y") {
 	assert($aType=="x" || $aType=="y" );
 	assert($aMin<=$aMax);
@@ -5429,6 +5493,10 @@ class ImgStreamCache {
     var $timeout=0; 	// Infinite timeout
     //---------------
     // CONSTRUCTOR
+    function __construct(&$aImg, $aCacheDir=CACHE_DIR) {
+        $this->ImgStreamCache($aImg, $aCacheDir);
+    }
+
     function ImgStreamCache(&$aImg, $aCacheDir=CACHE_DIR) {
 	$this->img = &$aImg;
 	$this->cache_dir = $aCacheDir;
@@ -5605,6 +5673,10 @@ class Legend {
     var $reverse = false ;
 //---------------
 // CONSTRUCTOR
+    function __construct() {
+        $this->Legend();
+    }
+
     function Legend() {
 	// Empty
     }
@@ -6077,6 +6149,10 @@ class Plot {
     var $legendcsimalt='';
 //---------------
 // CONSTRUCTOR
+    function __construct(&$aDatay,$aDatax=false) {
+        $this->Plot($aDatay, $aDatax);
+    }
+
     function Plot(&$aDatay,$aDatax=false) {
 	$this->numpoints = count($aDatay);
 	if( $this->numpoints==0 )
@@ -6261,6 +6337,10 @@ class PlotLine {
 
 //---------------
 // CONSTRUCTOR
+    function __construct($aDir=HORIZONTAL,$aPos=0,$aColor="black",$aWeight=1) {
+        $this->PlotLine($aDir, $aPos, $aColor, $aWeight);
+    }
+
     function PlotLine($aDir=HORIZONTAL,$aPos=0,$aColor="black",$aWeight=1) {
 	$this->direction = $aDir;
 	$this->color=$aColor;

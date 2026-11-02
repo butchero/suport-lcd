@@ -37,7 +37,7 @@
 	//@formateaza numarul pentru afisare
 	function formateazaNr($nr)
 	{
-		return number_format(round($nr), 2, ",", ".");		
+		return number_format(round((float)$nr), 2, ",", ".");
 	}
 
 	//-------------------------------------------------------------------------------------------------------------
@@ -93,7 +93,7 @@
 		
 		while($i<$lungime) 
 		{
-			$string.=$caractere{mt_rand(0, $nr_caractere)};
+			$string.=$caractere[mt_rand(0, $nr_caractere)];
 			$i++;
 		}
 		

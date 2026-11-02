@@ -55,6 +55,10 @@ class PiePlot {
     var $iGuideLineCurve = false,$iGuideVFactor=1.4,$iGuideLineRFactor=0.8;
 //---------------
 // CONSTRUCTOR
+    function __construct($data) {
+        $this->PiePlot($data);
+    }
+
     function PiePlot($data) {
 	$this->data = array_reverse($data);
 	$this->title = new Text("");
@@ -293,7 +297,7 @@ class PiePlot {
 	for( $i=$n-1; $i >= 0; --$i ) {
 	    $l = $this->legends[$i];
 	    // Replace possible format with actual values
-	    if( count($this->csimalts) > $i ) {
+	    if( is_array($this->csimalts) && count($this->csimalts) > $i ) {
 		$fmt = $this->csimalts[$i];
 	    }
 	    else {
@@ -931,6 +935,10 @@ class PiePlotC extends PiePlot {
     var $midtitle='';
     var $middlecsimtarget="",$middlecsimalt="";
 
+    function __construct($data,$aCenterTitle='') {
+        $this->PiePlotC($data, $aCenterTitle);
+    }
+
     function PiePlotC($data,$aCenterTitle='') {
 	parent::PiePlot($data);
 	$this->midtitle = new Text();
@@ -1121,6 +1129,10 @@ class PieGraph extends Graph {
     var $pieaa = false ;
 //---------------
 // CONSTRUCTOR
+    function __construct($width=300,$height=200,$cachedName="",$timeout=0,$inline=1) {
+        $this->PieGraph($width, $height, $cachedName, $timeout, $inline);
+    }
+
     function PieGraph($width=300,$height=200,$cachedName="",$timeout=0,$inline=1) {
 	$this->Graph($width,$height,$cachedName,$timeout,$inline);
 	$this->posx=$width/2;

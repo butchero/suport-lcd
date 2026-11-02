@@ -147,6 +147,7 @@
 	$smarty->assign("mesaj_check", $mesaj_check);
 	$smarty->assign("cod_validare_check", $cod_validare_check);
 	$smarty->assign("mesaj", $mesaj);
+	$smarty->assign("erori", $erori);
 	$smarty->assign("form_submit", $form_submit);
 	
 	require_once("right.php");

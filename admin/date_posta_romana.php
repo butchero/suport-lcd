@@ -8,6 +8,9 @@
 	*****************************************************************************
 	*****************************************************************************
 	*/
+	if(!isset($_GET["id_comanda"]) || !function_exists("arrayFromDB"))
+		return;
+
 	$id_comanda=$_GET["id_comanda"];
 	
 	$arr_comanda=arrayFromDB("*", "t_comenzi LEFT JOIN t_useri ON t_comenzi.id_user=t_useri.id_user", "WHERE t_comenzi.id_comanda='".$id_comanda."'");

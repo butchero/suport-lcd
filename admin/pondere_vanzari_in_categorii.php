@@ -34,8 +34,13 @@
 	require_once("jpgraph/src/jpgraph_pie.php");
 	require_once("jpgraph/src/jpgraph_pie3d.php");
 
+	$arr=array();
+	$data=array();
+	$legend=array();
+	$total=0;
 	$i=0;
-	foreach($_SESSION["categ_stats"] as $key=>$value)
+	$categ_stats=(isset($_SESSION["categ_stats"]) && is_array($_SESSION["categ_stats"])) ? $_SESSION["categ_stats"] : array();
+	foreach($categ_stats as $key=>$value)
 	{
 		$arr[$i][0]=$value["nume_cat"];	
 		$arr[$i][1]=$value["nr_produse"];	
@@ -49,7 +54,7 @@
 	
 	for($i=0;$i<count($arr);$i++)
 	{
-		if(floor(($arr[$i][1]*100)/$total)>= 1)
+		if($total>0 && floor(($arr[$i][1]*100)/$total)>=1)
 		{
 			$data[]=$arr[$i][1];
 			$legend[]=strtoupper(substr($arr[$i][0],0,1))."".substr($arr[$i][0],1,60);
@@ -76,6 +81,8 @@
 	}
 	
 	$j=0;
+	$tempd=array();
+	$templ=array();
 	for($i=0;;)
 	{	
 		if($i>=count($data))

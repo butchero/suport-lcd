@@ -96,6 +96,7 @@
 	
 	//-------------------------------------------------------------------------------------------------------------------------------------
 	//@chilipirul zilei
+	$smarty->assign("nume_chilipir", "");
 	if(CHILIPIR)
 	{
 		$arr_chilipir=arrayFromDB(array("b.id_produs", "b.nume_produs",  "b.pret", "a.pret_curent", "a.pret_chilipir", "c.link_cat"),

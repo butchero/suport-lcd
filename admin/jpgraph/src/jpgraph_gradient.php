@@ -34,6 +34,10 @@ class Gradient {
     var $numcolors=100;
 //---------------
 // CONSTRUCTOR
+    function __construct(&$img) {
+        $this->Gradient($img);
+    }
+
     function Gradient(&$img) {
 	$this->img = &$img;
     }

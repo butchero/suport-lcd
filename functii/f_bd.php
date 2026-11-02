@@ -82,10 +82,10 @@
 		
 		//@daca campurile imi vin de forma "a.nume_camp" pastrez doar "nume_camp"
 		if(strstr($camp_id, ".")!==false)
-			$camp_id=preg_replace("/.*?\..*?/", "${2}", $camp_id);
+			$camp_id=preg_replace('/^(?:[^.]+\.)+/', '', $camp_id);
 			
 		if(strstr($camp_valoare, ".")!==false)
-			$camp_valoare=preg_replace("/.*?\..*?/", "${2}", $camp_valoare);
+			$camp_valoare=preg_replace('/^(?:[^.]+\.)+/', '', $camp_valoare);
 		
 		//@rezultatul interogarii
 		$result=$mysqli->query($sql) or die(($debug)?"<br />Eroare SQL: ".$mysqli->error:"");
@@ -148,6 +148,8 @@
 			die("Eroare la update: Numarul de campuri nu este egal cu numarul de valori !");
 			
 		//@pregatesc datele pentru update in bd		
+		$arr_update=array();
+
 		for($i=0;$i<count($campuri);$i++)	
 			$arr_update[]=$campuri[$i]."=".(($strip_quotes)?$valori[$i]:"'".prepareStringToDB($valori[$i])."'");		
 		

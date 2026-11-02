@@ -73,6 +73,10 @@ class ImgData_Balls extends ImgData {
 	return parent::GetImg($aMark,$aIdx);
     }
 
+    function __construct() {
+        $this->ImgData_Balls();
+    }
+
     function ImgData_Balls() {
 
 //==========================================================

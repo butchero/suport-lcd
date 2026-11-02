@@ -19,6 +19,10 @@ class ImgData_Bevels extends ImgData {
 
     var $imgdata ;
 
+    function __construct() {
+        $this->ImgData_Bevels();
+    }
+
     function ImgData_Bevels() {
 //==========================================================
 // File: bullets_balls_red_013.png

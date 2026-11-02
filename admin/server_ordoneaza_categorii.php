@@ -12,7 +12,8 @@
 	session_start();
 	
 	//@include-uri
-	require_once("../conectare.php");	
+	require_once("../conectare.php");
+	require_once("../configurare.php");
 	require_once("../functii/f_bd.php");
 	require_once("../functii/f_admin.php");	
 	require_once("../functii/f_catalog.php");

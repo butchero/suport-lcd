@@ -128,7 +128,7 @@
 	if(!isset($sql_where)) $sql_where="";
 	if(!isset($sql_order)) $sql_order="";
 	if(!isset($mesaj)) $mesaj="";
-	if(!isset($detalii_mesaj)) $detalii_mesaj=array();
+	if(!isset($detalii_mesaj)) $detalii_mesaj="";
 	$paginare=new paginare("pag", 
 						   "SELECT COUNT(id_mesaj) AS nr FROM t_mesaje_din_site", 
 						    URL_ADMIN."inbox.php?pag=".PATTERN."&ordonare=".$ordonare."&tip_contact=".$tip_contact); 

@@ -33,7 +33,7 @@
 							 "t_comentarii",
 							 "WHERE id_produs='".$this->id_produs."' AND activ='1'");
 			
-			return $arr[0]["rating"];
+			return (float)$arr[0]["rating"];
 		}
 		
 		function getNrComentarii()

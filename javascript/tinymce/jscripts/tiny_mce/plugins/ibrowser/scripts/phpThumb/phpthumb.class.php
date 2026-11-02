@@ -352,7 +352,7 @@ class phpthumb {
 		// render thumbnail to this file only, do not cache, do not output to browser
 		//$renderfilename = $this->ResolveFilenameToAbsolute(dirname($filename)).$this->osslash.basename($filename);
 		$renderfilename = $filename;
-		if (($filename{0} != '/') && ($filename{0} != '\\') && ($filename{1} != ':')) {
+		if (($filename[0] != '/') && ($filename[0] != '\\') && ($filename[1] != ':')) {
 			$renderfilename = $this->ResolveFilenameToAbsolute($renderfilename);
 		}
 		$this->DebugMessage('RenderToFile('.$filename.') attempting Image'.strtoupper(@$this->thumbnailFormat).'($this->gdimg_output, '.$renderfilename.')', __FILE__, __LINE__);
@@ -717,7 +717,7 @@ class phpthumb {
 			// URL
 			$AbsoluteFilename = $filename;
 
-		} elseif ($this->iswindows && ($filename{1} == ':')) {
+		} elseif ($this->iswindows && ($filename[1] == ':')) {
 
 			// absolute pathname (Windows)
 			$AbsoluteFilename = $filename;
@@ -727,12 +727,12 @@ class phpthumb {
 			// absolute pathname (Windows)
 			$AbsoluteFilename = $filename;
 
-		} elseif ($filename{0} == '/') {
+		} elseif ($filename[0] == '/') {
 
 			if (@is_readable($filename) && !@is_readable($this->config_document_root.$filename)) {
 				// absolute filename (*nix)
 				$AbsoluteFilename = $filename;
-			} elseif ($filename{1} == '~') {
+			} elseif ($filename[1] == '~') {
 				// /~user/path
 				if ($ApacheLookupURIarray = phpthumb_functions::ApacheLookupURIarray($filename)) {
 					$AbsoluteFilename = $ApacheLookupURIarray['filename'];
@@ -818,7 +818,7 @@ class phpthumb {
 					$commandline = '"'.$this->config_imagemagick_path.'"';
 				}
 
-			} elseif ($which_convert && ($which_convert{0} == '/') && @file_exists($which_convert)) {
+			} elseif ($which_convert && ($which_convert[0] == '/') && @file_exists($which_convert)) {
 
 				// `which convert` *should* return the path if "convert" exist, or nothing if it doesn't
 				// other things *may* get returned, like "sh: convert: not found" or "no convert in /usr/local/bin /usr/sbin /usr/bin /usr/ccs/bin"
@@ -2656,7 +2656,6 @@ class phpthumb {
 							$gdimg_source = gif_loadFileToGDimageResource($tempfilename);
 							unlink($tempfilename);
 							return $gdimg_source;
-							break;
 						} else {
 							$ErrorMessage = 'Failed to open tempfile in '.__FILE__.' on line '.__LINE__;
 							$this->DebugMessage($ErrorMessage, __FILE__, __LINE__);

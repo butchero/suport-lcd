@@ -20,6 +20,10 @@ class ImgData_Squares extends ImgData {
     var $maxidx = 7 ;
     var $imgdata ;
 
+    function __construct() {
+        $this->ImgData_Squares();
+    }
+
     function ImgData_Squares () {
 //==========================================================
 //sq_lblue.png

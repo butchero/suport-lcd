@@ -20,6 +20,10 @@ class ImgData_PushPins extends ImgData {
     var $maxidx = 4 ;
     var $imgdata_large, $imgdata_small ;
 
+    function __construct() {
+        $this->ImgData_PushPins();
+    }
+
     function ImgData_PushPins() {
 
 	// The anchor should be where the needle "hits" the paper

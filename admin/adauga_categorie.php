@@ -45,7 +45,7 @@
 		$categorie_check=$validare->valideazaCamp($_POST["nume_cat"], "categorie");		
 		$descriere_check=$validare->valideazaDescriere($_POST["descriere_cat"]);
 		
-		if($_GET["adauga"]!="producator")
+		if(isset($_GET["adauga"]) && $_GET["adauga"]!="producator")
 		{
 			$discount_check=$validare->valideazaDiscount($_POST["discount"]);		
 			$limite_preturi_check=$validare->valideazaLimitePreturi($_POST["limite_preturi"]);
@@ -93,6 +93,7 @@
 	if(!isset($limite_preturi_check)) $limite_preturi_check=$check_gol;
 	if(!isset($link_check)) $link_check=$check_gol;
 	$smarty->assign("adauga", $adauga);
+	$smarty->assign("edit", "");
 	$smarty->assign("form_submit", $form_submit);
 	$smarty->assign("url_form", URL_ADMIN."adauga_categorie.php?cat=".$id_parinte."&adauga=".$adauga);
 	$smarty->assign("nume_parinte", isset($arr_parinte[0]["nume_cat"]) ? $arr_parinte[0]["nume_cat"] : "");

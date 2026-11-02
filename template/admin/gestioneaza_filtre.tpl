@@ -66,7 +66,7 @@
 					{if $smarty.section.sec.total eq 0}
 					<tr>
 						<td width="85"></td>
-						<td>Valoare: <input type="text" name="valori[]" value="{$valori[sec]}" size="30"></td>
+						<td>Valoare: <input type="text" name="valori[]" value="" size="30"></td>
 					</tr>
 					{/if}
 					<tr>

@@ -13,7 +13,7 @@
 	function ordoneazaCategorii($arr_ids, $id_parinte=0, $ordoneaza="")
 	{
 		//@basic check
-        if(count($arr_ids)==0 || !is_numeric($id_parinte))
+        if(!is_array($arr_ids) || count($arr_ids)==0 || !is_numeric($id_parinte))
           return false;
         
         if($ordoneaza=="producatori")
@@ -22,6 +22,7 @@
         	$arr_categorii=arrayFromDB(array("id_cat", "nume_cat"), "t_categorii", "WHERE id_parinte='".$id_parinte."'");
  		
  		//@array friendly pt verificarea existentei unui id
+ 		$categorii=array();
  		for($i=0;$i<count($arr_categorii);$i++)
  			$categorii[$arr_categorii[$i]["id_cat"]]=$arr_categorii[$i]["nume_cat"];
 
@@ -95,10 +96,12 @@
    	   
    	    $arbore=new arboreComplet($id_cat, 0, $arr_toate_cat);
    	    $arr_copii=$arbore->getArboreComplet();
+   	    if(!is_array($arr_copii))
+   	    	$arr_copii=array();
    	    $nr_copii=count($arr_copii);
    	   
    	    //@adaug si categoria la copii pt a face update-ul dintr-un singur sql   
-   	    $copii[]=$id_cat;
+   	    $copii=array($id_cat);
    	   
    	    for($i=0;$i<$nr_copii;$i++)
    	    	$copii[]=$arr_copii[$i]["id_cat"]; 

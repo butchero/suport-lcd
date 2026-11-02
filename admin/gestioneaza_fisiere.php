@@ -70,14 +70,17 @@
 	//@citeste dir
 	$foldere=citesteDir($dir_foldere);
 	
-	if(!empty($_GET["folder"]))	
+	if(!empty($_GET["folder"]))
 		$fisiere_dir_selectat=citesteDir($dir_foldere.$_GET["folder"]);
+	else
+		$fisiere_dir_selectat=array();
 	
 	//---------------------------------------------------------------------------------------------------------------------------------
 	//ASIGNARE VARIABILE PHP->SMARTY
+	if(!isset($mesaj)) $mesaj="";
 	$smarty->assign("mesaj", $mesaj);
 	$smarty->assign("foldere", $foldere);
-	$smarty->assign("folder_selectat", $_GET["folder"]);
+	$smarty->assign("folder_selectat", isset($_GET["folder"]) ? $_GET["folder"] : "");
 	$smarty->assign("fisiere_dir_selectat", $fisiere_dir_selectat);
 
 	require_once("right.php");

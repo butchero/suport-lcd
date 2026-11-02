@@ -25,7 +25,7 @@
 	
 	//--------------------------------------------------------------------------------------------------------------------------
 	//@proceseaza requestul
-	if(is_numeric($_GET["id_comanda"]) && !empty($_GET["id_comanda"]))
+	if(isset($_GET["id_comanda"]) && is_numeric($_GET["id_comanda"]) && !empty($_GET["id_comanda"]))
 	{
 		require_once("date_posta_romana.php");
 		 

@@ -15,6 +15,10 @@ require_once('jpgraph_plotmark.inc');
 class RadarLogTicks extends Ticks {
 //---------------
 // CONSTRUCTOR
+    function __construct() {
+        $this->RadarLogTicks();
+    }
+
     function RadarLogTicks() {
     }
 //---------------
@@ -90,6 +94,10 @@ class RadarLogTicks extends Ticks {
 class RadarLinearTicks extends LinearTicks {
 //---------------
 // CONSTRUCTOR
+    function __construct() {
+        $this->RadarLinearTicks();
+    }
+
     function RadarLinearTicks() {
 	// Empty
     }
@@ -166,6 +174,10 @@ class RadarAxis extends Axis {
     var $title=null;
 //---------------
 // CONSTRUCTOR
+    function __construct(&$img,&$aScale,$color=array(0,0,0)) {
+        $this->RadarAxis($img, $aScale, $color);
+    }
+
     function RadarAxis(&$img,&$aScale,$color=array(0,0,0)) {
 	parent::Axis($img,$aScale,$color);
 	$this->len=$img->plotheight;
@@ -268,6 +280,10 @@ class RadarAxis extends Axis {
 class RadarGrid extends Grid {
 //------------
 // CONSTRUCTOR
+    function __construct() {
+        $this->RadarGrid();
+    }
+
     function RadarGrid() {
     }
 
@@ -315,6 +331,10 @@ class RadarPlot {
     var $mark=null;
 //---------------
 // CONSTRUCTOR
+    function __construct($data) {
+        $this->RadarPlot($data);
+    }
+
     function RadarPlot($data) {
 	$this->data = $data;
 	$this->mark = new PlotMark();
@@ -433,6 +453,10 @@ class RadarGraph extends Graph {
     var $grid,$axis=null;
 //---------------
 // CONSTRUCTOR
+    function __construct($width=300,$height=200,$cachedName="",$timeout=0,$inline=1) {
+        $this->RadarGraph($width, $height, $cachedName, $timeout, $inline);
+    }
+
     function RadarGraph($width=300,$height=200,$cachedName="",$timeout=0,$inline=1) {
 	$this->Graph($width,$height,$cachedName,$timeout,$inline);
 	$this->posx=$width/2;
@@ -468,17 +492,17 @@ class RadarGraph extends Graph {
 //("Illegal scale for radarplot ($axtype). Must be \"lin\" or \"log\"");
 	}
 	if( $axtype=="lin" ) {
-	    $this->yscale = & new LinearScale($ymin,$ymax);
-	    $this->yscale->ticks = & new RadarLinearTicks();
+	    $this->yscale = new LinearScale($ymin,$ymax);
+	    $this->yscale->ticks = new RadarLinearTicks();
 	    $this->yscale->ticks->SupressMinorTickMarks();
 	}
 	elseif( $axtype=="log" ) {
-	    $this->yscale = & new LogScale($ymin,$ymax);
-	    $this->yscale->ticks = & new RadarLogTicks();
+	    $this->yscale = new LogScale($ymin,$ymax);
+	    $this->yscale->ticks = new RadarLogTicks();
 	}
 		
-	$this->axis = & new RadarAxis($this->img,$this->yscale);
-	$this->grid = & new RadarGrid();		
+	$this->axis = new RadarAxis($this->img,$this->yscale);
+	$this->grid = new RadarGrid();		
     }
 
     function SetSize($aSize) {
